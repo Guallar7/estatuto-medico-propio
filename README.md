@@ -1,6 +1,6 @@
 # Estatuto Médico Propio
 
-Portal documental independiente para defender un Estatuto Médico y Facultativo propio.
+Portal documental independiente sobre la reivindicación de un Estatuto Médico y Facultativo propio.
 
 La sección MIR no se migra completa: se resume y enlaza al proyecto especializado `mir-estatuto-realidad`.
 
@@ -14,12 +14,12 @@ La sección MIR no se migra completa: se resume y enlaza al proyecto especializa
 ## Páginas
 
 - `/`: directorio central.
-- `/anteproyecto.html`: matriz de desmontaje.
+- `/anteproyecto.html`: análisis del anteproyecto.
 - `/reivindicaciones.html`: programa médico-facultativo.
-- `/noticias.html`: respuestas a titulares.
+- `/noticias.html`: contexto sobre noticias y declaraciones con lectura visual por etiquetas.
 - `/novedades.html`: cronología de actualizaciones.
 - `/fuentes.html`: fuentes y evidencia.
-- `/argumentario.html`: frases reutilizables.
+- `/claves.html`: preguntas frecuentes para médicos, facultativos y ciudadanía.
 - `/mir.html`: resumen y enlace al portal MIR.
 
 ## Desarrollo

@@ -17,7 +17,7 @@ export default defineConfig({
         noticias: resolve(rootDir, "noticias.html"),
         novedades: resolve(rootDir, "novedades.html"),
         fuentes: resolve(rootDir, "fuentes.html"),
-        argumentario: resolve(rootDir, "argumentario.html"),
+        claves: resolve(rootDir, "claves.html"),
         mir: resolve(rootDir, "mir.html")
       }
     }

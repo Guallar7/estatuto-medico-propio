@@ -42,9 +42,9 @@ const pageCopy = {
   home: {
     kicker: "Portal médico-facultativo",
     title: "Estatuto Médico Propio",
-    lead: "No pedimos decidir por nadie. Pedimos que nadie decida por nosotros.",
+    lead: "Reglas específicas para responsabilidades específicas.",
     text:
-      "Datos, fuentes, noticias, novedades y materiales para defender un Estatuto Médico y Facultativo propio."
+      "Datos, fuentes y explicaciones para entender por qué médicos y facultativos reclaman una regulación propia."
   },
   reivindicaciones: {
     kicker: "Programa",
@@ -53,16 +53,16 @@ const pageCopy = {
     text: "Una lista breve para compartir sin duplicar el análisis técnico."
   },
   anteproyecto: {
-    kicker: "Realidad y matriz técnica",
+    kicker: "Análisis verificable",
     title: "Anteproyecto de Estatuto Marco",
-    lead: "La tesis fuerte no niega avances: demuestra por qué no bastan.",
+    lead: "Qué mejora formalmente y qué sigue sin garantía real.",
     text: "Estado jurídico actual, mejoras formales, límites materiales, enmiendas y fuentes."
   },
   noticias: {
-    kicker: "Respuesta pública",
-    title: "Noticias y declaraciones desmontadas",
-    lead: "Fichas breves para responder a titulares, comunicados y entrevistas.",
-    text: "El objetivo es evitar debates confusos: qué se afirma, respuesta, clave y fuentes."
+    kicker: "Actualidad",
+    title: "Noticias y declaraciones",
+    lead: "Contexto y fuentes para seguir el debate público.",
+    text: "Cada ficha resume qué se ha dicho, cómo leerlo y dónde comprobarlo."
   },
   novedades: {
     kicker: "Registro vivo",
@@ -74,21 +74,50 @@ const pageCopy = {
     kicker: "Auditable",
     title: "Fuentes y evidencia",
     lead: "El argumento debe poder comprobarse.",
-    text: "Fuentes oficiales, posición médica, prensa, sindicatos firmantes, bloque MIR y descargas."
+    text: "Fuentes oficiales, normativa, posición profesional, prensa, sindicatos y materiales descargables."
   },
-  argumentario: {
-    kicker: "Mensajes rápidos",
-    title: "Argumentario",
-    lead: "Frases cortas para responder sin repetir todo el informe.",
-    text: "Usa estas ideas como entrada al debate; la documentación está en Programa, Anteproyecto y Fuentes."
+  claves: {
+    kicker: "Para médicos y ciudadanía",
+    title: "Claves",
+    lead: "Preguntas frecuentes para médicos, pacientes y ciudadanía.",
+    text: "Material público, pero suficientemente técnico para que médicos y facultativos puedan explicar la reivindicación con precisión."
   },
   mir: {
     kicker: "Caso demostrativo",
     title: "MIR: no es sueldo, son guardias",
-    lead: "El bloque MIR vive en su portal especializado.",
+    lead: "El análisis MIR completo vive en su portal especializado.",
     text: "Aquí queda el resumen y el enlace al análisis completo para no contaminar la arquitectura general."
   }
 };
+
+const newsToneMeta = {
+  favorable: {
+    label: "Favorable",
+    description: "El hecho publicado refuerza una parte de la reivindicación médica o confirma la falta de consenso profesional."
+  },
+  avance: {
+    label: "Avance parcial",
+    description: "Hay un paso positivo, pero no sustituye la mesa médica propia ni garantiza por sí solo la ejecución material."
+  },
+  mixto: {
+    label: "Mixto",
+    description: "Contiene mejoras reales, pero también límites o ausencias relevantes para médicos y facultativos."
+  },
+  contexto: {
+    label: "Contexto",
+    description: "Sirve para ubicar el estado jurídico o temporal de la reforma; no es una victoria ni una derrota."
+  },
+  incompleto: {
+    label: "Dato incompleto",
+    description: "El mensaje omite horas reales, condiciones de aplicación o la diferencia entre mejora formal y garantía efectiva."
+  },
+  adverso: {
+    label: "Relato adverso",
+    description: "Presenta el acuerdo o el anteproyecto como suficiente y exige una respuesta factual bien referenciada."
+  }
+};
+
+const newsToneOrder = ["favorable", "avance", "mixto", "contexto", "incompleto", "adverso"];
 
 function App() {
   const pageId = document.getElementById("root")?.dataset.page ?? "home";
@@ -104,7 +133,7 @@ function App() {
       {pageId === "noticias" && <NoticiasPage />}
       {pageId === "novedades" && <NovedadesPage />}
       {pageId === "fuentes" && <FuentesPage />}
-      {pageId === "argumentario" && <ArgumentarioPage />}
+      {pageId === "claves" && <ClavesPage />}
       {pageId === "mir" && <MirPage />}
       <Footer />
     </main>
@@ -155,7 +184,7 @@ function Hero({ copy, pageId }) {
         {isHome && (
           <div className="hero-actions">
             <a className="button primary" href="reivindicaciones.html">Ver programa <ArrowRight size={18} /></a>
-            <a className="button urgent" href="anteproyecto.html">Desmontar anteproyecto <Scale size={18} /></a>
+            <a className="button urgent" href="anteproyecto.html">Analizar anteproyecto <Scale size={18} /></a>
             <a className="button ghost" href="novedades.html">Últimas novedades <CalendarDays size={18} /></a>
             <a className="button ghost song-link" href={strikeSongUrl} target="_blank" rel="noreferrer">Canción huelga médica <Music2 size={18} /></a>
           </div>
@@ -187,13 +216,12 @@ function HomePage() {
           <span className="kicker">Idea central</span>
           <h2>No estamos contra otros colectivos. Queremos voz propia y garantías reales.</h2>
           <p>
-            El Estatuto Marco afecta a todo el personal estatutario y puede reconocer mejoras comunes.
-            La cuestión es si esas mejoras bastan para médicos y facultativos cuando hay guardias,
-            responsabilidad clínica directa, penosidad acumulada, formación prolongada y riesgo médico-legal.
+            El Estatuto Marco afecta a todo el personal estatutario. La cuestión es cómo reconocer condiciones comunes
+            sin ignorar guardias, responsabilidad clínica directa, penosidad acumulada, formación prolongada y riesgo médico-legal.
           </p>
         </div>
         <div className="quick-list">
-          {quickArguments.slice(0, 4).map((argument) => <p key={argument}>{argument}</p>)}
+          {quickArguments.slice(0, 4).map((item) => <p key={item.id}>{item.question}</p>)}
         </div>
       </section>
     </>
@@ -322,6 +350,7 @@ function HeroStrikeCalendar() {
 function NoticiasPage() {
   return (
     <PageLayout navItems={news.map((item) => ({ id: item.id, label: item.outlet }))}>
+      <NewsLegend />
       <section className="stack">
         {news.map((item, index) => (
           <Accordion
@@ -329,11 +358,13 @@ function NoticiasPage() {
             title={item.title}
             eyebrow={`${item.outlet} · ${formatDate(item.date)}`}
             summary={item.claim}
+            tone={item.tone}
             defaultOpen={index === 0}
             key={item.id}
           >
             <DefinitionGrid
               rows={[
+                ["Lectura rápida", newsToneMeta[item.tone]?.description ?? "Noticia pendiente de clasificación editorial."],
                 ["Qué se afirma", item.claim],
                 ["Respuesta", item.response],
                 ["La clave", item.key]
@@ -347,6 +378,29 @@ function NoticiasPage() {
   );
 }
 
+function NewsLegend() {
+  return (
+    <section className="news-legend" aria-label="Leyenda de lectura de noticias">
+      <div>
+        <span className="kicker">Lectura rápida</span>
+        <h2>Color para distinguir qué aporta cada noticia.</h2>
+        <p>
+          La etiqueta no sustituye la fuente: ayuda a ver de un vistazo si una pieza confirma la reivindicación,
+          aporta contexto, describe un avance parcial o requiere respuesta por omitir datos relevantes.
+        </p>
+      </div>
+      <div className="tone-list">
+        {newsToneOrder.map((tone) => (
+          <div className="tone-item" key={tone}>
+            <NewsToneBadge tone={tone} />
+            <p>{newsToneMeta[tone].description}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function RealityOverview() {
   return (
     <section className="reality-summary" id="enfoque">
@@ -354,7 +408,7 @@ function RealityOverview() {
         <span className="kicker">Cómo leer esta página</span>
         <h2>Reconocer mejoras formales refuerza la crítica.</h2>
         <p>
-          La Ley 55/2003 sigue vigente y el texto de enero de 2026 es un anteproyecto. La matriz no repite el programa:
+          La Ley 55/2003 sigue vigente y el texto de enero de 2026 es un anteproyecto. Este análisis no repite el programa:
           contrasta qué cambia, qué mejora y qué queda sin garantía material.
         </p>
       </article>
@@ -362,8 +416,8 @@ function RealityOverview() {
         <span className="kicker">Criterio editorial</span>
         <h2>Menos volumen, más precisión.</h2>
         <p>
-          Cada bloque responde a una pregunta técnica. Para mensajes breves usa el argumentario; para la lista de exigencias,
-          el programa.
+          Cada apartado responde a una pregunta técnica. Para una explicación general, consulta Claves; para la lista de exigencias,
+          consulta Programa.
         </p>
       </article>
     </section>
@@ -418,30 +472,49 @@ function FuentesPage() {
   );
 }
 
-function ArgumentarioPage() {
+function ClavesPage() {
+  const navItems = [
+    { id: "enfoque-claves", label: "Enfoque" },
+    ...quickArguments.map((item) => ({ id: item.id, label: item.question }))
+  ];
+
   return (
-    <PageLayout navItems={[{ id: "frases", label: "Frases" }, { id: "uso", label: "Cómo usarlo" }]}>
-      <section className="argument-grid" id="frases">
-        {quickArguments.map((argument) => (
-          <article key={argument}>
+    <PageLayout navItems={navItems}>
+      <section className="reality-summary claves-summary" id="enfoque-claves">
+        <article>
+          <span className="kicker">Doble audiencia</span>
+          <h2>Explicar al público sin rebajar el nivel profesional.</h2>
+          <p>
+            La página está escrita para ser pública, pero la lectura principal sigue siendo médica: entender el
+            anteproyecto, hablar con compañeros y defender la movilización con datos comprobables.
+          </p>
+        </article>
+        <article>
+          <span className="kicker">Método</span>
+          <h2>Primero hechos, luego posición.</h2>
+          <p>
+            Cada clave separa la explicación general de la aplicación profesional. Así se evita el tono de
+            manual interno sin perder utilidad para quienes tienen que sostener la reivindicación en el hospital.
+          </p>
+        </article>
+      </section>
+      <section className="argument-grid" id="claves">
+        {quickArguments.map((item) => (
+          <article id={item.id} key={item.id}>
             <ClipboardList size={18} />
-            <p>{argument}</p>
+            <div>
+              <h2>{item.question}</h2>
+              <p>{item.answer}</p>
+              {item.professional && (
+                <div className="professional-note">
+                  <strong>Para médicos</strong>
+                  <p>{item.professional}</p>
+                </div>
+              )}
+              <SourceBadges ids={item.sources} />
+            </div>
           </article>
         ))}
-      </section>
-      <section className="band soft" id="uso">
-        <div>
-          <span className="kicker">Uso recomendado</span>
-          <h2>Una respuesta útil cabe en cuatro pasos.</h2>
-        </div>
-        <DefinitionGrid
-          rows={[
-            ["Qué dicen", "Identifica la afirmación concreta sin caricaturizarla."],
-            ["Qué oculta", "Explica la condición médica específica que queda fuera."],
-            ["Por qué no basta", "Separa mejora general de garantía real."],
-            ["Qué reclamamos", "Cierra con una demanda médica verificable."]
-          ]}
-        />
       </section>
     </PageLayout>
   );
@@ -543,7 +616,7 @@ function DirectoryCard({ card, href }) {
     noticias: <Newspaper />,
     novedades: <CalendarDays />,
     fuentes: <Library />,
-    argumentario: <ClipboardList />,
+    claves: <ClipboardList />,
     mir: <FileText />
   };
   return (
@@ -556,7 +629,7 @@ function DirectoryCard({ card, href }) {
   );
 }
 
-function Accordion({ id, title, eyebrow, summary, children, defaultOpen = false, status }) {
+function Accordion({ id, title, eyebrow, summary, children, defaultOpen = false, status, tone }) {
   const [open, setOpen] = useState(defaultOpen);
   return (
     <article className={open ? "accordion open" : "accordion"} id={id}>
@@ -565,6 +638,7 @@ function Accordion({ id, title, eyebrow, summary, children, defaultOpen = false,
         <strong>{title}</strong>
         {summary && <small>{summary}</small>}
         {status && <StatusBadge status={status} />}
+        {tone && <NewsToneBadge tone={tone} />}
         <ChevronDown className="chevron" size={20} />
       </button>
       <div className="accordion-content" id={`${id}-content`} hidden={!open}>
@@ -628,6 +702,23 @@ function StatusBadge({ status }) {
   return <em className={`status status-${status}`}>{labels[status] ?? status}</em>;
 }
 
+function NewsToneBadge({ tone }) {
+  const meta = newsToneMeta[tone];
+  if (!meta) return null;
+  return (
+    <em className={`news-tone news-tone-${tone}`} title={meta.description}>
+      {toneIcon(tone)}
+      {meta.label}
+    </em>
+  );
+}
+
+function toneIcon(tone) {
+  if (tone === "favorable" || tone === "avance") return <BadgeCheck size={14} />;
+  if (tone === "adverso" || tone === "incompleto") return <AlertTriangle size={14} />;
+  return <BookOpen size={14} />;
+}
+
 function HeroMetric({ label, value }) {
   return (
     <div className="hero-metric">
@@ -658,7 +749,7 @@ function Footer() {
   return (
     <footer>
       <strong>Estatuto Médico Propio</strong>
-      <span>Datos, fuentes, novedades y argumentos para negociar con voz propia.</span>
+      <span>Datos, fuentes y contexto para entender una reivindicación médica y facultativa propia.</span>
     </footer>
   );
 }

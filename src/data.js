@@ -10,7 +10,7 @@ export const pages = [
   { id: "noticias", label: "Noticias", path: "noticias.html" },
   { id: "novedades", label: "Novedades", path: "novedades.html" },
   { id: "fuentes", label: "Fuentes", path: "fuentes.html" },
-  { id: "argumentario", label: "Argumentario", path: "argumentario.html" },
+  { id: "claves", label: "Claves", path: "claves.html" },
   { id: "mir", label: "MIR", path: "mir.html" }
 ];
 
@@ -23,9 +23,9 @@ export const homeCards = [
   },
   {
     id: "anteproyecto",
-    title: "Anteproyecto desmontado",
-    text: "Qué se anuncia, qué queda sin garantizar, qué riesgo deja abierto y qué reclamamos.",
-    cta: "Ver matriz"
+    title: "Análisis del anteproyecto",
+    text: "Qué cambia, qué mejora, qué queda condicionado y qué garantías faltan.",
+    cta: "Ver análisis"
   },
   {
     id: "noticias",
@@ -46,10 +46,10 @@ export const homeCards = [
     cta: "Ver fuentes"
   },
   {
-    id: "argumentario",
-    title: "Argumentario rápido",
-    text: "Frases y respuestas reutilizables para redes, asambleas, prensa y conversaciones públicas.",
-    cta: "Ver frases"
+    id: "claves",
+    title: "Claves para entenderlo",
+    text: "Preguntas útiles para médicos, compañeros, pacientes y ciudadanía.",
+    cta: "Ver claves"
   },
   {
     id: "mir",
@@ -121,7 +121,7 @@ export const demands = [
   {
     id: "estatuto-propio",
     title: "Estatuto Médico y Facultativo propio",
-    short: "No para decidir por otros colectivos, sino para que nadie decida por nosotros.",
+    short: "Un marco específico para responsabilidades y condiciones específicas.",
     body:
       "Exigimos un marco propio o, como mínimo transitorio, un cauce médico vinculante para negociar las condiciones singulares de la profesión.",
     category: "Representación",
@@ -258,7 +258,7 @@ export const claims = [
     change: "El anteproyecto incorpora niveles MECU/MECES y sitúa categorías con nivel 8 o nivel 7 con especialidad en un grupo superior.",
     formal: "La diferenciación formal existe y conviene no negarla: el texto de enero de 2026 ya no puede describirse como una equiparación simple con cualquier graduado.",
     reality: "La mejora queda diferida si no se traduce automáticamente en salario, carrera, penosidad, jornada, responsabilidad y representación.",
-    why: "Una clasificación sin efectos materiales permite al Ministerio defender reconocimiento formal mientras las condiciones reales siguen igual.",
+    why: "Una clasificación sin efectos materiales permite reconocer la diferencia en el papel sin cambiar las condiciones reales.",
     amendment: "Vincular la nueva clasificación a efectos mínimos estatales: carrera, complemento de responsabilidad clínica, penosidad y equivalencia retributiva homogénea.",
     refs: ["Arts. 6-7 APL", "DA 7 APL", "DT 6 APL"],
     sources: ["anteproyecto", "sanidad-foro-marzo", "cesm-estatuto-propio"]
@@ -338,17 +338,19 @@ export const claims = [
 export const news = [
   {
     id: "diario-altoaragon-defienden",
+    tone: "adverso",
     outlet: "Diario del Alto Aragón",
     date: "2026-05-06",
     title: "UGT, CSIF, CCOO y Satse defienden el nuevo Estatuto Marco",
     claim: "El texto aborda casi el 90% de las reivindicaciones y contiene más de 117 mejoras.",
     response:
       "Un acuerdo general no equivale a consenso médico. La cuestión central es si el texto reconoce ámbito propio y garantías efectivas para condiciones específicamente médicas.",
-    key: "No bloqueamos mejoras para nadie; exigimos que no se bloquee la negociación médica.",
+    key: "Reconocer condiciones específicas no impide mejoras comunes para el conjunto del SNS.",
     sources: ["diario-altoaragon", "cesm-huelga"]
   },
   {
     id: "aragondigital-guardias",
+    tone: "incompleto",
     outlet: "Aragón Digital",
     date: "2026-05-06",
     title: "Nadie está obligado a realizar guardias de 24 horas",
@@ -360,17 +362,19 @@ export const news = [
   },
   {
     id: "heraldo-claves",
+    tone: "mixto",
     outlet: "Heraldo de Aragón",
     date: "2026-01-26",
     title: "Las claves del Estatuto Marco firmado por Sanidad y sindicatos",
     claim: "El acuerdo incluye mejoras en guardias, conciliación, jornada, clasificación y jubilación.",
     response:
       "Que existan mejoras generales no resuelve si quedan garantizadas para quienes asumen guardias, responsabilidad clínica directa y riesgo médico-legal.",
-    key: "La reivindicación médica no es bloquear; es negociar con voz propia.",
+    key: "La reivindicación médica busca una negociación adecuada a responsabilidades específicas.",
     sources: ["heraldo-claves", "elpais-acuerdo", "cesm-huelga"]
   },
   {
     id: "acuerdo-sin-sindicatos-medicos",
+    tone: "favorable",
     outlet: "El País",
     date: "2026-01-26",
     title: "Sanidad firma un acuerdo sin el apoyo de los sindicatos médicos",
@@ -382,6 +386,7 @@ export const news = [
   },
   {
     id: "acuerdo-foro-profesion-marzo",
+    tone: "avance",
     outlet: "Ministerio de Sanidad",
     date: "2026-03-05",
     title: "Sanidad y el Foro de la Profesión Médica anuncian un acuerdo para mantener el diálogo",
@@ -393,6 +398,7 @@ export const news = [
   },
   {
     id: "plan-anual-normativo-2026",
+    tone: "contexto",
     outlet: "La Moncloa",
     date: "2026-05-05",
     title: "El Plan Anual Normativo 2026 mantiene la Ley del Estatuto Marco como iniciativa prevista",
@@ -404,6 +410,7 @@ export const news = [
   },
   {
     id: "tercera-semana-huelga",
+    tone: "favorable",
     outlet: "El País",
     date: "2026-04-27",
     title: "Comienza la tercera semana de huelga médica sin acercamientos con Sanidad",
@@ -415,6 +422,7 @@ export const news = [
   },
   {
     id: "csif-tabla-mir",
+    tone: "incompleto",
     outlet: "CSIF / material difundido",
     date: "2026-04-01",
     title: "Tablas de sueldos MIR con guardias",
@@ -429,10 +437,17 @@ export const news = [
 export const updates = [
   {
     date: "2026-05-08",
+    type: "Contenido",
+    title: "Claves profesionales y lectura visual de noticias",
+    body:
+      "Se refuerza la página Claves con lectura específica para médicos y se añaden etiquetas de color en Noticias para distinguir avances, contexto, relatos adversos y datos incompletos."
+  },
+  {
+    date: "2026-05-08",
     type: "Verificación",
     title: "Auditoría de realidad y fuentes reforzadas",
     body:
-      "Se incorpora el contraste con la revisión externa: Ley 55/2003 vigente, anteproyecto de enero de 2026 como propuesta, acuerdo de marzo con el Foro, marco europeo, RD 402/2025 y matriz técnica con mejoras formales e insuficiencias materiales."
+      "Se incorpora el contraste con la revisión externa: Ley 55/2003 vigente, anteproyecto de enero de 2026 como propuesta, acuerdo de marzo con el Foro, marco europeo, RD 402/2025 y análisis técnico de mejoras formales e insuficiencias materiales."
   },
   {
     date: "2026-05-08",
@@ -446,7 +461,7 @@ export const updates = [
     type: "Arquitectura",
     title: "Nace el portal independiente Estatuto Médico Propio",
     body:
-      "Se separa la reivindicación general del proyecto MIR original. El bloque MIR queda enlazado como caso demostrativo especializado."
+      "Se separa la reivindicación general del proyecto MIR original. El contenido MIR queda enlazado como caso demostrativo especializado."
   },
   {
     date: "2026-05-07",
@@ -467,12 +482,12 @@ export const updates = [
     type: "Evidencia",
     title: "Registro inicial de fuentes",
     body:
-      "Se agrupan fuentes oficiales, posición médica, sindicatos firmantes, prensa y bloque MIR."
+      "Se agrupan fuentes oficiales, posición médica, sindicatos firmantes, prensa y contenido MIR."
   },
   {
     date: "2026-05-07",
     type: "MIR",
-    title: "El bloque MIR queda enlazado, no duplicado",
+    title: "El contenido MIR queda enlazado, no duplicado",
     body:
       "La web general mantiene una página resumen y deriva el análisis completo al portal MIR original para conservar foco editorial."
   },
@@ -481,18 +496,83 @@ export const updates = [
     type: "SEO",
     title: "Páginas reales para compartir e indexar",
     body:
-      "Se crean rutas HTML independientes para anteproyecto, reivindicaciones, noticias, novedades, fuentes, argumentario y MIR."
+      "Se crean rutas HTML independientes para anteproyecto, reivindicaciones, noticias, novedades, fuentes, claves y MIR."
   }
 ];
 
 export const quickArguments = [
-  "No pedimos decidir por nadie. Pedimos que nadie decida por nosotros.",
-  "La reforma mejora formalmente algunas cosas, pero no garantiza su aplicación real.",
-  "Mesas técnicas y foros consultivos no sustituyen una mesa médica negociadora.",
-  "Una guardia regulada sigue siendo sobrecarga si continúa sosteniendo la plantilla que falta.",
-  "El descanso postguardia no es un privilegio: es seguridad clínica.",
-  "Una nómina con guardias, noches y festivos no es sueldo ordinario.",
-  "Europa fija mínimos de protección; España puede aprobar reglas más protectoras."
+  {
+    id: "para-que",
+    question: "¿Para qué sirve un estatuto médico y facultativo propio?",
+    answer:
+      "Para negociar reglas específicas sobre guardias, descanso, responsabilidad clínica, formación, penosidad y conciliación sin impedir derechos comunes para el resto del SNS.",
+    professional:
+      "Cuando lo expliques a otro médico, el punto no es reclamar privilegios: es que una norma común no resuelve bien la jornada prolongada, la responsabilidad clínica directa, la formación especializada ni el riesgo médico-legal. La mesa propia es el instrumento para que esas condiciones no queden diluidas.",
+    sources: ["ley-55", "cesm-estatuto-propio", "cgcom-regulacion-especifica"]
+  },
+  {
+    id: "mejoras-insuficientes",
+    question: "¿El anteproyecto no mejora nada?",
+    answer:
+      "Sí introduce mejoras formales. La crítica es que muchas quedan condicionadas a plantillas, comunidades autónomas, excepciones y desarrollos posteriores.",
+    professional:
+      "La posición sólida es reconocer las mejoras y preguntar por su garantía: plazos, financiación, límites reales por turno, cómputo de guardias, efectos retributivos y capacidad negociadora médica. Negar cualquier avance debilita el argumento; señalar que no basta lo hace verificable.",
+    sources: ["anteproyecto", "ministerio-faq", "moncloa-acuerdo"]
+  },
+  {
+    id: "guardias-pacientes",
+    question: "¿Por qué las guardias son también un asunto de pacientes?",
+    answer:
+      "Porque la fatiga y la falta de descanso afectan a la seguridad clínica. El descanso postguardia protege al profesional y al paciente.",
+    professional:
+      "Conviene desplazar el debate del precio de la guardia al diseño del sistema: si la continuidad asistencial depende de jornadas de 17 o 24 horas, el problema es de plantilla, planificación y seguridad. La guardia debe computar como trabajo efectivo y no sustituir empleo estructural.",
+    sources: ["anteproyecto", "directiva-tiempo", "foro-medico"]
+  },
+  {
+    id: "mesa-propia",
+    question: "¿Por qué no basta con foros o mesas técnicas?",
+    answer:
+      "Pueden ser útiles, pero no sustituyen una negociación con capacidad real sobre condiciones médicas singulares.",
+    professional:
+      "Un foro puede emitir posición profesional y una mesa técnica puede ordenar problemas, pero la diferencia está en la capacidad de negociación: quién firma, qué materias vincula, cómo se traslada a las comunidades autónomas y qué ocurre si no se cumple.",
+    sources: ["sanidad-foro-marzo", "cesm-respuesta-foro", "ley-44"]
+  },
+  {
+    id: "europa",
+    question: "¿Europa obliga a mantener este modelo de guardias?",
+    answer:
+      "No. La normativa europea fija mínimos de protección. España puede aprobar reglas más protectoras.",
+    professional:
+      "El marco europeo sirve como suelo, no como techo. Invocar Europa para justificar guardias estructurales prolongadas confunde el límite máximo medio con una decisión política nacional sobre cómo organizar plantillas, descansos y actividad extraordinaria.",
+    sources: ["directiva-tiempo", "boe-guardias-tjue"]
+  },
+  {
+    id: "salarios",
+    question: "¿Por qué insistir en separar sueldo ordinario y guardias?",
+    answer:
+      "Porque una nómina con noches, festivos y jornadas extendidas no describe el salario ordinario ni el coste real por hora.",
+    professional:
+      "Para residentes y adjuntos, la comparación honesta exige separar sueldo base, complementos, guardias, noches, festivos, horas reales y salario por hora. Si una cifra mensual depende de trabajar más horas y más penosas, no puede presentarse como salario ordinario.",
+    sources: ["simeg-mir", "mir-portal"]
+  },
+  {
+    id: "companeros",
+    question: "¿Cómo hablar con un compañero que duda de sumarse?",
+    answer:
+      "Con hechos comprobables: qué está vigente, qué propone el anteproyecto, qué mejora y qué no queda garantizado. La reivindicación gana fuerza cuando evita exageraciones.",
+    professional:
+      "Una secuencia útil es: reconocer el cansancio y las dudas, separar mejoras formales de garantías reales, aterrizarlo en guardias, descanso y representación, y cerrar con fuentes. No se trata de imponer una consigna, sino de mostrar por qué el coste de no negociar bien lo paga toda la profesión.",
+    sources: ["anteproyecto", "ley-55", "cesm-movilizaciones"]
+  },
+  {
+    id: "huelga",
+    question: "¿Por qué sigue la huelga si hay acuerdos y avances?",
+    answer:
+      "Porque los acuerdos generales no han cerrado la reivindicación médica principal: ámbito propio de negociación y garantías materiales para guardias, descanso, clasificación y penosidad.",
+    professional:
+      "La movilización no se explica solo por un desacuerdo de redacción. Se mantiene porque la profesión médica reclama capacidad negociadora real y porque varias mejoras dependen de desarrollos futuros, adaptación autonómica o suficiencia de plantilla.",
+    sources: ["elpais-huelga-abril", "cesm-movilizaciones", "sanidad-foro-marzo"]
+  }
 ];
 
 export const sourceRegistry = {
@@ -800,7 +880,7 @@ export const sourceGroups = [
 ];
 
 export const downloads = [
-  { label: "Argumentario rápido", href: "downloads/argumentario_estatuto_medico.md" },
+  { label: "Claves para entenderlo", href: "downloads/claves_estatuto_medico.md" },
   { label: "Resumen de reivindicaciones", href: "downloads/reivindicaciones_estatuto_medico.md" },
   { label: "Respuesta a titulares", href: "downloads/respuesta_titulares_estatuto_marco.md" }
 ];

@@ -2,11 +2,11 @@
 
 Fecha de contraste: 8 de mayo de 2026.
 
-Este documento resume exigencias. La justificación técnica está en la matriz del anteproyecto y en las fuentes.
+Este documento resume exigencias. La justificación técnica está en el análisis del anteproyecto y en las fuentes.
 
 ## 1. Estatuto Médico y Facultativo propio
 
-No para decidir por otros colectivos, sino para que nadie decida por nosotros.
+Un marco específico para responsabilidades y condiciones específicas.
 
 ## 2. Mesa médica propia
 
@@ -39,10 +39,6 @@ Separar siempre sueldo ordinario, guardias, complementos, horas reales y salario
 ## 9. Aplicación real
 
 Todo derecho debe tener plazo, responsable, financiación, registro de cumplimiento y consecuencias si se incumple.
-
-## Cierre
-
-No pedimos bloquear la negociación de otros colectivos. Pedimos que no se bloquee la nuestra.
 
 ## Fuentes
 

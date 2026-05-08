@@ -1,7 +1,7 @@
 {
   "name": "Estatuto Médico Propio",
   "short_name": "Estatuto Médico",
-  "description": "Portal documental médico-facultativo con datos, fuentes, noticias, novedades y argumentos para defender un Estatuto Médico y Facultativo propio.",
+  "description": "Portal documental con datos, fuentes y explicaciones sobre la reivindicación de un Estatuto Médico y Facultativo propio.",
   "lang": "es",
   "start_url": "/estatuto-medico-propio/",
   "scope": "/estatuto-medico-propio/",
