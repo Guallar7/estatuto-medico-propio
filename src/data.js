@@ -343,12 +343,14 @@ export const news = [
     date: "2026-05-08",
     title: "Galicia anuncia avances tras la movilización médica autonómica",
     claim:
-      "El carrusel presenta la suspensión de la huelga autonómica como fruto de la movilización y enumera 35 horas, CPV al 40%, refuerzos, mejoras MIR y mesa de seguimiento.",
+      "Sanidade y O'MEGA pactaron el fin de la huelga indefinida de médicos de Atención Primaria tras un acuerdo con límite de 30 pacientes por agenda, reducción progresiva de tramos de jornada complementaria y un procedimiento de voluntariedad incentivada en PAC con nuevas plazas.",
     response:
       "Debe leerse como un avance relevante, no como cierre del conflicto. Las fuentes disponibles verifican el contexto de huelga, la presión negociadora y antecedentes sobre 35 horas, CPV y voluntariedad; el punto crítico es exigir texto formal, calendario, financiación y seguimiento de cada compromiso.",
     key: "La movilización puede abrir acuerdos autonómicos, pero el cumplimiento documentado es tan importante como el anuncio.",
     sources: [
-      "instagram-avances-galicia",
+      "galiciaconfidencial-omega-fin-folga",
+      "xunta-voluntariedad-pac",
+      "dog-galicia-voluntariedad-pac",
       "galiciapress-omega-convenio",
       "europapress-galicia-primaria-acuerdo",
       "xunta-huelga-ap-marzo",
@@ -396,7 +398,7 @@ export const news = [
   },
   {
     id: "acuerdo-sin-sindicatos-medicos",
-    tone: "favorable",
+    tone: "mixto",
     outlet: "El País",
     date: "2026-01-26",
     title: "Sanidad firma un acuerdo sin el apoyo de los sindicatos médicos",
@@ -409,16 +411,16 @@ export const news = [
   },
   {
     id: "acuerdo-foro-profesion-marzo",
-    tone: "avance",
+    tone: "incompleto",
     outlet: "Ministerio de Sanidad",
     date: "2026-03-05",
-    title: "Sanidad y el Foro de la Profesión Médica anuncian un acuerdo para mantener el diálogo",
+    title: "Sanidad presenta un acuerdo con el Foro de la Profesión Médica",
     claim:
-      "Sanidad y el Foro anuncian más diálogo sobre participación profesional, clasificación, penosidad y jubilación, pero dentro de cauces consultivos o técnicos.",
+      "El Foro reúne a CGCOM/OMC, CESM, FACME, decanos y estudiantes de Medicina, pero no es el Comité de Huelga. La nota ministerial habla de diálogo y medidas futuras; el Comité respondió que el Foro es consultivo y no puede negociar la suspensión de las movilizaciones.",
     response:
-      "Es un hecho relevante y debe incorporarse, pero no sustituye la reivindicación central: mesas técnicas y Foro Profesional no equivalen a una mesa médica negociadora ni a un estatuto propio.",
-    key: "Participación consultiva o técnica no es negociación médica autónoma.",
-    sources: ["sanidad-foro-marzo", "cesm-respuesta-foro", "ley-44"]
+      "No debe presentarse como avance de la huelga. Sirve para entender la posición del Ministerio, pero la interlocución que reclama el movimiento es directa con el Comité de Huelga y con capacidad negociadora real.",
+    key: "Foro profesional no equivale a Comité de Huelga ni a mesa médica propia.",
+    sources: ["sanidad-foro-marzo", "cgcom-foro-profesion", "cesm-respuesta-foro", "ley-44"]
   },
   {
     id: "plan-anual-normativo-2026",
@@ -694,6 +696,13 @@ export const sourceRegistry = {
     year: "2026",
     url: "https://www.sanidad.gob.es/gabinete/notasPrensa.do?id=6864&metodo=detalle"
   },
+  "cgcom-foro-profesion": {
+    title: "Foro de la Profesión Médica: composición y fines",
+    institution: "CGCOM",
+    type: "Profesional",
+    year: "2026",
+    url: "https://www.cgcom.es/foro-de-la-profesion-medica/quienes-somos"
+  },
   "sanidad-rechazo-estatuto-propio": {
     title: "Sanidad lamenta que CESM-SMA se levante de la mesa y descarta estatuto específico por categoría",
     institution: "Ministerio de Sanidad",
@@ -812,6 +821,27 @@ export const sourceRegistry = {
     type: "Comunicado en redes",
     year: "2026",
     url: "https://www.instagram.com/p/DYER1TIClRB/?img_index=4&igsh=MTFnMTF6dHJ2M3Zmcw=="
+  },
+  "galiciaconfidencial-omega-fin-folga": {
+    title: "Sanidade e O'Mega pactan o fin da folga de médicos tras acadar un acordo para a primaria",
+    institution: "Galicia Confidencial / Europa Press",
+    type: "Prensa",
+    year: "2026",
+    url: "https://www.galiciaconfidencial.com/noticia/5821201-sanidade-e-omega-pactan-fin-da-folga-medicos-acadar-acordo-primaria"
+  },
+  "xunta-voluntariedad-pac": {
+    title: "Mesa Sectorial aprueba la voluntariedad incentivada para guardias en PAC",
+    institution: "Xunta de Galicia",
+    type: "Oficial",
+    year: "2026",
+    url: "https://www.xunta.gal/es/notas-de-prensa/-/nova/022961/mesa-sectorial-sanidade-aprueba-procedimiento-voluntariedad-incentivada-para"
+  },
+  "dog-galicia-voluntariedad-pac": {
+    title: "DOG: acuerdo sobre incentivación y opciones de jornada complementaria voluntaria en PAC",
+    institution: "DOG / Xunta de Galicia",
+    type: "Oficial",
+    year: "2026",
+    url: "https://www.xunta.gal/dog/Publicados/2026/20260427/AnuncioC3K1-220426-5_es.html"
   },
   "galiciapress-omega-convenio": {
     title: "O'Mega exige a la Xunta un convenio propio y detalla reivindicaciones autonómicas",

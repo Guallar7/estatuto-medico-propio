@@ -93,7 +93,7 @@ const pageCopy = {
 const newsToneMeta = {
   favorable: {
     label: "Favorable",
-    description: "El hecho publicado refuerza una parte de la reivindicación médica o confirma la falta de consenso profesional."
+    description: "El hecho publicado apoya de forma clara una parte de la reivindicación médica."
   },
   avance: {
     label: "Avance parcial",
@@ -113,7 +113,7 @@ const newsToneMeta = {
   },
   adverso: {
     label: "Relato adverso",
-    description: "Presenta el acuerdo o el anteproyecto como suficiente y exige una respuesta factual bien referenciada."
+    description: "Presenta el acuerdo o el anteproyecto como suficiente; la ficha lo contrasta con el texto y las fuentes disponibles."
   }
 };
 
@@ -284,13 +284,11 @@ function ReivindicacionesPage() {
 function AnteproyectoPage() {
   const navItems = [
     { id: "resumen-garantias", label: "Resumen visual" },
-    { id: "enfoque", label: "Enfoque" },
     ...claims.map((claim) => ({ id: claim.id, label: claim.title }))
   ];
   return (
     <PageLayout navItems={navItems}>
       <ClaimStatusOverview />
-      <RealityOverview />
       <section className="stack">
         {claims.map((claim, index) => {
           const rows = [
@@ -325,50 +323,61 @@ function AnteproyectoPage() {
 }
 
 function DemandVisualMap() {
-  const pillars = [
+  const items = [
     {
       title: "Voz propia",
-      text: "Quién negocia las condiciones singulares.",
-      ids: ["estatuto-propio", "mesa-propia"]
+      text: "Una mesa donde se decida lo médico.",
+      icon: <ShieldCheck size={22} />,
+      links: [
+        { id: "estatuto-propio", label: "Estatuto propio" },
+        { id: "mesa-propia", label: "Mesa propia" }
+      ]
     },
     {
-      title: "Tiempo seguro",
-      text: "Guardias, descanso y conciliación como seguridad clínica.",
-      ids: ["guardias", "descanso", "conciliacion"]
+      title: "Tiempo",
+      text: "Guardias, descanso y vida fuera del hospital.",
+      icon: <CalendarDays size={22} />,
+      links: [
+        { id: "guardias", label: "Guardias" },
+        { id: "descanso", label: "Descanso" },
+        { id: "conciliacion", label: "Conciliación" }
+      ]
     },
     {
-      title: "Reconocimiento real",
-      text: "Formación, responsabilidad y penosidad con efectos materiales.",
-      ids: ["clasificacion", "jubilacion"]
+      title: "Reconocimiento",
+      text: "Formación, responsabilidad y penosidad.",
+      icon: <Scale size={22} />,
+      links: [
+        { id: "clasificacion", label: "Clasificación" },
+        { id: "jubilacion", label: "Jubilación" }
+      ]
     },
     {
-      title: "Transparencia",
-      text: "Separar sueldo ordinario, guardias y horas reales.",
-      ids: ["retribucion"]
+      title: "Retribución",
+      text: "Sueldo claro. Guardias claras. Horas claras.",
+      icon: <BadgeCheck size={22} />,
+      links: [{ id: "retribucion", label: "Retribución" }]
     }
   ];
 
   return (
-    <section className="visual-panel demand-map" id="mapa-reivindicaciones">
-      <div className="visual-panel-intro">
-        <span className="kicker">Mapa visual</span>
-        <h2>La reivindicación se entiende mejor como una cadena.</h2>
-        <p>
-          No son peticiones aisladas: la voz propia permite negociar tiempo seguro, reconocimiento real y retribución transparente.
-        </p>
+    <section className="visual-panel demand-snapshot" id="mapa-reivindicaciones">
+      <div className="snapshot-head">
+        <span className="kicker">Programa en un vistazo</span>
+        <strong>8 reivindicaciones</strong>
       </div>
-      <div className="demand-flow">
-        {pillars.map((pillar, index) => (
-          <article className="demand-node" key={pillar.title}>
-            <span>{String(index + 1).padStart(2, "0")}</span>
-            <h3>{pillar.title}</h3>
-            <p>{pillar.text}</p>
-            <div className="mini-tags">
-              {pillar.ids.map((id) => {
-                const demand = demands.find((item) => item.id === id);
+      <div className="snapshot-grid">
+        {items.map((item) => (
+          <article className="snapshot-card" key={item.title}>
+            <i>{item.icon}</i>
+            <h2>{item.title}</h2>
+            <p>{item.text}</p>
+            <div className="snapshot-links">
+              {item.links.map((link) => {
+                const demand = demands.find((demandItem) => demandItem.id === link.id);
                 return demand ? (
-                  <a href={`#${id}`} key={id}>
-                    {demand.title}
+                  <a href={`#${link.id}`} key={link.id}>
+                    {link.label}
                   </a>
                 ) : null;
               })}
@@ -518,29 +527,6 @@ function NewsLegend() {
           </div>
         ))}
       </div>
-    </section>
-  );
-}
-
-function RealityOverview() {
-  return (
-    <section className="reality-summary" id="enfoque">
-      <article>
-        <span className="kicker">Cómo leer esta página</span>
-        <h2>Reconocer mejoras formales refuerza la crítica.</h2>
-        <p>
-          La Ley 55/2003 sigue vigente y el texto de enero de 2026 es un anteproyecto. Este análisis no repite el programa:
-          contrasta qué cambia, qué mejora y qué queda sin garantía material.
-        </p>
-      </article>
-      <article>
-        <span className="kicker">Criterio editorial</span>
-        <h2>Menos volumen, más precisión.</h2>
-        <p>
-          Cada apartado responde a una pregunta técnica. Para una explicación general, consulta Claves; para la lista de exigencias,
-          consulta Programa.
-        </p>
-      </article>
     </section>
   );
 }
