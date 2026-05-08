@@ -621,13 +621,14 @@ export const news = [
     tone: "avance",
     outlet: "Asociación MIR España / O'MEGA / MUD",
     date: "2026-05-08",
-    title: "Galicia anuncia avances tras la movilización médica autonómica",
+    title: "Galicia documenta acuerdos tras la movilización médica autonómica",
     claim:
-      "Sanidade y O'MEGA pactaron el fin de la huelga indefinida de médicos de Atención Primaria tras un acuerdo con límite de 30 pacientes por agenda, reducción progresiva de tramos de jornada complementaria y un procedimiento de voluntariedad incentivada en PAC con nuevas plazas.",
+      "Asociación MIR España, O'MEGA y MUD resumen acuerdos conseguidos en Galicia: normativa específica para el colectivo, comisión de seguimiento trimestral, 35 horas de jornada ordinaria, equiparación de la jornada complementaria, guardias voluntarias en cinco años, libranza de la guardia de viernes, subida de CPV al 40%, mejoras MIR y revisión de jubilación, autoconcertada y complementos salariales.",
     response:
-      "Debe leerse como un avance relevante, no como cierre del conflicto. Las fuentes disponibles verifican el contexto de huelga, la presión negociadora y antecedentes sobre 35 horas, CPV y voluntariedad; el punto crítico es exigir texto formal, calendario, financiación y seguimiento de cada compromiso.",
-    key: "La movilización puede abrir acuerdos autonómicos, pero el cumplimiento documentado es tan importante como el anuncio.",
+      "Es justo felicitar a quienes han sostenido la movilización y han arrancado compromisos concretos. A la vez, debe leerse como un paso importante, no como el final: harán falta texto formal, calendario, financiación, seguimiento trimestral real y vigilancia de que la voluntariedad de las guardias no quede diluida por necesidades del servicio.",
+    key: "La movilización puede abrir acuerdos autonómicos; ahora la clave es convertir cada punto en garantía verificable.",
     sources: [
+      "acordos-galicia-pdf",
       "galiciaconfidencial-omega-fin-folga",
       "xunta-voluntariedad-pac",
       "dog-galicia-voluntariedad-pac",
@@ -749,7 +750,7 @@ export const updates = [
     type: "Noticias",
     title: "Avance autonómico en Galicia incorporado",
     body:
-      "Se añade una ficha sobre los avances anunciados por Asociación MIR España, O'MEGA y MUD en Galicia, clasificada como avance parcial y contrastada con fuentes oficiales y prensa sobre huelga, 35 horas, CPV y negociación autonómica."
+      "Se añade una ficha sobre los acuerdos documentados por Asociación MIR España, O'MEGA y MUD en Galicia, clasificada como avance parcial: una buena noticia que merece reconocimiento, con seguimiento pendiente para convertir cada compromiso en garantía verificable."
   },
   {
     date: "2026-05-08",
@@ -1102,6 +1103,13 @@ export const sourceRegistry = {
     year: "2026",
     url: "https://www.instagram.com/p/DYER1TIClRB/?img_index=4&igsh=MTFnMTF6dHJ2M3Zmcw=="
   },
+  "acordos-galicia-pdf": {
+    title: "Acordos: que conseguimos?",
+    institution: "Asociación MIR España / O'MEGA / MUD",
+    type: "Documento",
+    year: "2026",
+    url: `${baseUrl}acordos.pdf`
+  },
   "galiciaconfidencial-omega-fin-folga": {
     title: "Sanidade e O'Mega pactan o fin da folga de médicos tras acadar un acordo para a primaria",
     institution: "Galicia Confidencial / Europa Press",
@@ -1254,6 +1262,7 @@ export const sourceGroups = [
       "heraldo-claves",
       "diario-altoaragon",
       "aragondigital-guardias",
+      "acordos-galicia-pdf",
       "galiciapress-omega-convenio",
       "europapress-galicia-primaria-acuerdo",
       "xunta-huelga-ap-marzo",
