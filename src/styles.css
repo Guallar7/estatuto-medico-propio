@@ -669,9 +669,39 @@ footer {
 
 .chevron {
   color: var(--muted);
-  grid-column: 3;
+  grid-column: 4;
   grid-row: 2;
   transition: transform 160ms ease;
+}
+
+.copy-link {
+  align-items: center;
+  align-self: start;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  color: rgba(93, 105, 117, 0.78);
+  cursor: pointer;
+  display: inline-flex;
+  grid-column: 3;
+  grid-row: 2;
+  height: 30px;
+  justify-content: center;
+  justify-self: end;
+  padding: 0;
+  width: 30px;
+}
+
+.copy-link:hover,
+.copy-link:focus-visible,
+.copy-link.copied {
+  background: var(--soft-blue);
+  border-color: rgba(16, 37, 59, 0.08);
+  color: var(--blue);
+}
+
+.copy-link.copied {
+  color: var(--green-dark);
 }
 
 .accordion[open] .chevron {
@@ -1899,6 +1929,11 @@ footer strong {
   .chevron {
     grid-column: 2;
     grid-row: 2;
+  }
+
+  .copy-link {
+    grid-column: 2;
+    grid-row: 3;
   }
 }
 

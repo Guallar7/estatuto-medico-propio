@@ -9,6 +9,8 @@ import {
   CalendarDays,
   ChevronDown,
   ClipboardList,
+  Copy,
+  Check,
   Download,
   ExternalLink,
   FileText,
@@ -871,6 +873,8 @@ function DirectoryCard({ card, href }) {
 }
 
 function Accordion({ id, title, eyebrow, summary, children, defaultOpen = false, status, tone, meta = [], nextItem = null }) {
+  const [copied, setCopied] = useState(false);
+
   const handleNextClick = (event) => {
     if (!nextItem) return;
     event.preventDefault();
@@ -886,6 +890,30 @@ function Accordion({ id, title, eyebrow, summary, children, defaultOpen = false,
     next.querySelector("summary")?.focus({ preventScroll: true });
   };
 
+  const handleCopyLink = async (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const url = `${window.location.origin}${window.location.pathname}#${id}`;
+    try {
+      await navigator.clipboard.writeText(url);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1400);
+    } catch {
+      const field = document.createElement("textarea");
+      field.value = url;
+      field.setAttribute("readonly", "");
+      field.style.position = "fixed";
+      field.style.opacity = "0";
+      document.body.appendChild(field);
+      field.select();
+      document.execCommand("copy");
+      document.body.removeChild(field);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1400);
+    }
+  };
+
   return (
     <details className="accordion" id={id} open={defaultOpen}>
       <summary tabIndex={0}>
@@ -899,6 +927,9 @@ function Accordion({ id, title, eyebrow, summary, children, defaultOpen = false,
         )}
         {status && <StatusBadge status={status} />}
         {tone && <NewsToneBadge tone={tone} />}
+        <button className={copied ? "copy-link copied" : "copy-link"} type="button" aria-label={copied ? "Enlace copiado" : `Copiar enlace a ${title}`} title={copied ? "Copiado" : "Copiar enlace"} onClick={handleCopyLink}>
+          {copied ? <Check size={15} /> : <Copy size={15} />}
+        </button>
         <ChevronDown className="chevron" size={20} />
       </summary>
       <div className="accordion-content" id={`${id}-content`}>
