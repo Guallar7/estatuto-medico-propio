@@ -13,6 +13,7 @@ import {
   FileText,
   Library,
   Menu,
+  Music2,
   Newspaper,
   Scale,
   SearchCheck,
@@ -25,12 +26,14 @@ import {
   demands,
   downloads,
   homeCards,
+  mirInfografiaUrl,
   mirPortalUrl,
   news,
   pages,
   quickArguments,
   sourceGroups,
   sourceRegistry,
+  strikeSongUrl,
   updates
 } from "./data";
 import "./styles.css";
@@ -154,6 +157,7 @@ function Hero({ copy, pageId }) {
             <a className="button primary" href="reivindicaciones.html">Ver programa <ArrowRight size={18} /></a>
             <a className="button urgent" href="anteproyecto.html">Desmontar anteproyecto <Scale size={18} /></a>
             <a className="button ghost" href="novedades.html">Últimas novedades <CalendarDays size={18} /></a>
+            <a className="button ghost song-link" href={strikeSongUrl} target="_blank" rel="noreferrer">Canción huelga médica <Music2 size={18} /></a>
           </div>
         )}
       </div>
@@ -361,8 +365,25 @@ function ArgumentarioPage() {
 }
 
 function MirPage() {
+  const mirLinks = [
+    {
+      title: "Análisis MIR completo",
+      text: "Calculadora, CCAA, escenarios y desglose de sueldo ordinario frente a guardias.",
+      href: mirPortalUrl,
+      cta: "Abrir portal MIR",
+      icon: <ExternalLink size={18} />
+    },
+    {
+      title: "Infografía HTML",
+      text: "Pieza visual para explicar por qué una tabla con guardias no equivale a sueldo ordinario.",
+      href: mirInfografiaUrl,
+      cta: "Abrir infografía",
+      icon: <FileText size={18} />
+    }
+  ];
+
   return (
-    <PageLayout navItems={[{ id: "resumen-mir", label: "Resumen" }, { id: "enlace", label: "Análisis completo" }]}>
+    <PageLayout navItems={[{ id: "resumen-mir", label: "Resumen" }, { id: "material-mir", label: "Material recuperado" }]}>
       <section className="mir-summary" id="resumen-mir">
         <article>
           <span>Mensaje</span>
@@ -381,11 +402,23 @@ function MirPage() {
           </p>
         </article>
       </section>
-      <section className="external-panel" id="enlace">
+      <section className="mir-links" id="material-mir">
+        {mirLinks.map((link) => (
+          <article className="resource-card" key={link.href}>
+            <span className="kicker">MIR</span>
+            <h2>{link.title}</h2>
+            <p>{link.text}</p>
+            <a className="button primary" href={link.href} target="_blank" rel="noreferrer">
+              {link.cta} {link.icon}
+            </a>
+          </article>
+        ))}
+      </section>
+      <section className="external-panel">
         <div>
           <span className="kicker">Portal especializado</span>
           <h2>MIR: no es sueldo, son guardias</h2>
-          <p>Datos, calculadora, CCAA, escenarios e infografía completa.</p>
+          <p>El contenido MIR completo sigue en su web original, pero sus materiales principales quedan ahora enlazados desde este portal.</p>
         </div>
         <a className="button primary" href={mirPortalUrl} target="_blank" rel="noreferrer">
           Abrir análisis MIR <ExternalLink size={18} />
@@ -427,7 +460,8 @@ function DirectoryCard({ card, href }) {
     noticias: <Newspaper />,
     novedades: <CalendarDays />,
     fuentes: <Library />,
-    argumentario: <ClipboardList />
+    argumentario: <ClipboardList />,
+    mir: <FileText />
   };
   return (
     <a className="directory-card" href={href}>

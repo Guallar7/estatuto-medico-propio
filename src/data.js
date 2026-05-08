@@ -1,5 +1,7 @@
 export const baseUrl = "https://guallar7.github.io/estatuto-medico-propio/";
 export const mirPortalUrl = "https://guallar7.github.io/mir-estatuto-realidad/";
+export const mirInfografiaUrl = "https://guallar7.github.io/mir-estatuto-realidad/infografia.html";
+export const strikeSongUrl = "https://suno.com/song/94021510-25f0-453a-baed-8d8117c1cd64";
 
 export const pages = [
   { id: "home", label: "Inicio", path: "index.html" },
@@ -48,6 +50,12 @@ export const homeCards = [
     title: "Argumentario rápido",
     text: "Frases y respuestas reutilizables para redes, asambleas, prensa y conversaciones públicas.",
     cta: "Ver frases"
+  },
+  {
+    id: "mir",
+    title: "Caso MIR",
+    text: "Calculadora, infografía y análisis completo de sueldo ordinario, guardias y horas reales.",
+    cta: "Ver caso MIR"
   }
 ];
 
@@ -443,6 +451,13 @@ export const sourceRegistry = {
     type: "Proyecto enlazado",
     year: "2026",
     url: mirPortalUrl
+  },
+  "mir-infografia": {
+    title: "Infografía HTML: cartel frente a realidad MIR",
+    institution: "Portal MIR original",
+    type: "Visual interactivo",
+    year: "2026",
+    url: mirInfografiaUrl
   }
 };
 
@@ -450,7 +465,7 @@ export const sourceGroups = [
   { title: "Normativa y documentos oficiales", ids: ["anteproyecto", "ley-55", "ministerio-faq", "moncloa-acuerdo"] },
   { title: "Posición médica y facultativa", ids: ["cesm-huelga", "cesm-reivindicaciones", "cesm-cv-lineas", "metges-preacuerdo", "foro-medico"] },
   { title: "Sindicatos firmantes y prensa", ids: ["satse-acuerdo", "elpais-acuerdo", "heraldo-claves", "diario-altoaragon", "aragondigital-guardias"] },
-  { title: "Bloque MIR enlazado", ids: ["simeg-mir", "mir-portal"] }
+  { title: "Bloque MIR enlazado", ids: ["simeg-mir", "mir-portal", "mir-infografia"] }
 ];
 
 export const downloads = [
