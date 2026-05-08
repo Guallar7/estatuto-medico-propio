@@ -174,9 +174,15 @@ main {
   color: var(--blue);
   cursor: pointer;
   display: none;
+  font-weight: 950;
+  gap: 0.35rem;
   height: 42px;
   justify-content: center;
-  width: 42px;
+  padding: 0 0.7rem;
+}
+
+.mobile-nav-title {
+  display: none;
 }
 
 .hero {
@@ -1303,6 +1309,10 @@ footer strong {
     flex: 0 0 auto;
   }
 
+  .menu-button span {
+    display: inline;
+  }
+
   .site-header nav {
     background: rgba(246, 249, 250, 0.98);
     border: 1px solid rgba(16, 37, 59, 0.12);
@@ -1321,6 +1331,15 @@ footer strong {
     transition: opacity 160ms ease, transform 160ms ease;
   }
 
+  .mobile-nav-title {
+    color: var(--green-dark);
+    display: block;
+    font-size: 0.74rem;
+    font-weight: 950;
+    margin: 0.2rem 0.45rem 0.1rem;
+    text-transform: uppercase;
+  }
+
   .site-header.open nav {
     opacity: 1;
     pointer-events: auto;
@@ -1332,6 +1351,7 @@ footer strong {
     font-size: 0.95rem;
     padding: 0.85rem;
   }
+
 }
 
 @media (max-width: 520px) {

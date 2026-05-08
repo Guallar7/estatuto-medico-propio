@@ -160,8 +160,10 @@ function Header({ current }) {
       </a>
       <button className="menu-button" type="button" aria-expanded={open} aria-controls="site-nav" onClick={() => setOpen((value) => !value)}>
         {open ? <X size={22} /> : <Menu size={22} />}
+        <span>{open ? "Cerrar" : "Menú"}</span>
       </button>
       <nav id="site-nav" aria-label="Navegación principal">
+        <p className="mobile-nav-title">Entender, actuar y verificar</p>
         {pages.map((page) => (
           <a className={current === page.id ? "active" : ""} href={page.path} key={page.id} onClick={() => setOpen(false)}>
             {page.label}
