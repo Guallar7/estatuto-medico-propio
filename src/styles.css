@@ -2,24 +2,25 @@
   color-scheme: light;
   font-family:
     Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --ink: #10253b;
-  --muted: #5d6975;
-  --line: #dbe4ea;
-  --paper: #f6f9fa;
-  --white: #ffffff;
-  --red: #b73545;
-  --red-dark: #8f1f2d;
-  --green: #28745b;
-  --green-dark: #185a45;
-  --blue: #17324d;
-  --amber: #a9631d;
-  --gold: #e0a84f;
-  --soft-blue: #eaf2f8;
-  --soft-green: #eaf5f1;
-  --shadow: 0 18px 46px rgba(16, 37, 59, 0.1);
-  --shadow-sm: 0 12px 28px rgba(16, 37, 59, 0.08);
-  --surface: #ffffff;
-  --border: #dbe4ea;
+  --ink: #0A192F;
+  --muted: #475569;
+  --line: #E2E8F0;
+  --paper: #F8FAFC;
+  --white: #FFFFFF;
+  --red: #E11D48;
+  --red-dark: #BE123C;
+  --green: #059669;
+  --green-dark: #047857;
+  --blue: #0F2C59;
+  --amber: #D97706;
+  --gold: #B45309;
+  --soft-blue: #F0F4F8;
+  --soft-green: #ECFDF5;
+  --shadow: 0 4px 20px -2px rgba(10, 37, 64, 0.08);
+  --shadow-sm: 0 2px 8px -1px rgba(10, 37, 64, 0.05);
+  --surface: #FFFFFF;
+  --border: #E2E8F0;
+  --radius: 8px;
 }
 
 * {
@@ -38,6 +39,7 @@ body {
   background: var(--paper);
   color: var(--ink);
   margin: 0;
+  line-height: 1.6;
 }
 
 #contenido-principal {
@@ -215,10 +217,8 @@ main {
 
 .hero {
   background:
-    radial-gradient(circle at 82% 18%, rgba(255, 213, 220, 0.24), transparent 28rem),
-    radial-gradient(circle at 12% 76%, rgba(155, 224, 203, 0.2), transparent 24rem),
-    linear-gradient(145deg, rgba(16, 37, 59, 0.98), rgba(23, 50, 77, 0.94) 48%, rgba(24, 90, 69, 0.9)),
-    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.08) 0 1px, transparent 1px 88px);
+    radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.05), transparent 35rem),
+    linear-gradient(135deg, #0A192F 0%, #0F2C59 50%, #0B1D38 100%);
   color: white;
   display: grid;
   gap: 1.2rem;
@@ -463,7 +463,14 @@ footer {
   gap: 0.7rem;
   min-height: 240px;
   min-width: 0;
-  padding: 1rem;
+  padding: 1.5rem;
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+.directory-card:hover,
+.directory-card:focus-visible {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px -4px rgba(10, 37, 64, 0.12);
 }
 
 .directory-card i {
