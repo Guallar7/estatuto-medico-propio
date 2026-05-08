@@ -630,21 +630,20 @@ function DirectoryCard({ card, href }) {
 }
 
 function Accordion({ id, title, eyebrow, summary, children, defaultOpen = false, status, tone }) {
-  const [open, setOpen] = useState(defaultOpen);
   return (
-    <article className={open ? "accordion open" : "accordion"} id={id}>
-      <button type="button" aria-expanded={open} aria-controls={`${id}-content`} onClick={() => setOpen((value) => !value)}>
+    <details className="accordion" id={id} open={defaultOpen}>
+      <summary>
         <span>{eyebrow}</span>
         <strong>{title}</strong>
         {summary && <small>{summary}</small>}
         {status && <StatusBadge status={status} />}
         {tone && <NewsToneBadge tone={tone} />}
         <ChevronDown className="chevron" size={20} />
-      </button>
-      <div className="accordion-content" id={`${id}-content`} hidden={!open}>
+      </summary>
+      <div className="accordion-content" id={`${id}-content`}>
         {children}
       </div>
-    </article>
+    </details>
   );
 }
 

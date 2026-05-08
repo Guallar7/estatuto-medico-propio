@@ -508,7 +508,7 @@ footer {
   scroll-margin-top: 86px;
 }
 
-.accordion > button {
+.accordion > summary {
   background: transparent;
   border: 0;
   color: var(--ink);
@@ -521,19 +521,27 @@ footer {
   width: 100%;
 }
 
-.accordion button span,
-.accordion button small {
+.accordion > summary::-webkit-details-marker {
+  display: none;
+}
+
+.accordion > summary::marker {
+  content: "";
+}
+
+.accordion summary span,
+.accordion summary small {
   grid-column: 1 / -1;
 }
 
-.accordion button span {
+.accordion summary span {
   color: var(--green-dark);
   font-size: 0.78rem;
   font-weight: 950;
   text-transform: uppercase;
 }
 
-.accordion button strong {
+.accordion summary strong {
   font-size: clamp(1.15rem, 2.6vw, 1.55rem);
   grid-column: 1;
   grid-row: 2;
@@ -541,7 +549,7 @@ footer {
   overflow-wrap: anywhere;
 }
 
-.accordion button small {
+.accordion summary small {
   color: var(--muted);
   font-size: 0.95rem;
   line-height: 1.5;
@@ -554,7 +562,7 @@ footer {
   transition: transform 160ms ease;
 }
 
-.accordion.open .chevron {
+.accordion[open] .chevron {
   transform: rotate(180deg);
 }
 
@@ -1365,7 +1373,7 @@ footer strong {
     grid-template-columns: 1fr auto;
   }
 
-  .accordion > button {
+  .accordion > summary {
     grid-template-columns: minmax(0, 1fr) auto;
   }
 
