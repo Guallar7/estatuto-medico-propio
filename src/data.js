@@ -1,7 +1,7 @@
 export const baseUrl = "https://guallar7.github.io/estatuto-medico-propio/";
 export const mirPortalUrl = "https://guallar7.github.io/mir-estatuto-realidad/";
 export const mirInfografiaUrl = "https://guallar7.github.io/mir-estatuto-realidad/infografia.html";
-export const strikeSongUrl = "https://suno.com/song/94021510-25f0-453a-baed-8d8117c1cd64";
+export const strikeSongUrl = "https://www.youtube.com/shorts/AfkLTBqXR50";
 
 export const pages = [
   { id: "home", label: "Inicio", path: "index.html" },
