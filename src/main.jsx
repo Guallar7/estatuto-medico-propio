@@ -119,6 +119,29 @@ const newsToneMeta = {
 
 const newsToneOrder = ["favorable", "avance", "mixto", "contexto", "incompleto", "adverso"];
 
+const claimStatusMeta = {
+  mantiene: {
+    label: "Sin cambio estructural",
+    description: "Mantiene el cauce general o no crea una garantía médica propia."
+  },
+  ambiguo: {
+    label: "Ambiguo",
+    description: "Puede mejorar, pero depende de excepciones, desarrollo o aplicación autonómica."
+  },
+  riesgo: {
+    label: "Riesgo",
+    description: "Puede dejar abierta sobrecarga real aunque la redacción parezca ordenar el problema."
+  },
+  "mejora-insuficiente": {
+    label: "Mejora insuficiente",
+    description: "Reconoce avances formales que necesitan garantías materiales para ser efectivos."
+  },
+  depende: {
+    label: "Depende",
+    description: "Abre una vía futura, pero no asegura resultado, calendario ni financiación."
+  }
+};
+
 function App() {
   const pageId = document.getElementById("root")?.dataset.page ?? "home";
   const copy = pageCopy[pageId] ?? pageCopy.home;
@@ -231,8 +254,14 @@ function HomePage() {
 }
 
 function ReivindicacionesPage() {
+  const navItems = [
+    { id: "mapa-reivindicaciones", label: "Mapa visual" },
+    ...demands.map((demand) => ({ id: demand.id, label: demand.title }))
+  ];
+
   return (
-    <PageLayout navItems={demands.map((demand) => ({ id: demand.id, label: demand.title }))}>
+    <PageLayout navItems={navItems}>
+      <DemandVisualMap />
       <section className="stack">
         {demands.map((demand, index) => (
           <Accordion
@@ -254,11 +283,13 @@ function ReivindicacionesPage() {
 
 function AnteproyectoPage() {
   const navItems = [
+    { id: "resumen-garantias", label: "Resumen visual" },
     { id: "enfoque", label: "Enfoque" },
     ...claims.map((claim) => ({ id: claim.id, label: claim.title }))
   ];
   return (
     <PageLayout navItems={navItems}>
+      <ClaimStatusOverview />
       <RealityOverview />
       <section className="stack">
         {claims.map((claim, index) => {
@@ -290,6 +321,97 @@ function AnteproyectoPage() {
         })}
       </section>
     </PageLayout>
+  );
+}
+
+function DemandVisualMap() {
+  const pillars = [
+    {
+      title: "Voz propia",
+      text: "Quién negocia las condiciones singulares.",
+      ids: ["estatuto-propio", "mesa-propia"]
+    },
+    {
+      title: "Tiempo seguro",
+      text: "Guardias, descanso y conciliación como seguridad clínica.",
+      ids: ["guardias", "descanso", "conciliacion"]
+    },
+    {
+      title: "Reconocimiento real",
+      text: "Formación, responsabilidad y penosidad con efectos materiales.",
+      ids: ["clasificacion", "jubilacion"]
+    },
+    {
+      title: "Transparencia",
+      text: "Separar sueldo ordinario, guardias y horas reales.",
+      ids: ["retribucion"]
+    }
+  ];
+
+  return (
+    <section className="visual-panel demand-map" id="mapa-reivindicaciones">
+      <div className="visual-panel-intro">
+        <span className="kicker">Mapa visual</span>
+        <h2>La reivindicación se entiende mejor como una cadena.</h2>
+        <p>
+          No son peticiones aisladas: la voz propia permite negociar tiempo seguro, reconocimiento real y retribución transparente.
+        </p>
+      </div>
+      <div className="demand-flow">
+        {pillars.map((pillar, index) => (
+          <article className="demand-node" key={pillar.title}>
+            <span>{String(index + 1).padStart(2, "0")}</span>
+            <h3>{pillar.title}</h3>
+            <p>{pillar.text}</p>
+            <div className="mini-tags">
+              {pillar.ids.map((id) => {
+                const demand = demands.find((item) => item.id === id);
+                return demand ? (
+                  <a href={`#${id}`} key={id}>
+                    {demand.title}
+                  </a>
+                ) : null;
+              })}
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function ClaimStatusOverview() {
+  const statusItems = Object.entries(claimStatusMeta).map(([status, meta]) => {
+    const count = claims.filter((claim) => claim.status === status).length;
+    return { status, ...meta, count };
+  });
+  const total = claims.length;
+  const maxCount = Math.max(...statusItems.map((item) => item.count), 1);
+
+  return (
+    <section className="visual-panel claim-overview" id="resumen-garantias">
+      <div className="visual-panel-intro">
+        <span className="kicker">Resumen visual</span>
+        <h2>El problema no es si hay mejoras, sino cuántas tienen garantía real.</h2>
+        <p>
+          Esta lectura agrupa los puntos del anteproyecto por nivel de garantía. Sirve para entender el patrón antes de entrar en el detalle jurídico.
+        </p>
+      </div>
+      <div className="claim-chart" aria-label={`Resumen de ${total} puntos analizados del anteproyecto`}>
+        {statusItems.map((item) => (
+          <article className={`claim-bar status-card-${item.status}`} key={item.status}>
+            <div className="claim-bar-head">
+              <span>{item.label}</span>
+              <strong>{item.count}</strong>
+            </div>
+            <div className="bar-track" aria-hidden="true">
+              <i style={{ "--bar": `${(item.count / maxCount) * 100}%` }} />
+            </div>
+            <p>{item.description}</p>
+          </article>
+        ))}
+      </div>
+    </section>
   );
 }
 
