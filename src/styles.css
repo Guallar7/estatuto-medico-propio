@@ -646,6 +646,27 @@ footer {
   line-height: 1.5;
 }
 
+.accordion-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  grid-column: 1 / -1;
+  grid-row: 4;
+  margin-top: 0.1rem;
+}
+
+.accordion-meta b {
+  background: #f3f7f9;
+  border: 1px solid rgba(16, 37, 59, 0.08);
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-style: normal;
+  font-weight: 950;
+  padding: 0.28rem 0.46rem;
+  text-transform: uppercase;
+}
+
 .chevron {
   color: var(--muted);
   grid-column: 3;
@@ -668,6 +689,44 @@ footer {
   color: var(--muted);
   line-height: 1.6;
   margin-bottom: 0;
+}
+
+.accordion-next {
+  align-items: center;
+  background: #f7fafb;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--blue);
+  display: grid;
+  gap: 0.2rem 0.55rem;
+  grid-template-columns: minmax(0, 1fr) auto;
+  margin-top: 0.25rem;
+  padding: 0.72rem 0.85rem;
+}
+
+.accordion-next:hover,
+.accordion-next:focus-visible {
+  background: var(--soft-blue);
+  border-color: rgba(143, 31, 45, 0.18);
+}
+
+.accordion-next span {
+  color: var(--green-dark);
+  font-size: 0.68rem;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.accordion-next strong {
+  font-size: 0.94rem;
+  line-height: 1.22;
+  overflow-wrap: anywhere;
+}
+
+.accordion-next svg {
+  color: var(--red-dark);
+  grid-column: 2;
+  grid-row: 1 / span 2;
 }
 
 .definition-grid {
@@ -979,6 +1038,7 @@ footer {
 .argument-grid,
 .reality-summary,
 .visual-panel,
+.source-filters,
 .mir-summary,
 .mir-links {
   display: grid;
@@ -1444,6 +1504,63 @@ footer {
 
 .download-card {
   justify-content: flex-start;
+}
+
+.source-filters {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: var(--shadow-sm);
+  padding: 1rem;
+}
+
+.source-filters h2 {
+  color: var(--blue);
+  font-size: clamp(1.35rem, 3vw, 2rem);
+  line-height: 1.05;
+  margin: 0.28rem 0 0;
+}
+
+.filter-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.filter-tabs button {
+  align-items: center;
+  background: #f7fafb;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--muted);
+  cursor: pointer;
+  display: inline-flex;
+  font-weight: 950;
+  gap: 0.4rem;
+  min-height: 38px;
+  padding: 0.35rem 0.55rem 0.35rem 0.72rem;
+}
+
+.filter-tabs button:hover,
+.filter-tabs button:focus-visible,
+.filter-tabs button.active {
+  background: var(--soft-blue);
+  border-color: rgba(143, 31, 45, 0.18);
+  color: var(--blue);
+}
+
+.filter-tabs b {
+  align-items: center;
+  background: var(--white);
+  border: 1px solid rgba(16, 37, 59, 0.08);
+  border-radius: 999px;
+  color: var(--red-dark);
+  display: inline-flex;
+  font-size: 0.72rem;
+  font-weight: 950;
+  justify-content: center;
+  min-width: 1.7rem;
+  padding: 0.18rem 0.36rem;
 }
 
 .resource-card {

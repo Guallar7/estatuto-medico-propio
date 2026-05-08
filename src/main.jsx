@@ -143,6 +143,15 @@ const claimStatusMeta = {
   }
 };
 
+const sourceFilters = [
+  { id: "all", label: "Todo", test: () => true },
+  { id: "normativa", label: "Normativa", test: (source) => source.type.includes("Normativa") || source.type.includes("Doctrina") },
+  { id: "oficial", label: "Oficial", test: (source) => source.type === "Oficial" || source.institution.includes("Xunta") },
+  { id: "medica", label: "Médica", test: (source) => source.type.includes("médic") || source.type === "Profesional" || source.type === "Propuesta médica" },
+  { id: "prensa", label: "Prensa", test: (source) => source.type === "Prensa" },
+  { id: "mir", label: "MIR", test: (source) => source.institution.includes("MIR") || source.type.includes("Proyecto") || source.type.includes("Visual") || source.type.includes("Informe") }
+];
+
 function App() {
   const pageId = document.getElementById("root")?.dataset.page ?? "home";
   const copy = pageCopy[pageId] ?? pageCopy.home;
@@ -302,6 +311,8 @@ function ReivindicacionesPage() {
             title={demand.title}
             eyebrow={`${index + 1}. ${demand.category}`}
             summary={demand.short}
+            meta={[`${demand.sources.length} fuentes`]}
+            nextItem={demands[index + 1] ? { id: demands[index + 1].id, label: demands[index + 1].title } : null}
             defaultOpen={index === 0}
             key={demand.id}
           >
@@ -341,6 +352,11 @@ function AnteproyectoPage() {
               eyebrow="Punto del anteproyecto"
               summary={claim.claim}
               status={claim.status}
+              meta={[
+                claim.evidence?.length ? `${claim.evidence.length} textos citados` : "sin cita literal",
+                `${claim.sources.length} fuentes`
+              ]}
+              nextItem={claims[index + 1] ? { id: claims[index + 1].id, label: claims[index + 1].title } : null}
               defaultOpen={index === 0}
               key={claim.id}
             >
@@ -525,6 +541,8 @@ function NoticiasPage() {
             eyebrow={`${item.outlet} · ${formatDate(item.date)}`}
             summary={item.claim}
             tone={item.tone}
+            meta={[`${item.sources.length} fuentes`, newsToneMeta[item.tone]?.label].filter(Boolean)}
+            nextItem={news[index + 1] ? { id: news[index + 1].id, label: news[index + 1].outlet } : null}
             defaultOpen={index === 0}
             key={item.id}
           >
@@ -582,8 +600,34 @@ function NovedadesPage() {
 }
 
 function FuentesPage() {
+  const [selectedFilter, setSelectedFilter] = useState("all");
+  const filteredSourceGroups = useMemo(() => {
+    const filter = sourceFilters.find((item) => item.id === selectedFilter) ?? sourceFilters[0];
+    return sourceGroups
+      .map((group) => ({
+        ...group,
+        ids: group.ids.filter((id) => {
+          const source = sourceRegistry[id];
+          return source ? filter.test(source) : false;
+        })
+      }))
+      .filter((group) => group.ids.length > 0);
+  }, [selectedFilter]);
+
+  const filterCounts = useMemo(
+    () =>
+      sourceFilters.reduce((counts, filter) => {
+        counts[filter.id] = sourceGroups.reduce(
+          (total, group) => total + group.ids.filter((id) => sourceRegistry[id] && filter.test(sourceRegistry[id])).length,
+          0
+        );
+        return counts;
+      }, {}),
+    []
+  );
+
   return (
-    <PageLayout navItems={[{ id: "descargas", label: "Descargas" }, ...sourceGroups.map((group) => ({ id: slug(group.title), label: group.title }))]}>
+    <PageLayout navItems={[{ id: "descargas", label: "Descargas" }, ...filteredSourceGroups.map((group) => ({ id: slug(group.title), label: group.title }))]}>
       <section className="download-grid" id="descargas">
         {downloads.map((download) => (
           <a className="download-card" href={download.href} download key={download.href}>
@@ -592,13 +636,16 @@ function FuentesPage() {
           </a>
         ))}
       </section>
+      <SourceFilters selected={selectedFilter} counts={filterCounts} onSelect={setSelectedFilter} />
       <section className="stack">
-        {sourceGroups.map((group, index) => (
+        {filteredSourceGroups.map((group, index) => (
           <Accordion
             id={slug(group.title)}
             title={group.title}
             eyebrow="Grupo de fuentes"
             summary={`${group.ids.length} referencias verificables`}
+            meta={[`${group.ids.length} referencias`]}
+            nextItem={filteredSourceGroups[index + 1] ? { id: slug(filteredSourceGroups[index + 1].title), label: filteredSourceGroups[index + 1].title } : null}
             defaultOpen={index === 0}
             key={group.title}
           >
@@ -632,6 +679,31 @@ function ClavesPage() {
         ))}
       </section>
     </PageLayout>
+  );
+}
+
+function SourceFilters({ selected, counts, onSelect }) {
+  return (
+    <section className="source-filters" aria-label="Filtrar fuentes">
+      <div>
+        <span className="kicker">Filtro rápido</span>
+        <h2>Ver fuentes por tipo.</h2>
+      </div>
+      <div className="filter-tabs" role="group" aria-label="Tipos de fuente">
+        {sourceFilters.map((filter) => (
+          <button
+            className={selected === filter.id ? "active" : ""}
+            type="button"
+            aria-pressed={selected === filter.id}
+            onClick={() => onSelect(filter.id)}
+            key={filter.id}
+          >
+            <span>{filter.label}</span>
+            <b>{counts[filter.id] ?? 0}</b>
+          </button>
+        ))}
+      </div>
+    </section>
   );
 }
 
@@ -771,19 +843,31 @@ function DirectoryCard({ card, href }) {
   );
 }
 
-function Accordion({ id, title, eyebrow, summary, children, defaultOpen = false, status, tone }) {
+function Accordion({ id, title, eyebrow, summary, children, defaultOpen = false, status, tone, meta = [], nextItem = null }) {
   return (
     <details className="accordion" id={id} open={defaultOpen}>
       <summary>
         <span>{eyebrow}</span>
         <strong>{title}</strong>
         {summary && <small>{summary}</small>}
+        {meta.length > 0 && (
+          <em className="accordion-meta">
+            {meta.map((item) => <b key={item}>{item}</b>)}
+          </em>
+        )}
         {status && <StatusBadge status={status} />}
         {tone && <NewsToneBadge tone={tone} />}
         <ChevronDown className="chevron" size={20} />
       </summary>
       <div className="accordion-content" id={`${id}-content`}>
         {children}
+        {nextItem && (
+          <a className="accordion-next" href={`#${nextItem.id}`}>
+            <span>Siguiente</span>
+            <strong>{nextItem.label}</strong>
+            <ArrowRight size={16} />
+          </a>
+        )}
       </div>
     </details>
   );
