@@ -774,6 +774,15 @@ function MirPage() {
 function PageLayout({ navItems, children }) {
   const [activeId, setActiveId] = useState(navItems[0]?.id);
 
+  const openAccordionTarget = (id) => {
+    const target = document.getElementById(id);
+    if (!(target instanceof HTMLDetailsElement) || !target.classList.contains("accordion")) return false;
+
+    target.open = true;
+    target.querySelector("summary")?.focus({ preventScroll: true });
+    return true;
+  };
+
   useEffect(() => {
     const sectionElements = navItems.map((item) => document.getElementById(item.id)).filter(Boolean);
     if (!sectionElements.length) return undefined;
@@ -792,9 +801,27 @@ function PageLayout({ navItems, children }) {
     return () => observer.disconnect();
   }, [navItems]);
 
+  useEffect(() => {
+    const openHashTarget = () => {
+      const id = window.location.hash.slice(1);
+      if (!id) return;
+      openAccordionTarget(decodeURIComponent(id));
+    };
+
+    openHashTarget();
+    window.addEventListener("hashchange", openHashTarget);
+    return () => window.removeEventListener("hashchange", openHashTarget);
+  }, [navItems]);
+
+  const handleIndexClick = (event, id) => {
+    if (openAccordionTarget(id)) {
+      event.currentTarget.blur();
+    }
+  };
+
   const renderIndexLinks = () =>
     navItems.map((item) => (
-      <a className={activeId === item.id ? "active" : ""} href={`#${item.id}`} key={item.id}>
+      <a className={activeId === item.id ? "active" : ""} href={`#${item.id}`} onClick={(event) => handleIndexClick(event, item.id)} key={item.id}>
         {item.label}
       </a>
     ));
