@@ -16,6 +16,9 @@
   --soft-blue: #eaf2f8;
   --soft-green: #eaf5f1;
   --shadow: 0 18px 46px rgba(16, 37, 59, 0.1);
+  --shadow-sm: 0 12px 28px rgba(16, 37, 59, 0.08);
+  --surface: #ffffff;
+  --border: #dbe4ea;
 }
 
 * {
@@ -178,17 +181,20 @@ main {
 
 .hero {
   background:
+    radial-gradient(circle at 82% 18%, rgba(255, 213, 220, 0.24), transparent 28rem),
+    radial-gradient(circle at 12% 76%, rgba(155, 224, 203, 0.2), transparent 24rem),
     linear-gradient(145deg, rgba(16, 37, 59, 0.98), rgba(23, 50, 77, 0.94) 48%, rgba(24, 90, 69, 0.9)),
     repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.08) 0 1px, transparent 1px 88px);
   color: white;
   display: grid;
   gap: 1.2rem;
   grid-template-columns: 1fr;
-  padding: clamp(3.3rem, 7vw, 5.8rem) max(1rem, calc((100vw - 1180px) / 2));
+  padding: clamp(2.8rem, 6vw, 4.9rem) max(1rem, calc((100vw - 1180px) / 2));
+  position: relative;
 }
 
 .home-hero {
-  min-height: min(72vh, 720px);
+  min-height: min(68vh, 680px);
 }
 
 .page-hero {
@@ -220,7 +226,7 @@ p {
 }
 
 h1 {
-  font-size: clamp(2.85rem, 10vw, 7rem);
+  font-size: clamp(2.85rem, 8.8vw, 6.2rem);
   line-height: 0.88;
   margin: 0.8rem 0 1rem;
   max-width: 980px;
@@ -234,7 +240,7 @@ h1 {
 
 .lead {
   color: #ffe2ba;
-  font-size: clamp(1.35rem, 4vw, 2.1rem);
+  font-size: clamp(1.25rem, 3.4vw, 1.9rem);
   font-weight: 900;
   line-height: 1.22;
   margin-bottom: 1rem;
@@ -682,11 +688,269 @@ footer {
 
 .download-grid,
 .argument-grid,
+.reality-summary,
 .mir-summary,
 .mir-links {
   display: grid;
   gap: 0.8rem;
   grid-template-columns: 1fr;
+}
+
+.hero-strike-card {
+  align-self: center;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.08)),
+    rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 22px;
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.26);
+  display: grid;
+  gap: 1rem;
+  overflow: hidden;
+  padding: 1rem;
+  position: relative;
+}
+
+.hero-strike-card::before {
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.11) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  background-size: 34px 34px;
+  content: "";
+  inset: 0;
+  opacity: 0.42;
+  pointer-events: none;
+  position: absolute;
+}
+
+.hero-strike-card > * {
+  position: relative;
+}
+
+.strike-card-header {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.strike-card-header span,
+.strike-card-header small {
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 0.74rem;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.strike-card-header strong {
+  color: #ffe2ba;
+  font-size: clamp(1.45rem, 3vw, 2.2rem);
+  line-height: 0.95;
+}
+
+.strike-card-header small {
+  font-size: 0.78rem;
+  line-height: 1.35;
+  text-transform: none;
+}
+
+.strike-rail {
+  align-items: center;
+  display: grid;
+  gap: 0.35rem;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  padding: 0.7rem 0.15rem 0.35rem;
+  position: relative;
+}
+
+.strike-rail::before,
+.strike-rail::after {
+  content: "";
+  height: 4px;
+  left: 6%;
+  position: absolute;
+  right: 6%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.strike-rail::before {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.strike-rail::after {
+  background: linear-gradient(90deg, #ffe2ba, #9be0cb);
+  right: auto;
+  width: var(--progress, 0%);
+}
+
+.strike-stop {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  color: white;
+  cursor: pointer;
+  display: grid;
+  gap: 0.15rem;
+  justify-items: center;
+  min-height: 58px;
+  min-width: 0;
+  padding: 0.45rem 0.25rem;
+  position: relative;
+  transition: transform 160ms ease, background 160ms ease, border-color 160ms ease;
+  z-index: 1;
+}
+
+.strike-stop:hover,
+.strike-stop:focus-visible,
+.strike-stop.active {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 226, 186, 0.75);
+  transform: translateY(-3px);
+}
+
+.strike-stop.past {
+  opacity: 0.58;
+}
+
+.strike-stop.active {
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.22);
+}
+
+.strike-stop span {
+  font-size: 0.78rem;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.strike-stop i {
+  color: #ffe2ba;
+  font-size: 0.75rem;
+  font-style: normal;
+  font-weight: 950;
+}
+
+.strike-detail {
+  background: rgba(16, 37, 59, 0.34);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 16px;
+  display: grid;
+  gap: 0.85rem;
+  grid-template-columns: minmax(0, 1fr) auto;
+  padding: 1rem;
+}
+
+.strike-detail h2 {
+  color: white;
+  font-size: clamp(1.6rem, 4vw, 2.65rem);
+  line-height: 0.95;
+  margin: 0.4rem 0 0.45rem;
+}
+
+.strike-detail p {
+  color: rgba(255, 255, 255, 0.74);
+  line-height: 1.45;
+  margin: 0;
+}
+
+.strike-status {
+  border-radius: 999px;
+  display: inline-flex;
+  font-size: 0.7rem;
+  font-weight: 950;
+  padding: 0.3rem 0.48rem;
+  text-transform: uppercase;
+}
+
+.strike-status.upcoming {
+  background: #ffe2ba;
+  color: var(--blue);
+}
+
+.strike-status.active {
+  background: #ffd5dc;
+  color: var(--red-dark);
+}
+
+.strike-status.past {
+  background: rgba(255, 255, 255, 0.16);
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.strike-meta {
+  align-self: stretch;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  display: grid;
+  min-width: 112px;
+  padding: 0.8rem;
+}
+
+.strike-meta span {
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 0.7rem;
+  font-weight: 950;
+  line-height: 1.25;
+  text-transform: uppercase;
+}
+
+.strike-meta strong {
+  align-self: end;
+  color: #9be0cb;
+  font-size: 1.45rem;
+  line-height: 1;
+}
+
+.strike-mini-grid {
+  display: grid;
+  gap: 0.45rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.hero-strike-card .hero-metric {
+  border-radius: 12px;
+  gap: 0.25rem;
+  padding: 0.55rem;
+}
+
+.hero-strike-card .hero-metric span {
+  font-size: 0.64rem;
+}
+
+.hero-strike-card .hero-metric strong {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  line-height: 1.05;
+}
+
+.strike-source {
+  align-items: center;
+  color: rgba(255, 255, 255, 0.72);
+  display: inline-flex;
+  font-size: 0.78rem;
+  font-weight: 900;
+  gap: 0.25rem;
+  justify-self: start;
+}
+
+.reality-summary article {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  display: grid;
+  gap: 0.7rem;
+  padding: 1rem;
+}
+
+.reality-summary h2 {
+  font-size: clamp(1.65rem, 4vw, 2.55rem);
+  line-height: 1.04;
+  margin: 0.35rem 0 0;
+}
+
+.reality-summary p {
+  color: var(--muted);
+  line-height: 1.55;
+  margin-bottom: 0;
 }
 
 .download-card,
@@ -838,6 +1102,7 @@ footer strong {
 
   .download-grid,
   .argument-grid,
+  .reality-summary,
   .mir-summary,
   .mir-links {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -846,7 +1111,7 @@ footer strong {
 
 @media (min-width: 980px) {
   .hero {
-    grid-template-columns: minmax(0, 1fr) minmax(280px, 390px);
+    grid-template-columns: minmax(0, 0.95fr) minmax(360px, 450px);
   }
 
   .page-hero {
@@ -932,6 +1197,31 @@ footer strong {
 
   .hero-panel {
     grid-template-columns: 1fr;
+  }
+
+  .hero-strike-card {
+    border-radius: 16px;
+    padding: 0.8rem;
+  }
+
+  .strike-rail {
+    gap: 0.28rem;
+  }
+
+  .strike-stop {
+    min-height: 50px;
+  }
+
+  .strike-stop span {
+    font-size: 0.68rem;
+  }
+
+  .strike-detail {
+    grid-template-columns: 1fr;
+  }
+
+  .strike-meta {
+    grid-template-columns: 1fr auto;
   }
 
   .accordion > button {

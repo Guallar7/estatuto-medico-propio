@@ -16,7 +16,6 @@ import {
   Music2,
   Newspaper,
   Scale,
-  SearchCheck,
   ShieldCheck,
   Stethoscope,
   X
@@ -34,6 +33,7 @@ import {
   sourceGroups,
   sourceRegistry,
   strikeSongUrl,
+  strikeSchedule,
   updates
 } from "./data";
 import "./styles.css";
@@ -49,14 +49,14 @@ const pageCopy = {
   reivindicaciones: {
     kicker: "Programa",
     title: "Qué reclamamos",
-    lead: "Un Estatuto Médico y Facultativo propio no es privilegio: es negociación específica para responsabilidades específicas.",
-    text: "Reivindicaciones breves, verificables y pensadas para compartir."
+    lead: "El programa resume exigencias. La prueba jurídica está en el anteproyecto.",
+    text: "Una lista breve para compartir sin duplicar el análisis técnico."
   },
   anteproyecto: {
-    kicker: "Matriz de desmontaje",
+    kicker: "Realidad y matriz técnica",
     title: "Anteproyecto de Estatuto Marco",
-    lead: "Qué se anuncia, qué queda sin garantizar, qué riesgo deja abierto y qué reclamamos.",
-    text: "Cada bloque separa relato institucional, realidad práctica, impacto y fuentes."
+    lead: "La tesis fuerte no niega avances: demuestra por qué no bastan.",
+    text: "Estado jurídico actual, mejoras formales, límites materiales, enmiendas y fuentes."
   },
   noticias: {
     kicker: "Respuesta pública",
@@ -79,8 +79,8 @@ const pageCopy = {
   argumentario: {
     kicker: "Mensajes rápidos",
     title: "Argumentario",
-    lead: "Frases cortas para redes, asambleas, prensa y conversaciones públicas.",
-    text: "El marco comunicativo debe ser repetible: voz propia, guardias computables, descanso real y derechos."
+    lead: "Frases cortas para responder sin repetir todo el informe.",
+    text: "Usa estas ideas como entrada al debate; la documentación está en Programa, Anteproyecto y Fuentes."
   },
   mir: {
     kicker: "Caso demostrativo",
@@ -162,12 +162,7 @@ function Hero({ copy, pageId }) {
         )}
       </div>
       {isHome && (
-        <aside className="hero-panel">
-          <HeroMetric label="Objetivo" value="Estatuto propio" />
-          <HeroMetric label="Condición" value="Mesa propia" />
-          <HeroMetric label="Línea roja" value="Guardias computables" />
-          <HeroMetric label="Derecho" value="Descanso real" />
-        </aside>
+        <HeroStrikeCalendar />
       )}
     </section>
   );
@@ -190,11 +185,11 @@ function HomePage() {
       <section className="band">
         <div>
           <span className="kicker">Idea central</span>
-          <h2>No estamos contra otros colectivos. Queremos voz propia.</h2>
+          <h2>No estamos contra otros colectivos. Queremos voz propia y garantías reales.</h2>
           <p>
-            El Estatuto Marco afecta a todo el personal estatutario, pero las condiciones de médicos y facultativos
-            no pueden quedar diluidas: guardias, jornada, descansos, conciliación, responsabilidad clínica,
-            formación, clasificación, jubilación y derechos laborales.
+            El Estatuto Marco afecta a todo el personal estatutario y puede reconocer mejoras comunes.
+            La cuestión es si esas mejoras bastan para médicos y facultativos cuando hay guardias,
+            responsabilidad clínica directa, penosidad acumulada, formación prolongada y riesgo médico-legal.
           </p>
         </div>
         <div className="quick-list">
@@ -228,34 +223,99 @@ function ReivindicacionesPage() {
 }
 
 function AnteproyectoPage() {
-  const navItems = claims.map((claim) => ({ id: claim.id, label: claim.title }));
+  const navItems = [
+    { id: "enfoque", label: "Enfoque" },
+    ...claims.map((claim) => ({ id: claim.id, label: claim.title }))
+  ];
   return (
     <PageLayout navItems={navItems}>
+      <RealityOverview />
       <section className="stack">
-        {claims.map((claim, index) => (
-          <Accordion
-            id={claim.id}
-            title={claim.title}
-            eyebrow="Punto del anteproyecto"
-            summary={claim.claim}
-            status={claim.status}
-            defaultOpen={index === 0}
-            key={claim.id}
-          >
-            <DefinitionGrid
-              rows={[
-                ["Qué se afirma", claim.claim],
-                ["Qué ocurre realmente", claim.reality],
-                ["Por qué importa", claim.why],
-                ["Qué reclamamos", claim.demand]
-              ]}
-            />
-            <TagList items={claim.refs} />
-            <SourceBadges ids={claim.sources} />
-          </Accordion>
-        ))}
+        {claims.map((claim, index) => {
+          const rows = [
+            ["Qué se afirma", claim.claim],
+            claim.current && ["Situación vigente", claim.current],
+            claim.change && ["Cambio del anteproyecto", claim.change],
+            claim.formal && ["Mejora formal", claim.formal],
+            ["Qué ocurre realmente", claim.reality],
+            ["Por qué importa", claim.why],
+            claim.amendment && ["Enmienda concreta", claim.amendment]
+          ].filter(Boolean);
+
+          return (
+            <Accordion
+              id={claim.id}
+              title={claim.title}
+              eyebrow="Punto del anteproyecto"
+              summary={claim.claim}
+              status={claim.status}
+              defaultOpen={index === 0}
+              key={claim.id}
+            >
+              <DefinitionGrid rows={rows} />
+              <TagList items={claim.refs} />
+              <SourceBadges ids={claim.sources} />
+            </Accordion>
+          );
+        })}
       </section>
     </PageLayout>
+  );
+}
+
+function HeroStrikeCalendar() {
+  const today = new Date();
+  const firstUpcoming = strikeSchedule.find((item) => new Date(`${item.end}T23:59:59`) >= today) ?? strikeSchedule.at(-1);
+  const [selectedId, setSelectedId] = useState(firstUpcoming?.id ?? strikeSchedule[0]?.id);
+  const selected = strikeSchedule.find((item) => item.id === selectedId) ?? firstUpcoming ?? strikeSchedule[0];
+  const selectedIndex = Math.max(0, strikeSchedule.findIndex((item) => item.id === selected.id));
+  const progress = strikeSchedule.length > 1 ? (selectedIndex / (strikeSchedule.length - 1)) * 88 : 0;
+  const status = getStrikeStatus(selected, today);
+
+  return (
+    <aside className="hero-strike-card" aria-label="Calendario de huelgas médicas 2026">
+      <div className="strike-card-header">
+        <span>Calendario verificado</span>
+        <strong>Huelga médica 2026</strong>
+        <small>Convocatorias nacionales anunciadas hasta junio.</small>
+      </div>
+      <div className="strike-rail" style={{ "--progress": `${progress}%` }}>
+        {strikeSchedule.map((item) => {
+          const itemStatus = getStrikeStatus(item, today);
+          return (
+            <button
+              className={`strike-stop ${selected.id === item.id ? "active" : ""} ${itemStatus}`}
+              type="button"
+              onClick={() => setSelectedId(item.id)}
+              key={item.id}
+            >
+              <span>{item.month}</span>
+              <i>{item.days}d</i>
+            </button>
+          );
+        })}
+      </div>
+      <div className="strike-detail">
+        <div>
+          <span className={`strike-status ${status}`}>{strikeStatusLabel(status)}</span>
+          <h2>{selected.label}</h2>
+          <p>{selected.note}</p>
+        </div>
+        <div className="strike-meta">
+          <span>{selected.kind}</span>
+          <strong>{selected.days} días</strong>
+        </div>
+      </div>
+      <div className="strike-mini-grid">
+        <HeroMetric label="Objetivo" value="Estatuto propio" />
+        <HeroMetric label="Condición" value="Mesa propia" />
+        <HeroMetric label="Línea roja" value="Guardias computables" />
+        <HeroMetric label="Derecho" value="Descanso real" />
+      </div>
+      <a className="strike-source" href={sourceRegistry[selected.sources[0]]?.url} target="_blank" rel="noreferrer">
+        Fuente: {sourceRegistry[selected.sources[0]]?.institution ?? "calendario sindical"} <ExternalLink size={13} />
+      </a>
+    </aside>
   );
 }
 
@@ -284,6 +344,29 @@ function NoticiasPage() {
         ))}
       </section>
     </PageLayout>
+  );
+}
+
+function RealityOverview() {
+  return (
+    <section className="reality-summary" id="enfoque">
+      <article>
+        <span className="kicker">Cómo leer esta página</span>
+        <h2>Reconocer mejoras formales refuerza la crítica.</h2>
+        <p>
+          La Ley 55/2003 sigue vigente y el texto de enero de 2026 es un anteproyecto. La matriz no repite el programa:
+          contrasta qué cambia, qué mejora y qué queda sin garantía material.
+        </p>
+      </article>
+      <article>
+        <span className="kicker">Criterio editorial</span>
+        <h2>Menos volumen, más precisión.</h2>
+        <p>
+          Cada bloque responde a una pregunta técnica. Para mensajes breves usa el argumentario; para la lista de exigencias,
+          el programa.
+        </p>
+      </article>
+    </section>
   );
 }
 
@@ -552,6 +635,23 @@ function HeroMetric({ label, value }) {
       <strong>{value}</strong>
     </div>
   );
+}
+
+function getStrikeStatus(item, now = new Date()) {
+  const start = new Date(`${item.start}T00:00:00`);
+  const end = new Date(`${item.end}T23:59:59`);
+  if (now < start) return "upcoming";
+  if (now > end) return "past";
+  return "active";
+}
+
+function strikeStatusLabel(status) {
+  const labels = {
+    active: "en curso",
+    past: "realizada",
+    upcoming: "próxima"
+  };
+  return labels[status] ?? status;
 }
 
 function Footer() {

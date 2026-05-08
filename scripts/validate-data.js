@@ -7,6 +7,7 @@ import {
   quickArguments,
   sourceGroups,
   sourceRegistry,
+  strikeSchedule,
   updates
 } from "../src/data.js";
 
@@ -25,8 +26,9 @@ idsAreUnique(pages, "pages");
 idsAreUnique(claims, "claims");
 idsAreUnique(demands, "demands");
 idsAreUnique(news, "news");
+idsAreUnique(strikeSchedule, "strikeSchedule");
 
-for (const item of [...claims, ...demands, ...news]) {
+for (const item of [...claims, ...demands, ...news, ...strikeSchedule]) {
   assert(item.sources?.length > 0, `${item.id}: falta sources`);
   for (const sourceId of item.sources ?? []) {
     assert(sourceRegistry[sourceId], `${item.id}: fuente desconocida ${sourceId}`);
