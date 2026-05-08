@@ -384,12 +384,9 @@ function NewsLegend() {
   return (
     <section className="news-legend" aria-label="Leyenda de lectura de noticias">
       <div>
-        <span className="kicker">Lectura rápida</span>
-        <h2>Color para distinguir qué aporta cada noticia.</h2>
-        <p>
-          La etiqueta no sustituye la fuente: ayuda a ver de un vistazo si una pieza confirma la reivindicación,
-          aporta contexto, describe un avance parcial o requiere respuesta por omitir datos relevantes.
-        </p>
+        <span className="kicker">Leyenda</span>
+        <h2>Código de etiquetas.</h2>
+        <p>Cada noticia se clasifica para saber de un vistazo cómo leerla.</p>
       </div>
       <div className="tone-list">
         {newsToneOrder.map((tone) => (

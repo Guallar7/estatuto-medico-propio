@@ -343,7 +343,7 @@ export const news = [
     date: "2026-05-08",
     title: "Galicia anuncia avances tras la movilización médica autonómica",
     claim:
-      "El post anuncia suspensión de la huelga autonómica y avances como 35 horas, CPV al 40%, refuerzo de plantillas, mejoras MIR, libranza del viernes y mesa de seguimiento.",
+      "El carrusel presenta la suspensión de la huelga autonómica como fruto de la movilización y enumera 35 horas, CPV al 40%, refuerzos, mejoras MIR y mesa de seguimiento.",
     response:
       "Debe leerse como un avance relevante, no como cierre del conflicto. Las fuentes disponibles verifican el contexto de huelga, la presión negociadora y antecedentes sobre 35 horas, CPV y voluntariedad; el punto crítico es exigir texto formal, calendario, financiación y seguimiento de cada compromiso.",
     key: "La movilización puede abrir acuerdos autonómicos, pero el cumplimiento documentado es tan importante como el anuncio.",
@@ -361,7 +361,8 @@ export const news = [
     outlet: "Diario del Alto Aragón",
     date: "2026-05-06",
     title: "UGT, CSIF, CCOO y Satse defienden el nuevo Estatuto Marco",
-    claim: "El texto aborda casi el 90% de las reivindicaciones y contiene más de 117 mejoras.",
+    claim:
+      "Los sindicatos firmantes presentan el anteproyecto como un acuerdo amplio: más de 117 mejoras, 'casi el 90%' de demandas cubiertas y avances para todas las categorías.",
     response:
       "Un acuerdo general no equivale a consenso médico. La cuestión central es si el texto reconoce ámbito propio y garantías efectivas para condiciones específicamente médicas.",
     key: "Reconocer condiciones específicas no impide mejoras comunes para el conjunto del SNS.",
@@ -373,7 +374,8 @@ export const news = [
     outlet: "Aragón Digital",
     date: "2026-05-06",
     title: "Nadie está obligado a realizar guardias de 24 horas",
-    claim: "Las guardias de 24 horas serían voluntarias y las de 17 horas tendrían descanso.",
+    claim:
+      "Los sindicatos firmantes responden a la huelga médica defendiendo que las guardias de 24 horas no serían obligatorias y que las de 17 horas tendrían descansos protegidos.",
     response:
       "El problema no termina en la guardia de 24 horas. Una guardia de 17 horas también es sobrecarga si sigue siendo pieza estructural del sistema.",
     key: "Regular la excepción no basta si la excepción sigue sosteniendo la plantilla que falta.",
@@ -385,7 +387,8 @@ export const news = [
     outlet: "Heraldo de Aragón",
     date: "2026-01-26",
     title: "Las claves del Estatuto Marco firmado por Sanidad y sindicatos",
-    claim: "El acuerdo incluye mejoras en guardias, conciliación, jornada, clasificación y jubilación.",
+    claim:
+      "La noticia resume el acuerdo de Sanidad y sindicatos: jornada media de 45 horas, guardias reguladas, descansos, conciliación, clasificación profesional y vía para estudiar jubilación.",
     response:
       "Que existan mejoras generales no resuelve si quedan garantizadas para quienes asumen guardias, responsabilidad clínica directa y riesgo médico-legal.",
     key: "La reivindicación médica busca una negociación adecuada a responsabilidades específicas.",
@@ -397,7 +400,8 @@ export const news = [
     outlet: "El País",
     date: "2026-01-26",
     title: "Sanidad firma un acuerdo sin el apoyo de los sindicatos médicos",
-    claim: "El Ministerio alcanza un acuerdo con sindicatos del Ámbito de Negociación para renovar el Estatuto Marco.",
+    claim:
+      "Sanidad pacta con sindicatos del Ámbito de Negociación, pero los sindicatos médicos no lo respaldan y mantienen la reclamación de estatuto o mesa propia.",
     response:
       "El dato relevante es precisamente la ausencia de apoyo médico. Si los sindicatos médicos y facultativos mantienen oposición, no puede venderse como consenso profesional completo.",
     key: "Acuerdo sindical general no significa acuerdo médico.",
@@ -409,7 +413,8 @@ export const news = [
     outlet: "Ministerio de Sanidad",
     date: "2026-03-05",
     title: "Sanidad y el Foro de la Profesión Médica anuncian un acuerdo para mantener el diálogo",
-    claim: "El acuerdo reforzará participación profesional, clasificación, penosidad y estudio de jubilación anticipada.",
+    claim:
+      "Sanidad y el Foro anuncian más diálogo sobre participación profesional, clasificación, penosidad y jubilación, pero dentro de cauces consultivos o técnicos.",
     response:
       "Es un hecho relevante y debe incorporarse, pero no sustituye la reivindicación central: mesas técnicas y Foro Profesional no equivalen a una mesa médica negociadora ni a un estatuto propio.",
     key: "Participación consultiva o técnica no es negociación médica autónoma.",
@@ -421,7 +426,8 @@ export const news = [
     outlet: "La Moncloa",
     date: "2026-05-05",
     title: "El Plan Anual Normativo 2026 mantiene la Ley del Estatuto Marco como iniciativa prevista",
-    claim: "La reforma forma parte de las iniciativas normativas previstas por el Gobierno para 2026.",
+    claim:
+      "El Gobierno incluye la reforma del Estatuto Marco en su planificación normativa de 2026, lo que confirma que sigue pendiente de tramitación completa.",
     response:
       "Esto confirma que, a 8 de mayo de 2026, la Ley 55/2003 sigue vigente y el texto de enero continúa pendiente de tramitación normativa completa.",
     key: "No es ley vigente: es una reforma en tramitación o prevista.",
@@ -433,7 +439,8 @@ export const news = [
     outlet: "El País",
     date: "2026-04-27",
     title: "Comienza la tercera semana de huelga médica sin acercamientos con Sanidad",
-    claim: "La huelga sigue pese a pactos previos y el debate se concentra en la mesa propia.",
+    claim:
+      "La cobertura describe una tercera semana de huelga sin acercamientos: el conflicto continúa pese a acuerdos previos y se centra en representación y mesa propia.",
     response:
       "La continuidad del conflicto prueba que el acuerdo general no ha resuelto la cuestión de representación ni las garantías materiales que reclaman médicos y facultativos.",
     key: "El conflicto no es solo de redacción: es de legitimidad negociadora y ejecución real.",
@@ -445,7 +452,8 @@ export const news = [
     outlet: "CSIF / material difundido",
     date: "2026-04-01",
     title: "Tablas de sueldos MIR con guardias",
-    claim: "Las cifras netas mensuales con guardias muestran retribuciones MIR elevadas.",
+    claim:
+      "Las tablas difundidas presentan netos mensuales MIR sumando guardias, noches o festivos, lo que puede hacer parecer alto un salario que depende de muchas más horas.",
     response:
       "Una tabla con guardias no es una tabla de sueldo ordinario. Para llegar a esas cifras se suman noches, festivos y jornadas extendidas.",
     key: "La comparación honesta separa sueldo base, guardias, horas reales y salario por hora.",
