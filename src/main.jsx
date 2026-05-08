@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import {
   AlertTriangle,
   ArrowDown,
+  ArrowLeft,
   ArrowRight,
   BadgeCheck,
   BookOpen,
@@ -775,6 +776,10 @@ function MirPage() {
 
 function PageLayout({ navItems, children }) {
   const [activeId, setActiveId] = useState(navItems[0]?.id);
+  const activeIndex = Math.max(0, navItems.findIndex((item) => item.id === activeId));
+  const activeItem = navItems[activeIndex] ?? navItems[0];
+  const previousItem = activeIndex > 0 ? navItems[activeIndex - 1] : null;
+  const nextItem = activeIndex >= 0 && activeIndex < navItems.length - 1 ? navItems[activeIndex + 1] : null;
 
   const openAccordionTarget = (id) => {
     const target = document.getElementById(id);
@@ -783,6 +788,15 @@ function PageLayout({ navItems, children }) {
     target.open = true;
     target.querySelector("summary")?.focus({ preventScroll: true });
     return true;
+  };
+
+  const goToSection = (id) => {
+    const target = document.getElementById(id);
+    if (!target) return;
+
+    openAccordionTarget(id);
+    window.history.pushState(null, "", `#${id}`);
+    target.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   useEffect(() => {
@@ -821,6 +835,11 @@ function PageLayout({ navItems, children }) {
     }
   };
 
+  const handleMobileStep = (id) => {
+    if (!id) return;
+    goToSection(id);
+  };
+
   const renderIndexLinks = () =>
     navItems.map((item) => (
       <a className={activeId === item.id ? "active" : ""} href={`#${item.id}`} onClick={(event) => handleIndexClick(event, item.id)} key={item.id}>
@@ -830,6 +849,15 @@ function PageLayout({ navItems, children }) {
 
   return (
     <div className="page-layout">
+      <nav className="mobile-section-bar" aria-label="Navegación de secciones">
+        <button type="button" disabled={!previousItem} aria-label={previousItem ? `Ir a ${previousItem.label}` : "No hay sección anterior"} onClick={() => handleMobileStep(previousItem?.id)}>
+          <ArrowLeft size={17} />
+        </button>
+        <span>{activeItem?.label ?? "Sección"}</span>
+        <button type="button" disabled={!nextItem} aria-label={nextItem ? `Ir a ${nextItem.label}` : "No hay sección siguiente"} onClick={() => handleMobileStep(nextItem?.id)}>
+          <ArrowRight size={17} />
+        </button>
+      </nav>
       <aside className="side-index">
         <details>
           <summary>Índice</summary>
