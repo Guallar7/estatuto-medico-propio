@@ -844,9 +844,24 @@ function DirectoryCard({ card, href }) {
 }
 
 function Accordion({ id, title, eyebrow, summary, children, defaultOpen = false, status, tone, meta = [], nextItem = null }) {
+  const handleNextClick = (event) => {
+    if (!nextItem) return;
+    event.preventDefault();
+
+    const current = document.getElementById(id);
+    const next = document.getElementById(nextItem.id);
+    if (!(next instanceof HTMLDetailsElement)) return;
+
+    if (current instanceof HTMLDetailsElement) current.open = false;
+    next.open = true;
+    window.history.pushState(null, "", `#${nextItem.id}`);
+    next.scrollIntoView({ behavior: "smooth", block: "start" });
+    next.querySelector("summary")?.focus({ preventScroll: true });
+  };
+
   return (
     <details className="accordion" id={id} open={defaultOpen}>
-      <summary>
+      <summary tabIndex={0}>
         <span>{eyebrow}</span>
         <strong>{title}</strong>
         {summary && <small>{summary}</small>}
@@ -862,7 +877,7 @@ function Accordion({ id, title, eyebrow, summary, children, defaultOpen = false,
       <div className="accordion-content" id={`${id}-content`}>
         {children}
         {nextItem && (
-          <a className="accordion-next" href={`#${nextItem.id}`}>
+          <a className="accordion-next" href={`#${nextItem.id}`} onClick={handleNextClick}>
             <span>Siguiente</span>
             <strong>{nextItem.label}</strong>
             <ArrowRight size={16} />
