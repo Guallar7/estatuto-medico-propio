@@ -22,6 +22,12 @@ const idsAreUnique = (items, label) => {
   assert(new Set(ids).size === ids.length, `${label}: IDs duplicados`);
 };
 
+const evidenceSourceId = (item) => {
+  if (item.sourceId) return item.sourceId;
+  if (item.article?.includes("Directiva 2003/88/CE")) return "directiva-tiempo";
+  return "anteproyecto";
+};
+
 idsAreUnique(pages, "pages");
 idsAreUnique(claims, "claims");
 idsAreUnique(demands, "demands");
@@ -32,6 +38,16 @@ for (const item of [...claims, ...demands, ...news, ...strikeSchedule]) {
   assert(item.sources?.length > 0, `${item.id}: falta sources`);
   for (const sourceId of item.sources ?? []) {
     assert(sourceRegistry[sourceId], `${item.id}: fuente desconocida ${sourceId}`);
+  }
+}
+
+for (const claim of claims) {
+  for (const evidence of claim.evidence ?? []) {
+    assert(evidence.article, `${claim.id}: evidencia sin artículo`);
+    assert(evidence.page, `${claim.id}: evidencia sin página`);
+    assert(evidence.quote, `${claim.id}: evidencia sin cita`);
+    assert(evidence.note, `${claim.id}: evidencia sin nota`);
+    assert(sourceRegistry[evidenceSourceId(evidence)], `${claim.id}: evidencia con fuente desconocida`);
   }
 }
 

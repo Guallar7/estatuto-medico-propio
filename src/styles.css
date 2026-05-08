@@ -665,7 +665,27 @@ footer {
 }
 
 .evidence-item p {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem 0.7rem;
   padding: 0.55rem 0.75rem 0.75rem;
+}
+
+.evidence-item p span {
+  flex: 1 1 280px;
+}
+
+.evidence-item p a {
+  align-items: center;
+  background: #eef5f2;
+  border-radius: 999px;
+  color: var(--green-dark);
+  display: inline-flex;
+  font-size: 0.72rem;
+  font-weight: 950;
+  gap: 0.22rem;
+  padding: 0.28rem 0.45rem;
 }
 
 .status {
@@ -797,6 +817,18 @@ footer {
   grid-column: auto;
   grid-row: auto;
   justify-self: start;
+}
+
+.reference-group {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.reference-group > span {
+  color: var(--muted);
+  font-size: 0.68rem;
+  font-weight: 950;
+  text-transform: uppercase;
 }
 
 .tag-list,

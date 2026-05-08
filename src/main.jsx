@@ -312,9 +312,7 @@ function AnteproyectoPage() {
               key={claim.id}
             >
               <DefinitionGrid rows={rows} />
-              {claim.evidence && <EvidenceList items={claim.evidence} />}
-              <TagList items={claim.refs} />
-              <SourceBadges ids={claim.sources} />
+              <ClaimReferences evidence={claim.evidence} refs={claim.refs} sources={claim.sources} />
             </Accordion>
           );
         })}
@@ -768,32 +766,97 @@ function DefinitionGrid({ rows }) {
   );
 }
 
+const evidenceSourceId = (item) => {
+  if (item.sourceId) return item.sourceId;
+  if (item.article?.includes("Directiva 2003/88/CE")) return "directiva-tiempo";
+  return "anteproyecto";
+};
+
+const aplArticleNumber = (value) => {
+  const match = value?.match(/\b(?:Art\.?|Arts\.?|DA|DT|DF)\s*(\d+)/i);
+  return match ? Number(match[1]) : null;
+};
+
+const aplRange = (value) => {
+  const range = value?.match(/\bArts?\.?\s*(\d+)\s*-\s*(\d+)\s+APL/i);
+  if (!range) return null;
+  return [Number(range[1]), Number(range[2])];
+};
+
+const isReferenceCoveredByEvidence = (ref, evidence) => {
+  const citedArticles = evidence
+    .filter((item) => evidenceSourceId(item) === "anteproyecto")
+    .map((item) => aplArticleNumber(item.article))
+    .filter(Boolean);
+
+  if (!citedArticles.length) return false;
+
+  const refArticle = aplArticleNumber(ref);
+  if (/\bArt\.?\s*\d+/i.test(ref) && ref.includes("APL") && citedArticles.includes(refArticle)) {
+    return true;
+  }
+
+  const range = aplRange(ref);
+  if (!range) return false;
+
+  const coveredInRange = citedArticles.filter((article) => article >= range[0] && article <= range[1]);
+  return coveredInRange.length >= 2;
+};
+
+function ClaimReferences({ evidence = [], refs = [], sources = [] }) {
+  const evidenceSources = [...new Set(evidence.map(evidenceSourceId).filter(Boolean))];
+  const contextualRefs = refs.filter((ref) => !isReferenceCoveredByEvidence(ref, evidence));
+  const contextualSources = sources.filter((id) => !evidenceSources.includes(id));
+
+  return (
+    <>
+      {evidence.length > 0 && <EvidenceList items={evidence} />}
+      {contextualRefs.length > 0 && <TagList items={contextualRefs} label="Contexto relacionado" />}
+      <SourceBadges ids={contextualSources} label={evidence.length ? "Fuentes de contexto" : undefined} />
+    </>
+  );
+}
+
 function EvidenceList({ items }) {
   return (
     <div className="evidence-list">
       <h3>Texto real citado</h3>
-      {items.map((item) => (
-        <details className="evidence-item" key={`${item.article}-${item.quote}`}>
-          <summary>
-            <span>{item.article}</span>
-            <strong>{item.page}</strong>
-          </summary>
-          <blockquote>{item.quote}</blockquote>
-          <p>{item.note}</p>
-        </details>
-      ))}
+      {items.map((item) => {
+        const source = sourceRegistry[evidenceSourceId(item)];
+        return (
+          <details className="evidence-item" key={`${item.article}-${item.quote}`}>
+            <summary>
+              <span>{item.article}</span>
+              <strong>{item.page}</strong>
+            </summary>
+            <blockquote>{item.quote}</blockquote>
+            <p>
+              <span>{item.note}</span>
+              {source && (
+                <a href={source.url} target="_blank" rel="noreferrer">
+                  {source.institution}<ExternalLink size={13} />
+                </a>
+              )}
+            </p>
+          </details>
+        );
+      })}
     </div>
   );
 }
 
-function SourceBadges({ ids }) {
+function SourceBadges({ ids, label }) {
+  const sourceIds = ids.filter((id) => sourceRegistry[id]);
+  if (!sourceIds.length) return null;
   return (
-    <div className="source-badges">
-      {ids.map((id) => {
+    <div className="reference-group">
+      {label && <span>{label}</span>}
+      <div className="source-badges">
+      {sourceIds.map((id) => {
         const source = sourceRegistry[id];
-        if (!source) return null;
         return <a href={source.url} target="_blank" rel="noreferrer" key={id}>{source.institution}<ExternalLink size={13} /></a>;
       })}
+      </div>
     </div>
   );
 }
@@ -812,8 +875,14 @@ function SourceLink({ id }) {
   );
 }
 
-function TagList({ items }) {
-  return <div className="tag-list">{items.map((item) => <small key={item}>{item}</small>)}</div>;
+function TagList({ items, label }) {
+  if (!items.length) return null;
+  return (
+    <div className="reference-group">
+      {label && <span>{label}</span>}
+      <div className="tag-list">{items.map((item) => <small key={item}>{item}</small>)}</div>
+    </div>
+  );
 }
 
 function StatusBadge({ status }) {
