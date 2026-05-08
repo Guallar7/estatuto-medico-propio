@@ -337,6 +337,25 @@ export const claims = [
 
 export const news = [
   {
+    id: "galicia-avances-huelga-autonomica",
+    tone: "avance",
+    outlet: "Asociación MIR España / O'MEGA / MUD",
+    date: "2026-05-08",
+    title: "Galicia anuncia avances tras la movilización médica autonómica",
+    claim:
+      "El post anuncia suspensión de la huelga autonómica y avances como 35 horas, CPV al 40%, refuerzo de plantillas, mejoras MIR, libranza del viernes y mesa de seguimiento.",
+    response:
+      "Debe leerse como un avance relevante, no como cierre del conflicto. Las fuentes disponibles verifican el contexto de huelga, la presión negociadora y antecedentes sobre 35 horas, CPV y voluntariedad; el punto crítico es exigir texto formal, calendario, financiación y seguimiento de cada compromiso.",
+    key: "La movilización puede abrir acuerdos autonómicos, pero el cumplimiento documentado es tan importante como el anuncio.",
+    sources: [
+      "instagram-avances-galicia",
+      "galiciapress-omega-convenio",
+      "europapress-galicia-primaria-acuerdo",
+      "xunta-huelga-ap-marzo",
+      "dog-galicia-huelga-abril"
+    ]
+  },
+  {
     id: "diario-altoaragon-defienden",
     tone: "adverso",
     outlet: "Diario del Alto Aragón",
@@ -435,6 +454,13 @@ export const news = [
 ];
 
 export const updates = [
+  {
+    date: "2026-05-08",
+    type: "Noticias",
+    title: "Avance autonómico en Galicia incorporado",
+    body:
+      "Se añade una ficha sobre los avances anunciados por Asociación MIR España, O'MEGA y MUD en Galicia, clasificada como avance parcial y contrastada con fuentes oficiales y prensa sobre huelga, 35 horas, CPV y negociación autonómica."
+  },
   {
     date: "2026-05-08",
     type: "Contenido",
@@ -772,6 +798,41 @@ export const sourceRegistry = {
     year: "2025",
     url: "https://www.cgcom.es/noticias/dr-tomas-cobo-la-profesion-medica-necesita-una-regulacion-especifica-que-se-adapte-sus"
   },
+  "instagram-avances-galicia": {
+    title: "Avances anunciados tras movilización médica en Galicia",
+    institution: "Asociación MIR España / O'MEGA / MUD",
+    type: "Comunicado en redes",
+    year: "2026",
+    url: "https://www.instagram.com/p/DYER1TIClRB/?img_index=4&igsh=MTFnMTF6dHJ2M3Zmcw=="
+  },
+  "galiciapress-omega-convenio": {
+    title: "O'Mega exige a la Xunta un convenio propio y detalla reivindicaciones autonómicas",
+    institution: "Galicia Press / Europa Press",
+    type: "Prensa",
+    year: "2026",
+    url: "https://www.galiciapress.es/articulo/sanidad/2026-04-14/5843663-omega-vuelve-sumar-huelga-nacional-estatuto-marco-exige-xunta-convenio-propio"
+  },
+  "europapress-galicia-primaria-acuerdo": {
+    title: "Mesa Sectorial avala acuerdo de Primaria y concreta 35 horas, CPV y voluntariedad",
+    institution: "Europa Press",
+    type: "Prensa",
+    year: "2025",
+    url: "https://www.europapress.es/galicia/noticia-mesa-sectorial-sanidad-avala-acuerdo-primaria-pactado-desconvocar-huelga-negocia-voluntariedad-20251205171216.html"
+  },
+  "xunta-huelga-ap-marzo": {
+    title: "Seguimiento de la huelga de facultativos de Atención Primaria y posición de Sanidade",
+    institution: "Xunta de Galicia",
+    type: "Oficial",
+    year: "2026",
+    url: "https://www.xunta.gal/es/notas-de-prensa/-/nova/021962/seguimiento-turno-manana-huelga-facultativos-atencion-primaria-alcanza-5-56-sanidad"
+  },
+  "dog-galicia-huelga-abril": {
+    title: "Servicios mínimos para la huelga médica y facultativa en Galicia de abril de 2026",
+    institution: "DOG / Xunta de Galicia",
+    type: "Oficial",
+    year: "2026",
+    url: "https://www.xunta.gal/dog/Publicados/2026/20260424/AnuncioC3K1-220426-0004_es.html"
+  },
   "elpais-acuerdo": {
     title: "Sanidad firma acuerdo sin apoyo de sindicatos médicos",
     institution: "El País",
@@ -862,18 +923,23 @@ export const sourceGroups = [
       "cesm-cv-lineas",
       "metges-preacuerdo",
       "foro-medico",
-      "cgcom-regulacion-especifica"
+      "cgcom-regulacion-especifica",
+      "instagram-avances-galicia"
     ]
   },
   {
-    title: "Sindicatos firmantes y prensa",
+    title: "Sindicatos firmantes, prensa y Galicia",
     ids: [
       "satse-acuerdo",
       "elpais-acuerdo",
       "elpais-huelga-abril",
       "heraldo-claves",
       "diario-altoaragon",
-      "aragondigital-guardias"
+      "aragondigital-guardias",
+      "galiciapress-omega-convenio",
+      "europapress-galicia-primaria-acuerdo",
+      "xunta-huelga-ap-marzo",
+      "dog-galicia-huelga-abril"
     ]
   },
   { title: "Bloque MIR enlazado", ids: ["simeg-mir", "mir-portal", "mir-infografia"] }
