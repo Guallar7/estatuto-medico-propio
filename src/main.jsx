@@ -54,9 +54,9 @@ const pageCopy = {
   },
   anteproyecto: {
     kicker: "Análisis verificable",
-    title: "Anteproyecto de Estatuto Marco",
-    lead: "Qué mejora formalmente y qué sigue sin garantía real.",
-    text: "Estado jurídico actual, mejoras formales, límites materiales, enmiendas y fuentes."
+    title: "Por qué no nos vale el anteproyecto",
+    lead: "Mejoras parciales no sustituyen un estatuto propio facultativo.",
+    text: "Artículos, trampas y garantías ausentes: guardias, descanso, jubilación y negociación real."
   },
   noticias: {
     kicker: "Actualidad",
@@ -298,7 +298,7 @@ function AnteproyectoPage() {
             claim.formal && ["Mejora formal", claim.formal],
             ["Qué ocurre realmente", claim.reality],
             ["Por qué importa", claim.why],
-            claim.amendment && ["Enmienda concreta", claim.amendment]
+            claim.amendment && ["Qué exigimos", claim.amendment]
           ].filter(Boolean);
 
           return (
@@ -312,6 +312,7 @@ function AnteproyectoPage() {
               key={claim.id}
             >
               <DefinitionGrid rows={rows} />
+              {claim.evidence && <EvidenceList items={claim.evidence} />}
               <TagList items={claim.refs} />
               <SourceBadges ids={claim.sources} />
             </Accordion>
@@ -401,9 +402,9 @@ function ClaimStatusOverview() {
     <section className="visual-panel claim-overview" id="resumen-garantias">
       <div className="visual-panel-intro">
         <span className="kicker">Resumen visual</span>
-        <h2>El problema no es si hay mejoras, sino cuántas tienen garantía real.</h2>
+        <h2>El anteproyecto regula problemas que debería resolver.</h2>
         <p>
-          Esta lectura agrupa los puntos del anteproyecto por nivel de garantía. Sirve para entender el patrón antes de entrar en el detalle jurídico.
+          Hay avances parciales, pero el patrón se repite: excepciones amplias, negociación generalista y garantías diferidas.
         </p>
       </div>
       <div className="claim-chart" aria-label={`Resumen de ${total} puntos analizados del anteproyecto`}>
@@ -764,6 +765,24 @@ function DefinitionGrid({ rows }) {
         </div>
       ))}
     </dl>
+  );
+}
+
+function EvidenceList({ items }) {
+  return (
+    <div className="evidence-list">
+      <h3>Texto real citado</h3>
+      {items.map((item) => (
+        <details className="evidence-item" key={`${item.article}-${item.quote}`}>
+          <summary>
+            <span>{item.article}</span>
+            <strong>{item.page}</strong>
+          </summary>
+          <blockquote>{item.quote}</blockquote>
+          <p>{item.note}</p>
+        </details>
+      ))}
+    </div>
   );
 }
 

@@ -612,6 +612,62 @@ footer {
   margin: 0;
 }
 
+.evidence-list {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.evidence-list h3 {
+  color: var(--blue);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.evidence-item {
+  background: #fffdf8;
+  border: 1px solid #f2dfbb;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.evidence-item summary {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  gap: 0.5rem;
+  justify-content: space-between;
+  list-style: none;
+  padding: 0.65rem 0.75rem;
+}
+
+.evidence-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.evidence-item summary span {
+  color: var(--green-dark);
+  font-size: 0.78rem;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.evidence-item summary strong {
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.evidence-item blockquote {
+  border-left: 3px solid var(--gold);
+  color: var(--blue);
+  font-weight: 900;
+  margin: 0 0.75rem;
+  padding: 0.15rem 0 0.15rem 0.65rem;
+}
+
+.evidence-item p {
+  padding: 0.55rem 0.75rem 0.75rem;
+}
+
 .status {
   align-self: start;
   border-radius: 999px;

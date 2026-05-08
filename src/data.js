@@ -195,100 +195,338 @@ export const demands = [
 export const claims = [
   {
     id: "ambito-propio",
-    title: "Ámbito propio de negociación",
+    title: "Sin mesa médica propia",
     status: "mantiene",
-    claim: "El Estatuto Marco sirve como marco común para todos los profesionales del SNS.",
+    claim: "El texto conserva la negociación en el Ámbito general y no crea una mesa médica o facultativa con capacidad propia.",
     current: "La Ley 55/2003 ya articula la negociación estatal a través del Ámbito de Negociación y de las mesas sectoriales, no mediante una mesa médica propia.",
-    change: "El anteproyecto mantiene el Foro Marco y el Ámbito de Negociación como cauces principales. El acuerdo de marzo de 2026 promete reforzar participación profesional y mesas técnicas, pero dentro del marco vigente.",
-    formal: "Reconoce la necesidad de canales específicos de participación profesional, especialmente a través del Foro Profesional previsto en la LOPS.",
-    reality: "No crea una mesa médica propia con capacidad negociadora autónoma ni un estatuto facultativo separado.",
-    why: "Sin ámbito propio, guardias, penosidad, clasificación, compatibilidad y responsabilidad clínica quedan negociadas en un marco generalista.",
-    amendment: "Crear una mesa médica y facultativa estatal con participación de las organizaciones profesionales representativas y traslado obligatorio a las mesas autonómicas.",
-    refs: ["Ley 55/2003", "Arts. 22-23 APL", "Nota Sanidad 05/03/2026"],
-    sources: ["ley-55", "anteproyecto", "sanidad-foro-marzo", "cesm-respuesta-foro"]
+    change: "Los artículos 22 y 23 mantienen el Foro Marco y el Ámbito de Negociación con las organizaciones sindicales representadas en ese foro. El Foro Profesional solo emite informe cuando se le consulte.",
+    formal: "Hay canales de diálogo e información, pero no un ámbito negociador médico.",
+    reality: "La reivindicación central queda fuera: no decidimos directamente nuestras condiciones singulares. Guardias, descansos, penosidad, clasificación y retribución siguen mezcladas en un marco común donde otros negocian también por nosotros.",
+    why: "Si la profesión que hace guardias de 17 o 24 horas no tiene una mesa propia, cualquier mejora queda sometida a equilibrios generales y a la interpretación posterior de cada servicio de salud.",
+    amendment: "Estatuto propio facultativo y mesa médica con capacidad negociadora real sobre jornada, guardias, descansos, penosidad, jubilación, compatibilidad y retribución.",
+    refs: ["Arts. 22-23 APL", "Art. 47 Ley 44/2003", "CESM 06/03/2026"],
+    evidence: [
+      {
+        article: "Art. 23 APL",
+        page: "p. 17",
+        quote: "organizaciones sindicales representadas en el Foro Marco",
+        note: "El interlocutor no es una mesa médica propia, sino el mismo ámbito general."
+      },
+      {
+        article: "Art. 22.4 APL",
+        page: "p. 17",
+        quote: "solicitará informe al Foro Profesional",
+        note: "Pedir informe no equivale a negociar ni a vincular el resultado."
+      }
+    ],
+    sources: ["ley-55", "anteproyecto", "ley-44", "cesm-respuesta-foro"]
+  },
+  {
+    id: "guardia-estructural",
+    title: "La guardia sigue siendo estructura",
+    status: "riesgo",
+    claim: "El anteproyecto presenta la guardia como complemento de la actividad ordinaria.",
+    current: "La continuidad asistencial se sostiene hoy con guardias médicas que cubren noches, festivos y fines de semana como pieza ordinaria del sistema.",
+    change: "Los artículos 93 a 95 describen un modelo específico para personal médico y facultativo del grupo 8 basado en combinar jornada ordinaria y jornada de guardia.",
+    formal: "Distinguir actividad ordinaria, atención continuada y urgencia puede ordenar conceptos.",
+    reality: "El texto no rompe la dependencia estructural de la guardia. La define como horario adicional, pero la integra en la programación funcional del centro y deja su organización en la dirección.",
+    why: "Una actividad que se programa todos los meses, cubre déficits de plantilla y condiciona salario, descanso y vida familiar no es una excepción: es parte del modelo laboral médico.",
+    amendment: "La guardia debe ser extraordinaria, voluntaria, suficientemente retribuida, computable a todos los efectos y no utilizada para cubrir plantilla estructural.",
+    refs: ["Arts. 93-95 APL", "Art. 48 Ley 55/2003", "Directiva 2003/88/CE"],
+    evidence: [
+      {
+        article: "Art. 93 APL",
+        page: "p. 68",
+        quote: "requiere complementar la actividad ordinaria",
+        note: "La necesidad se formula como parte del modelo, no como excepción a corregir."
+      },
+      {
+        article: "Art. 95.1 APL",
+        page: "p. 68",
+        quote: "horario adicional al establecido como ordinario",
+        note: "Reconoce que la guardia es tiempo añadido, pero no le da plena protección material."
+      }
+    ],
+    sources: ["ley-55", "anteproyecto", "directiva-tiempo", "cesm-reivindicaciones"]
   },
   {
     id: "guardias-17-24",
-    title: "Guardias de 17/24 horas",
-    status: "ambiguo",
-    claim: "El texto limita y ordena las guardias.",
-    current: "La Ley 55/2003 permite jornada complementaria y máximos conjuntos de 48 horas semanales de promedio semestral, con jornadas de hasta 24 horas en determinados supuestos.",
-    change: "El anteproyecto fija 45 horas semanales de promedio, guardia de 17 horas como regla general y hasta 24 horas en supuestos excepcionales con consentimiento e informe preventivo.",
-    formal: "Es una mejora frente al marco de 2003 porque reduce el máximo medio y condiciona la guardia de 24 horas.",
-    reality: "La guardia sigue dentro de la arquitectura ordinaria de cobertura. Además, la disposición transitoria octava da hasta cinco años a los servicios de salud para adaptarse.",
-    why: "Regular una sobrecarga no equivale a eliminarla si sigue sosteniendo la cobertura ordinaria o si la voluntariedad depende de plantillas insuficientes.",
-    amendment: "Definir toda guardia por encima de la jornada ordinaria como exceso voluntario, computable a todos los efectos y no retribuible por debajo de la hora ordinaria.",
-    refs: ["Arts. 95-97 APL", "DT 8 APL", "Art. 48 Ley 55/2003"],
-    sources: ["ley-55", "anteproyecto", "aragondigital-guardias", "directiva-tiempo"]
+    title: "17 horas de regla, 24 de excepción fácil",
+    status: "riesgo",
+    claim: "Se anuncia el fin de las guardias de 24 horas como regla general.",
+    current: "En muchos servicios, la jornada médica real se organiza con tardes, noches, fines de semana y festivos que otros colectivos no asumen en las mismas condiciones.",
+    change: "El artículo 96 limita la guardia laborable a 17 horas, pero permite hasta 24 horas en puestos de difícil cobertura, fines de semana y festivos si se invocan razones organizativas o asistenciales.",
+    formal: "Reducir la regla general de 24 a 17 horas parece una mejora.",
+    reality: "La excepción cubre precisamente los escenarios donde las guardias pesan más: fines de semana, festivos y puestos con falta de médicos. La coletilla organizativa puede convertir la excepción en práctica normal.",
+    why: "Si el sistema no corrige plantillas y solo renombra la prolongación como excepción autorizable, la carga vuelve al mismo sitio: al médico que sostiene la continuidad asistencial.",
+    amendment: "Prohibir guardias de 24 horas salvo emergencia real y acotada, con registro público, compensación reforzada y revisión independiente. Los fines de semana y festivos no pueden ser una excepción automática.",
+    refs: ["Art. 96 APL", "Art. 84 APL", "Directiva 2003/88/CE"],
+    evidence: [
+      {
+        article: "Art. 96.1 APL",
+        page: "p. 69",
+        quote: "hasta 24 horas continuadas",
+        note: "La guardia de 24 horas no desaparece; se desplaza a supuestos previsibles."
+      },
+      {
+        article: "Art. 96.1 APL",
+        page: "p. 69",
+        quote: "razones organizativas o asistenciales",
+        note: "Esa fórmula es demasiado abierta para un límite de salud laboral."
+      }
+    ],
+    sources: ["anteproyecto", "directiva-tiempo", "boe-guardias-tjue", "cesm-reivindicaciones"]
   },
   {
-    id: "jornada-promedios",
-    title: "Jornada máxima y promedios",
+    id: "opt-out-hora-complementaria",
+    title: "La hora complementaria es un opt-out",
     status: "riesgo",
-    claim: "La jornada máxima semanal queda regulada.",
-    current: "El régimen vigente trabaja con promedios amplios: 48 horas semanales de trabajo efectivo de promedio semestral para jornada ordinaria y complementaria.",
-    change: "El anteproyecto baja a 45 horas de promedio y acorta el periodo de referencia, pero conserva el uso de medias y admite excesos regulados.",
-    formal: "La reducción de 48 a 45 horas es real y debe reconocerse.",
-    reality: "El promedio puede ocultar semanas de sobrecarga intensa, fatiga acumulada y actividad prolongada si no se fijan límites por turno, semana real y número de guardias.",
-    why: "La seguridad clínica depende de turnos concretos, no solo de promedios administrativos que se compensan meses después.",
-    amendment: "Añadir límites máximos por semana natural, por número mensual de guardias y por encadenamiento de jornada ordinaria y guardia.",
-    refs: ["Art. 84 APL", "Arts. 97-98 APL", "Directiva 2003/88/CE"],
-    sources: ["anteproyecto", "heraldo-claves", "directiva-tiempo"]
+    claim: "El exceso de jornada sería voluntario y limitado.",
+    current: "La Ley 55/2003 ya permite superar límites por jornada especial con consentimiento y hasta 150 horas anuales adicionales.",
+    change: "El artículo 97 reproduce la lógica del consentimiento individual para superar la duración máxima conjunta cuando el centro alegue atención continuada y razones organizativas o asistenciales.",
+    formal: "La norma dice que negarse no puede perjudicar el desarrollo profesional o formativo.",
+    reality: "La voluntariedad individual en un servicio infradotado es débil. Además, el texto aclara que cobrar menos por hacer menos horas adicionales no se considera perjuicio.",
+    why: "Si el sistema necesita esas horas para funcionar, el profesional queda presionado por salario, equipo, listas de espera y cultura de servicio. Eso no es negociación colectiva real.",
+    amendment: "Eliminar el opt-out individual como solución estructural. Cualquier exceso debe negociarse en una mesa médica, con límites duros, registro externo y retribución no inferior a la hora ordinaria ponderada.",
+    refs: ["Art. 97 APL", "Art. 49 Ley 55/2003", "Art. 22 Directiva 2003/88/CE"],
+    evidence: [
+      {
+        article: "Art. 97.1 APL",
+        page: "p. 69",
+        quote: "libre y voluntariamente",
+        note: "La voluntariedad se plantea de forma individual, no como garantía colectiva."
+      },
+      {
+        article: "Art. 97.3 APL",
+        page: "p. 70",
+        quote: "menor nivel retributivo",
+        note: "El texto admite que no aceptar exceso reduzca ingresos sin considerarlo perjuicio."
+      }
+    ],
+    sources: ["anteproyecto", "ley-55", "directiva-tiempo"]
+  },
+  {
+    id: "coletillas-servicio",
+    title: "Las coletillas de servicio abren la puerta",
+    status: "riesgo",
+    claim: "Las excepciones dependen de razones organizativas, asistenciales o de gestión.",
+    current: "En la práctica, las plantillas insuficientes convierten las necesidades asistenciales en argumento permanente.",
+    change: "El anteproyecto usa fórmulas abiertas para autorizar más duración diaria, guardias de 24 horas, exceso semanal, retribución de exceso y suspensión temporal de descansos.",
+    formal: "Exigir motivación, informes y consentimiento puede parecer garantista.",
+    reality: "Cuando la falta de médicos es estructural, la excepción se activa todos los meses. La coletilla no protege al profesional si el centro puede justificar casi todo por continuidad asistencial.",
+    why: "La sanidad siempre tiene necesidades asistenciales. Precisamente por eso hacen falta límites duros negociados por quienes soportan esas condiciones.",
+    amendment: "Definir por ley qué es una excepción real, prohibir su uso por déficit estructural y publicar datos de activación por centro, servicio y categoría.",
+    refs: ["Arts. 82, 91, 96 y 97 APL"],
+    evidence: [
+      {
+        article: "Art. 82.4 APL",
+        page: "p. 63",
+        quote: "razones organizativas o asistenciales",
+        note: "La misma fórmula permite ampliar la jornada diaria."
+      },
+      {
+        article: "Art. 91.3 APL",
+        page: "p. 66",
+        quote: "recursos humanos disponibles",
+        note: "La falta de personal puede acabar justificando suspender descansos."
+      }
+    ],
+    sources: ["anteproyecto", "directiva-tiempo"]
   },
   {
     id: "descanso-postguardia",
-    title: "Descanso postguardia",
+    title: "El descanso no computa como trabajo",
     status: "mejora-insuficiente",
-    claim: "Los descansos quedan protegidos.",
-    current: "La Ley 55/2003 reconoce descansos mínimos y compensatorios, pero el sistema real ha normalizado excepciones organizativas.",
-    change: "El anteproyecto regula la imposibilidad de exigir jornada ordinaria inmediatamente posterior a la guardia y, en ciertos casos, también la anterior.",
-    formal: "La libranza posterior y la ausencia de deuda horaria son avances relevantes si se aplican de forma estricta.",
-    reality: "El descanso formal puede perder efectividad si depende de organización, sustituciones o presión informal para recuperar agendas, sesiones o actividad diferida.",
-    why: "El descanso postguardia es seguridad clínica, no una concesión individual. Una norma sin sustituciones suficientes desplaza el coste a pacientes y compañeros.",
-    amendment: "Prohibir expresamente cualquier recuperación directa o indirecta del descanso postguardia y obligar a registrar incidencias de incumplimiento.",
-    refs: ["Arts. 89-91 APL", "Art. 99 APL", "Directiva 2003/88/CE"],
-    sources: ["anteproyecto", "foro-medico", "directiva-tiempo"]
+    claim: "La libranza postguardia queda protegida.",
+    current: "El descanso tras una guardia ha dependido a menudo de organización local, presión asistencial y sustituciones insuficientes.",
+    change: "El artículo 99 impide exigir jornada ordinaria inmediatamente posterior a una guardia y considera ese periodo como jornada realizada a efectos de no programarlo.",
+    formal: "Es una mejora parcial: protege la libranza posterior frente a la exigencia directa de volver a trabajar.",
+    reality: "El mismo artículo afirma que esos periodos no computan como tiempo efectivo de trabajo. La fatiga generada por una guardia existe, pero el sistema no la reconoce plenamente como tiempo trabajado.",
+    why: "Para jubilación, penosidad, carrera, cotización, salud laboral y estadística real de horas, la diferencia importa. No basta con decir que no se debe recuperar agenda si el tiempo desaparece del cómputo efectivo.",
+    amendment: "Computar la guardia y sus descansos obligados como consecuencia laboral protegida: sin deuda horaria, sin recuperación indirecta y con reflejo en penosidad, jubilación y registro de horas reales.",
+    refs: ["Art. 99 APL", "Art. 90 APL", "Directiva 2003/88/CE"],
+    evidence: [
+      {
+        article: "Art. 99.1 APL",
+        page: "p. 71",
+        quote: "no se computen como tiempo efectivo",
+        note: "La norma protege la libranza, pero no reconoce plenamente el tiempo laboral que la causa."
+      },
+      {
+        article: "Art. 90.2 APL",
+        page: "p. 66",
+        quote: "ni podrán ser tomados en consideración",
+        note: "Los descansos se sacan del cómputo de jornada ordinaria."
+      }
+    ],
+    sources: ["anteproyecto", "directiva-tiempo", "boe-guardias-tjue"]
+  },
+  {
+    id: "promedios-y-excepciones",
+    title: "Promedios, compensaciones y suspensiones",
+    status: "riesgo",
+    claim: "La jornada máxima queda limitada a 45 horas semanales de promedio.",
+    current: "El marco vigente transpone mínimos europeos y trabaja con promedios y descansos compensatorios.",
+    change: "El artículo 84 baja el promedio general a 45 horas cuatrimestrales, pero los artículos 87 a 91 conservan descansos alternativos, reducción de descansos y suspensión temporal por necesidades asistenciales excepcionales.",
+    formal: "Reducir el promedio de 48 a 45 horas es una mejora formal.",
+    reality: "La vida laboral se sufre en turnos concretos, no en promedios. Una semana con guardia, festivo y consulta cargada puede ser insegura aunque cuatro meses después cuadre el promedio.",
+    why: "El lenguaje de compensación posterior no evita la fatiga en el momento clínico. En medicina, el riesgo no espera a que cierre el cuatrimestre.",
+    amendment: "Fijar límites por semana natural, número mensual de guardias, noches y fines de semana, con descanso inmediato no compensable a largo plazo.",
+    refs: ["Arts. 84, 87-91 APL", "Arts. 3, 5 y 6 Directiva 2003/88/CE"],
+    evidence: [
+      {
+        article: "Art. 84 APL",
+        page: "p. 63",
+        quote: "promedio en cómputo cuatrimestral",
+        note: "El promedio diluye semanas de sobrecarga real."
+      },
+      {
+        article: "Art. 91.3 APL",
+        page: "p. 66",
+        quote: "suspensión temporal",
+        note: "La excepción permite apartar jornadas y descansos cuando falten recursos."
+      }
+    ],
+    sources: ["anteproyecto", "ley-55", "directiva-tiempo"]
+  },
+  {
+    id: "transitoria-cinco-anos",
+    title: "Cinco años para adaptar guardias",
+    status: "riesgo",
+    claim: "Las medidas de jornada podrían aplicarse progresivamente.",
+    current: "Los servicios de salud ya arrastran déficits de plantilla y organización que explican muchas guardias estructurales.",
+    change: "La disposición transitoria octava concede cinco años a los servicios de salud para hacer cambios organizativos y de cobertura que permitan aplicar el nuevo Título VII.",
+    formal: "Reconoce que sin reorganización no hay mejora real.",
+    reality: "Cinco años es demasiado tiempo para una condición que se presenta como avance. Además, se prevén sistemas de trabajo adicional voluntario para evitar merma retributiva, lo que puede perpetuar más horas en vez de crear plantilla.",
+    why: "Si la salida a la pérdida de ingresos por reducir guardias es más trabajo adicional, no se cambia el modelo: se maquilla.",
+    amendment: "Calendario máximo de un año para límites de guardias, plan financiado de plantilla y prohibición de sustituir derechos por bolsas de trabajo adicional.",
+    refs: ["DT 8 APL", "Arts. 95-99 APL"],
+    evidence: [
+      {
+        article: "DT 8 APL",
+        page: "p. 94",
+        quote: "en un plazo de 5 años",
+        note: "La mejora de jornada queda diferida a una adaptación larga."
+      },
+      {
+        article: "DT 8.2 APL",
+        page: "p. 95",
+        quote: "trabajo adicional voluntario",
+        note: "La compensación de ingresos puede volver a descansar en más horas."
+      }
+    ],
+    sources: ["anteproyecto", "cesm-reivindicaciones"]
+  },
+  {
+    id: "localizacion",
+    title: "La localización queda abierta",
+    status: "ambiguo",
+    claim: "La localización se regula para evitar riesgos.",
+    current: "La disponibilidad localizada puede restringir descanso y vida personal aunque no siempre se active presencialmente.",
+    change: "El artículo 84 excluye la localización del máximo de 45 horas salvo activación efectiva, y el artículo 100 deja a los servicios de salud definir cuándo se asimila a guardia y sus límites.",
+    formal: "Reconoce que la localización puede afectar a salud y seguridad.",
+    reality: "La carga de disponibilidad puede quedar infravalorada si solo computa el acto activado. La norma remite a comunidades y mesas sectoriales, no a un estándar médico estatal mínimo.",
+    why: "Estar localizable limita descanso, desplazamientos y vida familiar. Si no se mide, no existe para el sistema.",
+    amendment: "Definir límites estatales de localización, descanso posterior, compensación y cómputo parcial cuando la restricción de disponibilidad sea intensa.",
+    refs: ["Art. 84 APL", "Art. 100 APL", "Directiva 2003/88/CE"],
+    evidence: [
+      {
+        article: "Art. 84 APL",
+        page: "p. 64",
+        quote: "No serán tomados en consideración",
+        note: "La localización queda fuera del máximo salvo activación efectiva."
+      },
+      {
+        article: "Art. 100.2 APL",
+        page: "p. 71",
+        quote: "mesas sectoriales",
+        note: "Los límites se desplazan a negociación autonómica general."
+      }
+    ],
+    sources: ["anteproyecto", "directiva-tiempo", "boe-guardias-tjue"]
   },
   {
     id: "clasificacion-mecu",
-    title: "Clasificación MECU/MECES",
+    title: "Clasificación sin dinero garantizado",
     status: "mejora-insuficiente",
-    claim: "La nueva clasificación reconoce mejor la cualificación sanitaria.",
-    current: "La Ley 55/2003 arrastra una clasificación ligada a grupos estatutarios tradicionales y no traduce de forma suficiente la formación médica especializada.",
-    change: "El anteproyecto incorpora niveles MECU/MECES y sitúa categorías con nivel 8 o nivel 7 con especialidad en un grupo superior.",
-    formal: "La diferenciación formal existe y conviene no negarla: el texto de enero de 2026 ya no puede describirse como una equiparación simple con cualquier graduado.",
-    reality: "La mejora queda diferida si no se traduce automáticamente en salario, carrera, penosidad, jornada, responsabilidad y representación.",
-    why: "Una clasificación sin efectos materiales permite reconocer la diferencia en el papel sin cambiar las condiciones reales.",
-    amendment: "Vincular la nueva clasificación a efectos mínimos estatales: carrera, complemento de responsabilidad clínica, penosidad y equivalencia retributiva homogénea.",
-    refs: ["Arts. 6-7 APL", "DA 7 APL", "DT 6 APL"],
+    claim: "La nueva clasificación MECU reconoce mejor la formación médica.",
+    current: "La formación médica especializada y la responsabilidad clínica no tienen traducción homogénea suficiente en salario, carrera, penosidad y representación.",
+    change: "El artículo 6 sitúa categorías con nivel 8 MECU o nivel 7 con especialidad en grupo 8, pero la disposición transitoria sexta condiciona los efectos retributivos a un futuro sistema y a presupuestos.",
+    formal: "Hay reconocimiento nominal de cualificación.",
+    reality: "La mejora queda diferida y sin garantía presupuestaria. El texto incluso dice que mientras no se desarrolle el sistema no puede suponer incremento de gasto público.",
+    why: "Reconocer formación en una tabla sin salario, carrera, penosidad ni mesa propia es reconocimiento simbólico, no mejora material.",
+    amendment: "Vincular la clasificación a efectos estatales mínimos desde la entrada en vigor: retribución básica, complemento de responsabilidad clínica, carrera y penosidad.",
+    refs: ["Art. 6 APL", "DT 5-6 APL", "EBEP art. 76"],
+    evidence: [
+      {
+        article: "Art. 6 APL",
+        page: "p. 8",
+        quote: "Grupo 8",
+        note: "El encaje existe, pero por sí solo no cambia condiciones."
+      },
+      {
+        article: "DT 6.4 APL",
+        page: "p. 94",
+        quote: "no puede suponer incremento de gasto público",
+        note: "Sin financiación, la clasificación puede quedarse en etiqueta."
+      }
+    ],
     sources: ["anteproyecto", "sanidad-foro-marzo", "cesm-estatuto-propio"]
   },
   {
     id: "mir-formacion",
-    title: "MIR y formación sanitaria especializada",
+    title: "MIR: límites con excepciones",
     status: "mejora-insuficiente",
-    claim: "El anteproyecto introduce límites y mejoras para residentes.",
-    current: "Los residentes se rigen por el Real Decreto 1146/2006 y una relación laboral especial con fuerte dependencia de guardias y diferencias autonómicas.",
-    change: "El anteproyecto aplica límites de guardia al personal en formación, fija un máximo general de 80 horas mensuales y mandata actualizar la regulación de residencia.",
-    formal: "Es un avance real respecto del régimen heredado.",
-    reality: "No resuelve por sí mismo la dependencia salarial de guardias, la desigualdad autonómica ni la tensión entre trabajo asistencial y tiempo formativo protegido.",
-    why: "El residente es trabajador y profesional en formación, no mano de obra estructural barata para cubrir déficits.",
-    amendment: "Actualizar el RD 1146/2006 con salario ordinario mínimo homogéneo, guardias no estructurales, supervisión verificable y registro de horas reales.",
-    refs: ["DA 22 APL", "RD 1146/2006", "Máximo 80 h/mes"],
+    claim: "El anteproyecto introduce mejoras para residentes.",
+    current: "El Real Decreto 1146/2006 permite hasta siete guardias al mes y el salario MIR sigue dependiendo de guardias y diferencias autonómicas.",
+    change: "La disposición adicional vigesimosegunda limita con carácter general a 80 horas mensuales y cuatro módulos de guardia física, pero admite excepciones y remite a una actualización reglamentaria posterior.",
+    formal: "Bajar de siete guardias a cuatro módulos físicos generales puede ser positivo.",
+    reality: "No fija salario ordinario digno, no elimina dependencia económica de guardias y mantiene una salida excepcional. La reforma real del régimen MIR queda para otro reglamento.",
+    why: "El residente no debe financiar su sueldo con fatiga ni cubrir déficits estructurales bajo apariencia formativa.",
+    amendment: "Actualizar el RD 1146/2006 con salario ordinario homogéneo, guardias formativas no estructurales, supervisión real, registro horario y límites no excepcionables salvo emergencia declarada.",
+    refs: ["DA 22 APL", "RD 1146/2006", "80 h/mes", "4 módulos"],
+    evidence: [
+      {
+        article: "DA 22.3 APL",
+        page: "p. 90",
+        quote: "80 horas mensuales",
+        note: "El límite mejora el marco actual, pero sigue siendo una carga muy alta."
+      },
+      {
+        article: "DA 22.5 APL",
+        page: "p. 90",
+        quote: "en el plazo máximo de un año",
+        note: "La regulación MIR importante se pospone a una norma futura."
+      }
+    ],
     sources: ["anteproyecto", "rd-1146", "simeg-mir", "mir-portal"]
   },
   {
     id: "jubilacion-penosidad",
-    title: "Jubilación y penosidad",
+    title: "Jubilación: informes, no derecho",
     status: "depende",
     claim: "El texto abre la vía de coeficientes reductores.",
     current: "No existe reconocimiento general inmediato de jubilación anticipada médica por penosidad en el Estatuto Marco vigente.",
-    change: "El anteproyecto remite a informes técnicos y al procedimiento del Real Decreto 402/2025 para posibles coeficientes reductores.",
-    formal: "Abrir el expediente de estudio es un avance frente al silencio normativo.",
-    reality: "Abrir una vía futura no equivale a reconocer ya la penosidad acumulada ni garantiza resultado favorable, plazo cerrado o compensación suficiente.",
-    why: "Guardias, noches, festivos y presión asistencial se acumulan durante décadas; si el procedimiento se eterniza, el derecho no llega.",
-    amendment: "Fijar calendario, indicadores, obligación de solicitud y financiación de la cotización adicional si se acredita penosidad.",
-    refs: ["DA 16 APL", "DA 17 APL", "RD 402/2025"],
+    change: "La disposición adicional decimosexta prevé informes técnicos y remite al procedimiento general del Real Decreto 402/2025; la disposición final quinta añade informe del Ministerio de Sanidad cuando se solicite para personal estatutario.",
+    formal: "Menciona expresamente guardias, turnos y desgaste profesional.",
+    reality: "No reconoce coeficientes, no fija calendario, no obliga a iniciar procedimiento para médicos y no garantiza financiación. La penosidad se estudia, pero no se transforma en derecho.",
+    why: "Cada año de guardias, noches y festivos no reconocido se acumula sobre cuerpos concretos. Un informe futuro no compensa décadas de exposición.",
+    amendment: "Reconocer por ley la obligación de iniciar expediente médico-facultativo con calendario, indicadores de guardias/noches/festivos y financiación de cotización adicional si se acredita penosidad.",
+    refs: ["DA 16 APL", "DF 5 APL", "RD 402/2025", "LGSS art. 206"],
+    evidence: [
+      {
+        article: "DA 16.1 APL",
+        page: "p. 88",
+        quote: "corresponde al sistema de la Seguridad Social",
+        note: "El Estatuto no reconoce directamente coeficientes reductores."
+      },
+      {
+        article: "DA 16.2 APL",
+        page: "p. 89",
+        quote: "informes técnicos",
+        note: "El texto abre una fase de estudio, no un derecho exigible."
+      }
+    ],
     sources: ["anteproyecto", "rd-402", "cesm-reivindicaciones"]
   },
   {
@@ -303,34 +541,76 @@ export const claims = [
     why: "Toda exclusividad debe estar justificada, ser homogénea y retribuirse de forma proporcionada. Si no, funciona como penalización laboral.",
     amendment: "Crear un régimen estatal de compatibilidad médica con incompatibilidades tasadas, compensación obligatoria y revisión autonómica transparente.",
     refs: ["Ley 53/1984", "Arts. 34-35 APL", "DT 7 APL"],
+    evidence: [
+      {
+        article: "Art. 35.1 APL",
+        page: "p. 29",
+        quote: "no podrá compatibilizar",
+        note: "La restricción se proyecta sobre cargos intermedios sin resolver compensación homogénea."
+      },
+      {
+        article: "DT 7 APL",
+        page: "p. 94",
+        quote: "dedicación exclusiva",
+        note: "La continuidad de compatibilidades queda condicionada por el nuevo régimen."
+      }
+    ],
     sources: ["ley-53", "anteproyecto", "cesm-cv-lineas"]
   },
   {
     id: "conciliacion",
-    title: "Conciliación",
+    title: "Conciliación sin plantilla",
     status: "mejora-insuficiente",
-    claim: "El texto reconoce avances en conciliación.",
-    current: "El marco vigente contiene derechos generales, pero la organización sanitaria ha usado guardias y disponibilidad como solución estructural.",
-    change: "El anteproyecto incorpora medidas de conciliación, información de jornada y planes de igualdad, pero deja la organización concreta en manos de servicios de salud.",
-    formal: "Reconocer la conciliación como derecho y ordenar la planificación de jornada es positivo.",
-    reality: "No hay conciliación real si guardias, noches, festivos y déficit de plantilla siguen como obligación estructural o si las excepciones se normalizan.",
-    why: "La vida familiar y personal no puede quedar subordinada a una organización que convierte la excepción en regla.",
-    amendment: "Obligar a publicar calendarios, registrar cambios forzosos, justificar excepciones y activar cobertura cuando se vulneren descansos o conciliación.",
-    refs: ["Art. 81 APL", "Art. 95.3 APL", "Art. 54 APL"],
-    sources: ["anteproyecto", "moncloa-acuerdo", "sanidad-planificacion-medicos"]
+    claim: "El texto reconoce conciliación y planificación de jornada.",
+    current: "La vida personal queda tensionada por guardias, cambios, noches, festivos y déficit estructural de cobertura.",
+    change: "Los artículos 80 y 81 exigen programación, registro y medidas de flexibilización, pero la organización concreta queda en servicios de salud y mesas sectoriales.",
+    formal: "Programar con antelación y registrar tiempo de trabajo es positivo.",
+    reality: "Sin plantilla suficiente, límites duros y mesa médica, la conciliación se queda por debajo de guardias, incidencias, cambios y necesidades asistenciales.",
+    why: "Un calendario no concilia si las excepciones se normalizan y si la cobertura vuelve a depender de disponibilidad individual permanente.",
+    amendment: "Calendarios vinculantes, registro público de cambios forzosos, cobertura obligatoria de ausencias y derecho efectivo a rechazar prolongaciones no pactadas.",
+    refs: ["Arts. 80-82 APL", "Art. 91 APL"],
+    evidence: [
+      {
+        article: "Art. 80.1 APL",
+        page: "p. 61",
+        quote: "antelación suficiente",
+        note: "La previsión es útil, pero no resuelve cambios por déficit de cobertura."
+      },
+      {
+        article: "Art. 82.2 APL",
+        page: "p. 62",
+        quote: "distribuirse de manera irregular",
+        note: "La irregularidad anual permite desplazar carga a periodos concretos."
+      }
+    ],
+    sources: ["anteproyecto", "directiva-tiempo", "sanidad-planificacion-medicos"]
   },
   {
     id: "europa-tiempo-trabajo",
-    title: "Europa y tiempo de trabajo",
+    title: "Europa es suelo, no techo",
     status: "mantiene",
-    claim: "La regulación española debe respetar el marco europeo.",
-    current: "La Directiva 2003/88/CE fija mínimos de salud laboral: descanso diario, descanso semanal, pausas y máximo semanal medio.",
-    change: "El anteproyecto intenta situarse por debajo de 48 horas medias, pero no agota la capacidad del legislador español de aprobar un régimen más protector.",
+    claim: "El texto se apoya en mínimos europeos de tiempo de trabajo.",
+    current: "La Directiva 2003/88/CE fija descanso diario, descanso semanal, pausas y máximo semanal medio de 48 horas incluidas horas extraordinarias.",
+    change: "El anteproyecto baja formalmente a 45 horas de promedio, pero mantiene guardias estructurales, opt-out individual, descansos alternativos y excepciones organizativas.",
     formal: "Europa proporciona un suelo de protección común.",
-    reality: "El Derecho europeo no obliga a mantener guardias estructurales de 17 o 24 horas. Permite normas nacionales más protectoras y exige computar correctamente el tiempo de trabajo.",
-    why: "El obstáculo principal no es europeo, sino político, organizativo y presupuestario.",
-    amendment: "Incorporar en el estatuto médico límites más protectores que la Directiva, con cómputo pleno de presencia y descanso efectivo.",
-    refs: ["Directiva 2003/88/CE", "TJUE guardias", "Art. 31 Carta UE"],
+    reality: "Cumplir mínimos europeos no justifica mantener un modelo penoso. España puede aprobar reglas más protectoras y específicas para quienes hacen guardias médicas.",
+    why: "La pregunta no es si el anteproyecto cabe en Europa, sino si protege de verdad a quienes soportan las condiciones más duras del sistema.",
+    amendment: "Estatuto propio con límites superiores al mínimo europeo: guardia extraordinaria, descanso efectivo inmediato, cómputo pleno y prohibición de usar opt-out para cubrir plantilla.",
+    refs: ["Directiva 2003/88/CE", "Arts. 3, 5, 6 y 22", "TJUE guardias"],
+    evidence: [
+      {
+        article: "Directiva 2003/88/CE",
+        page: "arts. 3, 5 y 6",
+        quote: "48 horas, incluidas las horas extraordinarias",
+        note: "Es un límite medio europeo, no una obligación de exprimirlo."
+      },
+      {
+        article: "Art. 84 APL",
+        page: "p. 63",
+        quote: "45 horas semanales",
+        note: "Bajar el promedio no elimina la penosidad de guardias concretas."
+      }
+    ],
     sources: ["directiva-tiempo", "boe-guardias-tjue", "ley-55"]
   }
 ];
@@ -613,11 +893,11 @@ export const quickArguments = [
 
 export const sourceRegistry = {
   anteproyecto: {
-    title: "Propuesta de Anteproyecto de Ley del Estatuto Marco",
+    title: "Propuesta de Anteproyecto de Ley del Estatuto Marco (versión 04/12/2025)",
     institution: "Ministerio de Sanidad",
     type: "Oficial",
-    year: "2026",
-    url: "https://www.sanidad.gob.es/areas/profesionesSanitarias/docs/APL_personal_estatutario_08_01_2026.pdf"
+    year: "2025",
+    url: "Propuesta-de-Anteproyecto-de-Ley-del-Estatuto-Marco-del-personal-estatutario-de-los-servicios-de-salud.pdf"
   },
   "ley-55": {
     title: "Ley 55/2003, Estatuto Marco vigente",
