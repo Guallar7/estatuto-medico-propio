@@ -77,10 +77,10 @@ const pageCopy = {
     text: "Fuentes oficiales, normativa, posición profesional, prensa, sindicatos y materiales descargables."
   },
   claves: {
-    kicker: "Para médicos y ciudadanía",
-    title: "Claves",
-    lead: "Preguntas frecuentes para médicos, pacientes y ciudadanía.",
-    text: "Material público, pero suficientemente técnico para que médicos y facultativos puedan explicar la reivindicación con precisión."
+    kicker: "FAQ secundaria",
+    title: "Preguntas frecuentes",
+    lead: "Respuestas breves para situar la reivindicación.",
+    text: "Esta página queda como apoyo: el contenido principal está en Programa, Anteproyecto y Noticias."
   },
   mir: {
     kicker: "Caso demostrativo",
@@ -348,6 +348,7 @@ function DemandVisualMap() {
       icon: <Scale size={22} />,
       links: [
         { id: "clasificacion", label: "Clasificación" },
+        { id: "computo-penosidad", label: "Cómputo real" },
         { id: "jubilacion", label: "Jubilación" }
       ]
     },
@@ -363,7 +364,7 @@ function DemandVisualMap() {
     <section className="visual-panel demand-snapshot" id="mapa-reivindicaciones">
       <div className="snapshot-head">
         <span className="kicker">Programa en un vistazo</span>
-        <strong>8 reivindicaciones</strong>
+        <strong>{demands.length} reivindicaciones</strong>
       </div>
       <div className="snapshot-grid">
         {items.map((item) => (
@@ -580,30 +581,11 @@ function FuentesPage() {
 
 function ClavesPage() {
   const navItems = [
-    { id: "enfoque-claves", label: "Enfoque" },
     ...quickArguments.map((item) => ({ id: item.id, label: item.question }))
   ];
 
   return (
     <PageLayout navItems={navItems}>
-      <section className="reality-summary claves-summary" id="enfoque-claves">
-        <article>
-          <span className="kicker">Doble audiencia</span>
-          <h2>Explicar al público sin rebajar el nivel profesional.</h2>
-          <p>
-            La página está escrita para ser pública, pero la lectura principal sigue siendo médica: entender el
-            anteproyecto, hablar con compañeros y defender la movilización con datos comprobables.
-          </p>
-        </article>
-        <article>
-          <span className="kicker">Método</span>
-          <h2>Primero hechos, luego posición.</h2>
-          <p>
-            Cada clave separa la explicación general de la aplicación profesional. Así se evita el tono de
-            manual interno sin perder utilidad para quienes tienen que sostener la reivindicación en el hospital.
-          </p>
-        </article>
-      </section>
       <section className="argument-grid" id="claves">
         {quickArguments.map((item) => (
           <article id={item.id} key={item.id}>
@@ -611,12 +593,6 @@ function ClavesPage() {
             <div>
               <h2>{item.question}</h2>
               <p>{item.answer}</p>
-              {item.professional && (
-                <div className="professional-note">
-                  <strong>Para médicos</strong>
-                  <p>{item.professional}</p>
-                </div>
-              )}
               <SourceBadges ids={item.sources} />
             </div>
           </article>

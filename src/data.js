@@ -10,7 +10,6 @@ export const pages = [
   { id: "noticias", label: "Noticias", path: "noticias.html" },
   { id: "novedades", label: "Novedades", path: "novedades.html" },
   { id: "fuentes", label: "Fuentes", path: "fuentes.html" },
-  { id: "claves", label: "Claves", path: "claves.html" },
   { id: "mir", label: "MIR", path: "mir.html" }
 ];
 
@@ -44,12 +43,6 @@ export const homeCards = [
     title: "Fuentes y evidencia",
     text: "Biblioteca verificable: anteproyecto, BOE, comunicados, prensa, tablas y material local.",
     cta: "Ver fuentes"
-  },
-  {
-    id: "claves",
-    title: "Claves para entenderlo",
-    text: "Preguntas útiles para médicos, compañeros, pacientes y ciudadanía.",
-    cta: "Ver claves"
   },
   {
     id: "mir",
@@ -141,9 +134,24 @@ export const demands = [
     title: "Guardias voluntarias, extraordinarias y computables",
     short: "Toda hora por encima de la jornada ordinaria debe reconocerse como trabajo efectivo.",
     body:
-      "Las guardias deben ser actividad extraordinaria, voluntaria, retribuida de forma justa y computable para descanso, carrera, cotización y jubilación.",
+      "Una guardia no es una hora extra menor: es trabajo real, nocturno, festivo, prolongado y de alta responsabilidad. Debe ser extraordinaria, voluntaria, retribuida de forma justa y computable para descanso, carrera, cotización y jubilación.",
     category: "Jornada",
     sources: ["ley-55", "anteproyecto", "directiva-tiempo", "cesm-reivindicaciones"]
+  },
+  {
+    id: "computo-penosidad",
+    title: "Cómputo real y coeficientes correctores",
+    short: "Si la guardia sostiene el sistema, debe contar como trabajo real y penoso.",
+    body:
+      "No pedimos copiar el régimen de otros cuerpos. Señalamos el principio: la Administración ya reconoce en servicios esenciales jornadas especiales, coeficientes correctores y jubilación adaptada al desgaste. Si niega un Estatuto Médico Propio, habrá que reclamar formalmente ese mismo principio para las guardias médicas: cómputo íntegro, coeficientes por penosidad y jubilación acorde a noches, festivos y años de exposición.",
+    category: "Penosidad",
+    sources: [
+      "anteproyecto",
+      "rd-bomberos-jubilacion",
+      "acuerdo-bomberos-cm",
+      "acuerdo-bomberos-madrid",
+      "rd-policia-local-jubilacion"
+    ]
   },
   {
     id: "descanso",
@@ -177,9 +185,9 @@ export const demands = [
     title: "Jubilación por penosidad",
     short: "No basta con estudiar coeficientes reductores.",
     body:
-      "La penosidad acumulada de guardias, noches, festivos y presión asistencial requiere calendario, indicadores y reconocimiento efectivo.",
+      "La penosidad acumulada de guardias, noches, festivos y presión asistencial requiere calendario, indicadores, cotización y reconocimiento efectivo. Un informe futuro no compensa años de desgaste ya soportados.",
     category: "Jubilación",
-    sources: ["anteproyecto", "rd-402", "cesm-reivindicaciones"]
+    sources: ["anteproyecto", "rd-402", "rd-bomberos-jubilacion", "rd-policia-local-jubilacion", "cesm-reivindicaciones"]
   },
   {
     id: "retribucion",
@@ -342,7 +350,7 @@ export const claims = [
     change: "El artículo 99 impide exigir jornada ordinaria inmediatamente posterior a una guardia y considera ese periodo como jornada realizada a efectos de no programarlo.",
     formal: "Es una mejora parcial: protege la libranza posterior frente a la exigencia directa de volver a trabajar.",
     reality: "El mismo artículo afirma que esos periodos no computan como tiempo efectivo de trabajo. La fatiga generada por una guardia existe, pero el sistema no la reconoce plenamente como tiempo trabajado.",
-    why: "Para jubilación, penosidad, carrera, cotización, salud laboral y estadística real de horas, la diferencia importa. No basta con decir que no se debe recuperar agenda si el tiempo desaparece del cómputo efectivo.",
+    why: "Para jubilación, penosidad, carrera, cotización, salud laboral y estadística real de horas, la diferencia importa. No basta con decir que no se debe recuperar agenda si el tiempo desaparece del cómputo efectivo. En otros servicios esenciales, las jornadas prolongadas se integran en regímenes especiales con cómputos y coeficientes.",
     amendment: "Computar la guardia y sus descansos obligados como consecuencia laboral protegida: sin deuda horaria, sin recuperación indirecta y con reflejo en penosidad, jubilación y registro de horas reales.",
     refs: ["Art. 99 APL", "Art. 90 APL", "Directiva 2003/88/CE"],
     evidence: [
@@ -359,7 +367,7 @@ export const claims = [
         note: "Los descansos se sacan del cómputo de jornada ordinaria."
       }
     ],
-    sources: ["anteproyecto", "directiva-tiempo", "boe-guardias-tjue"]
+    sources: ["anteproyecto", "directiva-tiempo", "boe-guardias-tjue", "acuerdo-bomberos-madrid"]
   },
   {
     id: "promedios-y-excepciones",
@@ -509,10 +517,10 @@ export const claims = [
     current: "No existe reconocimiento general inmediato de jubilación anticipada médica por penosidad en el Estatuto Marco vigente.",
     change: "La disposición adicional decimosexta prevé informes técnicos y remite al procedimiento general del Real Decreto 402/2025; la disposición final quinta añade informe del Ministerio de Sanidad cuando se solicite para personal estatutario.",
     formal: "Menciona expresamente guardias, turnos y desgaste profesional.",
-    reality: "No reconoce coeficientes, no fija calendario, no obliga a iniciar procedimiento para médicos y no garantiza financiación. La penosidad se estudia, pero no se transforma en derecho.",
-    why: "Cada año de guardias, noches y festivos no reconocido se acumula sobre cuerpos concretos. Un informe futuro no compensa décadas de exposición.",
-    amendment: "Reconocer por ley la obligación de iniciar expediente médico-facultativo con calendario, indicadores de guardias/noches/festivos y financiación de cotización adicional si se acredita penosidad.",
-    refs: ["DA 16 APL", "DF 5 APL", "RD 402/2025", "LGSS art. 206"],
+    reality: "No reconoce coeficientes, no fija calendario, no obliga a iniciar procedimiento para médicos y no garantiza financiación. Mientras otros cuerpos ya tienen coeficientes reductores o cómputos especiales, la penosidad médica queda en una fase de estudio.",
+    why: "Si la Administración acepta que ciertos servicios esenciales necesitan reglas especiales, no puede llamar complementaria una guardia médica estructural y borrar su coste del cómputo real.",
+    amendment: "Reconocer por ley la obligación de iniciar expediente médico-facultativo con calendario, indicadores de guardias/noches/festivos y financiación de cotización adicional. Si no hay Estatuto Médico Propio, habrá que reclamar formalmente un régimen equivalente de cómputo, coeficientes correctores y jubilación por penosidad.",
+    refs: ["DA 16 APL", "DF 5 APL", "RD 402/2025", "RD 383/2008", "LGSS art. 206"],
     evidence: [
       {
         article: "DA 16.1 APL",
@@ -525,9 +533,23 @@ export const claims = [
         page: "p. 89",
         quote: "informes técnicos",
         note: "El texto abre una fase de estudio, no un derecho exigible."
+      },
+      {
+        article: "RD 383/2008, art. 2",
+        page: "BOE",
+        quote: "coeficiente reductor del 0,20",
+        note: "La Administración ya reconoce coeficientes de jubilación para colectivos públicos con penosidad acreditada.",
+        sourceId: "rd-bomberos-jubilacion"
+      },
+      {
+        article: "Acuerdo Bomberos Ayuntamiento de Madrid, art. 8",
+        page: "p. 5",
+        quote: "coeficiente progresivo de nocturnidad de 1,283",
+        note: "El precedente útil es el principio: las jornadas prolongadas y nocturnas pueden tener cómputo corrector.",
+        sourceId: "acuerdo-bomberos-madrid"
       }
     ],
-    sources: ["anteproyecto", "rd-402", "cesm-reivindicaciones"]
+    sources: ["anteproyecto", "rd-402", "rd-bomberos-jubilacion", "acuerdo-bomberos-madrid", "rd-policia-local-jubilacion", "cesm-reivindicaciones"]
   },
   {
     id: "incompatibilidades",
@@ -755,9 +777,9 @@ export const updates = [
   {
     date: "2026-05-08",
     type: "Contenido",
-    title: "Claves profesionales y lectura visual de noticias",
+    title: "FAQ pública y lectura visual de noticias",
     body:
-      "Se refuerza la página Claves con lectura específica para médicos y se añaden etiquetas de color en Noticias para distinguir avances, contexto, relatos adversos y datos incompletos."
+      "Se mantiene una FAQ pública y se añaden etiquetas de color en Noticias para distinguir avances, contexto, relatos adversos y datos incompletos."
   },
   {
     date: "2026-05-08",
@@ -813,7 +835,7 @@ export const updates = [
     type: "SEO",
     title: "Páginas reales para compartir e indexar",
     body:
-      "Se crean rutas HTML independientes para anteproyecto, reivindicaciones, noticias, novedades, fuentes, claves y MIR."
+      "Se crean rutas HTML independientes para anteproyecto, reivindicaciones, noticias, novedades, fuentes y MIR."
   }
 ];
 
@@ -823,8 +845,6 @@ export const quickArguments = [
     question: "¿Para qué sirve un estatuto médico y facultativo propio?",
     answer:
       "Para negociar reglas específicas sobre guardias, descanso, responsabilidad clínica, formación, penosidad y conciliación sin impedir derechos comunes para el resto del SNS.",
-    professional:
-      "Cuando lo expliques a otro médico, el punto no es reclamar privilegios: es que una norma común no resuelve bien la jornada prolongada, la responsabilidad clínica directa, la formación especializada ni el riesgo médico-legal. La mesa propia es el instrumento para que esas condiciones no queden diluidas.",
     sources: ["ley-55", "cesm-estatuto-propio", "cgcom-regulacion-especifica"]
   },
   {
@@ -832,8 +852,6 @@ export const quickArguments = [
     question: "¿El anteproyecto no mejora nada?",
     answer:
       "Sí introduce mejoras formales. La crítica es que muchas quedan condicionadas a plantillas, comunidades autónomas, excepciones y desarrollos posteriores.",
-    professional:
-      "La posición sólida es reconocer las mejoras y preguntar por su garantía: plazos, financiación, límites reales por turno, cómputo de guardias, efectos retributivos y capacidad negociadora médica. Negar cualquier avance debilita el argumento; señalar que no basta lo hace verificable.",
     sources: ["anteproyecto", "ministerio-faq", "moncloa-acuerdo"]
   },
   {
@@ -841,8 +859,6 @@ export const quickArguments = [
     question: "¿Por qué las guardias son también un asunto de pacientes?",
     answer:
       "Porque la fatiga y la falta de descanso afectan a la seguridad clínica. El descanso postguardia protege al profesional y al paciente.",
-    professional:
-      "Conviene desplazar el debate del precio de la guardia al diseño del sistema: si la continuidad asistencial depende de jornadas de 17 o 24 horas, el problema es de plantilla, planificación y seguridad. La guardia debe computar como trabajo efectivo y no sustituir empleo estructural.",
     sources: ["anteproyecto", "directiva-tiempo", "foro-medico"]
   },
   {
@@ -850,8 +866,6 @@ export const quickArguments = [
     question: "¿Por qué no basta con foros o mesas técnicas?",
     answer:
       "Pueden ser útiles, pero no sustituyen una negociación con capacidad real sobre condiciones médicas singulares.",
-    professional:
-      "Un foro puede emitir posición profesional y una mesa técnica puede ordenar problemas, pero la diferencia está en la capacidad de negociación: quién firma, qué materias vincula, cómo se traslada a las comunidades autónomas y qué ocurre si no se cumple.",
     sources: ["sanidad-foro-marzo", "cesm-respuesta-foro", "ley-44"]
   },
   {
@@ -859,8 +873,6 @@ export const quickArguments = [
     question: "¿Europa obliga a mantener este modelo de guardias?",
     answer:
       "No. La normativa europea fija mínimos de protección. España puede aprobar reglas más protectoras.",
-    professional:
-      "El marco europeo sirve como suelo, no como techo. Invocar Europa para justificar guardias estructurales prolongadas confunde el límite máximo medio con una decisión política nacional sobre cómo organizar plantillas, descansos y actividad extraordinaria.",
     sources: ["directiva-tiempo", "boe-guardias-tjue"]
   },
   {
@@ -868,26 +880,13 @@ export const quickArguments = [
     question: "¿Por qué insistir en separar sueldo ordinario y guardias?",
     answer:
       "Porque una nómina con noches, festivos y jornadas extendidas no describe el salario ordinario ni el coste real por hora.",
-    professional:
-      "Para residentes y adjuntos, la comparación honesta exige separar sueldo base, complementos, guardias, noches, festivos, horas reales y salario por hora. Si una cifra mensual depende de trabajar más horas y más penosas, no puede presentarse como salario ordinario.",
     sources: ["simeg-mir", "mir-portal"]
-  },
-  {
-    id: "companeros",
-    question: "¿Cómo hablar con un compañero que duda de sumarse?",
-    answer:
-      "Con hechos comprobables: qué está vigente, qué propone el anteproyecto, qué mejora y qué no queda garantizado. La reivindicación gana fuerza cuando evita exageraciones.",
-    professional:
-      "Una secuencia útil es: reconocer el cansancio y las dudas, separar mejoras formales de garantías reales, aterrizarlo en guardias, descanso y representación, y cerrar con fuentes. No se trata de imponer una consigna, sino de mostrar por qué el coste de no negociar bien lo paga toda la profesión.",
-    sources: ["anteproyecto", "ley-55", "cesm-movilizaciones"]
   },
   {
     id: "huelga",
     question: "¿Por qué sigue la huelga si hay acuerdos y avances?",
     answer:
       "Porque los acuerdos generales no han cerrado la reivindicación médica principal: ámbito propio de negociación y garantías materiales para guardias, descanso, clasificación y penosidad.",
-    professional:
-      "La movilización no se explica solo por un desacuerdo de redacción. Se mantiene porque la profesión médica reclama capacidad negociadora real y porque varias mejoras dependen de desarrollos futuros, adaptación autonómica o suficiencia de plantilla.",
     sources: ["elpais-huelga-abril", "cesm-movilizaciones", "sanidad-foro-marzo"]
   }
 ];
@@ -934,6 +933,20 @@ export const sourceRegistry = {
     type: "Normativa",
     year: "2025",
     url: "https://www.boe.es/buscar/act.php?id=BOE-A-2025-10488"
+  },
+  "rd-bomberos-jubilacion": {
+    title: "Real Decreto 383/2008, coeficiente reductor de jubilación para bomberos",
+    institution: "BOE",
+    type: "Normativa comparada",
+    year: "2008",
+    url: "https://www.boe.es/buscar/act.php?id=BOE-A-2008-5987"
+  },
+  "rd-policia-local-jubilacion": {
+    title: "Real Decreto 1449/2018, coeficiente reductor de jubilación para policías locales",
+    institution: "BOE",
+    type: "Normativa comparada",
+    year: "2018",
+    url: "https://www.boe.es/buscar/act.php?id=BOE-A-2018-17135"
   },
   "directiva-tiempo": {
     title: "Directiva 2003/88/CE sobre ordenación del tiempo de trabajo",
@@ -1004,6 +1017,20 @@ export const sourceRegistry = {
     type: "Oficial",
     year: "2026",
     url: "https://www.sanidad.gob.es/areas/profesionesSanitarias/mejoraFormacion/home.htm"
+  },
+  "acuerdo-bomberos-madrid": {
+    title: "Acuerdo sectorial del Cuerpo de Bomberos del Ayuntamiento de Madrid",
+    institution: "Ayuntamiento de Madrid",
+    type: "Acuerdo sectorial",
+    year: "2018",
+    url: "https://sede.madrid.es/UnidadWeb/UGNormativas/Normativa/2018/ficheros/Anm_2018_37_Personal_Bomberos_%202018_2021_Operativa.pdf"
+  },
+  "acuerdo-bomberos-cm": {
+    title: "Acuerdo del Cuerpo de Bomberos de la Comunidad de Madrid 2021-2025",
+    institution: "Comunidad de Madrid",
+    type: "Acuerdo sectorial",
+    year: "2021",
+    url: "https://www.comunidad.madrid/transparencia/sites/default/files/open-data/downloads/acuerdo_cuerpo_de_bomberos_comunidad_de_madrid_2021-2025.pdf"
   },
   "satse-acuerdo": {
     title: "Acuerdo de inicio de tramitación del Estatuto Marco",
@@ -1220,7 +1247,17 @@ export const sourceRegistry = {
 export const sourceGroups = [
   {
     title: "Normativa vigente y europea",
-    ids: ["ley-55", "ley-44", "ley-53", "rd-1146", "rd-402", "directiva-tiempo", "boe-guardias-tjue"]
+    ids: [
+      "ley-55",
+      "ley-44",
+      "ley-53",
+      "rd-1146",
+      "rd-402",
+      "rd-bomberos-jubilacion",
+      "rd-policia-local-jubilacion",
+      "directiva-tiempo",
+      "boe-guardias-tjue"
+    ]
   },
   {
     title: "Anteproyecto y posición oficial",
@@ -1269,11 +1306,14 @@ export const sourceGroups = [
       "dog-galicia-huelga-abril"
     ]
   },
+  {
+    title: "Comparadores de servicios esenciales",
+    ids: ["acuerdo-bomberos-madrid", "acuerdo-bomberos-cm"]
+  },
   { title: "Bloque MIR enlazado", ids: ["simeg-mir", "mir-portal", "mir-infografia"] }
 ];
 
 export const downloads = [
-  { label: "Claves para entenderlo", href: "downloads/claves_estatuto_medico.md" },
   { label: "Resumen de reivindicaciones", href: "downloads/reivindicaciones_estatuto_medico.md" },
   { label: "Respuesta a titulares", href: "downloads/respuesta_titulares_estatuto_marco.md" }
 ];

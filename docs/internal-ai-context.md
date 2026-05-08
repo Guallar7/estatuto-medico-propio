@@ -120,6 +120,19 @@ Ideas que deben sostenerse:
 - El descanso y la salud laboral no deben depender de plantillas insuficientes ni de compensaciones meses despues.
 - Las guardias deben ser extraordinarias, voluntarias, computables, no estructurales y retribuidas de forma justa.
 
+## Comparacion con otros servicios esenciales
+
+Usar con cuidado. No decir "queremos el regimen de bomberos" ni presentar como universal que todos los bomberos descansan cinco dias tras cada guardia. El argumento solido es otro:
+
+- La Administracion ya reconoce que algunos servicios esenciales tienen regimenes de jornada especiales.
+- En bomberos y otros cuerpos existen acuerdos o normas con jornadas especificas, coeficientes correctores, computos propios o jubilacion anticipada por penosidad/peligrosidad.
+- La guardia medica comparte elementos de dureza que justifican un tratamiento propio: noche, festivos, prolongacion, responsabilidad directa, fatiga y riesgo para terceros.
+- Por tanto, si se niega un Estatuto Medico Propio, es coherente reclamar formalmente el mismo principio: computo integro, coeficientes correctores, cotizacion adicional si procede y jubilacion por penosidad.
+
+Formulacion recomendable:
+
+> No pedimos copiar el regimen de otros cuerpos. Senalamos una incoherencia: cuando otros servicios esenciales hacen turnos duros, la Administracion acepta reglas especiales. Cuando lo hacen los medicos, pretende llamarlo jornada complementaria. Si no hay Estatuto Medico Propio, el siguiente paso logico sera exigir coeficientes, computo real y jubilacion por penosidad.
+
 ## Tono y estilo
 
 Preferir:
@@ -160,7 +173,14 @@ Normativa y documentos:
 - Ley 53/1984, incompatibilidades: https://www.boe.es/buscar/act.php?id=BOE-A-1985-151
 - Real Decreto 1146/2006, relacion laboral especial de residencia: https://www.boe.es/buscar/act.php?id=BOE-A-2006-17498
 - Real Decreto 402/2025, coeficientes reductores de jubilacion: https://www.boe.es/buscar/act.php?id=BOE-A-2025-10488
+- Real Decreto 383/2008, coeficiente reductor de jubilacion para bomberos: https://www.boe.es/buscar/act.php?id=BOE-A-2008-5987
+- Real Decreto 1449/2018, coeficiente reductor de jubilacion para policias locales: https://www.boe.es/buscar/act.php?id=BOE-A-2018-17135
 - Directiva 2003/88/CE sobre tiempo de trabajo: https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX:32003L0088
+
+Comparadores de servicios esenciales:
+
+- Acuerdo sectorial del Cuerpo de Bomberos del Ayuntamiento de Madrid: https://sede.madrid.es/UnidadWeb/UGNormativas/Normativa/2018/ficheros/Anm_2018_37_Personal_Bomberos_%202018_2021_Operativa.pdf
+- Acuerdo del Cuerpo de Bomberos de la Comunidad de Madrid 2021-2025: https://www.comunidad.madrid/transparencia/sites/default/files/open-data/downloads/acuerdo_cuerpo_de_bomberos_comunidad_de_madrid_2021-2025.pdf
 
 Comite de Huelga y posicion medica:
 
@@ -204,4 +224,3 @@ Prensa util para contexto:
 8. En guardias, vigilar siempre las palabras "voluntario", "necesidades del servicio", "razones organizativas", "razones asistenciales", "promedio", "compensacion" y "adaptacion progresiva".
 9. Si hay duda entre cantidad y claridad, priorizar menos contenido, mejor explicado y referenciado.
 10. Al cambiar datos de `src/data.js`, ejecutar `npm run check`.
-
