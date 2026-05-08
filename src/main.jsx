@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
 import {
   AlertTriangle,
+  ArrowDown,
   ArrowRight,
   BadgeCheck,
   BookOpen,
@@ -148,18 +149,46 @@ function App() {
 
   return (
     <main>
+      <ScrollProgress />
       <Header current={pageId} />
       <Hero copy={copy} pageId={pageId} />
-      {pageId === "home" && <HomePage />}
-      {pageId === "reivindicaciones" && <ReivindicacionesPage />}
-      {pageId === "anteproyecto" && <AnteproyectoPage />}
-      {pageId === "noticias" && <NoticiasPage />}
-      {pageId === "novedades" && <NovedadesPage />}
-      {pageId === "fuentes" && <FuentesPage />}
-      {pageId === "claves" && <ClavesPage />}
-      {pageId === "mir" && <MirPage />}
+      <div id="contenido-principal" tabIndex="-1">
+        {pageId === "home" && <HomePage />}
+        {pageId === "reivindicaciones" && <ReivindicacionesPage />}
+        {pageId === "anteproyecto" && <AnteproyectoPage />}
+        {pageId === "noticias" && <NoticiasPage />}
+        {pageId === "novedades" && <NovedadesPage />}
+        {pageId === "fuentes" && <FuentesPage />}
+        {pageId === "claves" && <ClavesPage />}
+        {pageId === "mir" && <MirPage />}
+      </div>
       <Footer />
     </main>
+  );
+}
+
+function ScrollProgress() {
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    const updateProgress = () => {
+      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+      setProgress(scrollable > 0 ? Math.min(1, window.scrollY / scrollable) : 0);
+    };
+
+    updateProgress();
+    window.addEventListener("scroll", updateProgress, { passive: true });
+    window.addEventListener("resize", updateProgress);
+    return () => {
+      window.removeEventListener("scroll", updateProgress);
+      window.removeEventListener("resize", updateProgress);
+    };
+  }, []);
+
+  return (
+    <div className="scroll-progress" aria-hidden="true">
+      <i style={{ transform: `scaleX(${progress})` }} />
+    </div>
   );
 }
 
@@ -206,6 +235,10 @@ function Hero({ copy, pageId }) {
         <h1>{copy.title}</h1>
         <p className="lead">{copy.lead}</p>
         <p className="hero-copy">{copy.text}</p>
+        <a className="scroll-discovery" href="#contenido-principal" aria-label="Ir al contenido principal">
+          <span>{isHome ? "Explorar contenidos" : "Bajar al análisis"}</span>
+          <ArrowDown size={17} />
+        </a>
         {isHome && (
           <div className="hero-actions">
             <a className="button primary" href="reivindicaciones.html">Ver programa <ArrowRight size={18} /></a>
@@ -667,14 +700,41 @@ function MirPage() {
 }
 
 function PageLayout({ navItems, children }) {
+  const [activeId, setActiveId] = useState(navItems[0]?.id);
+
+  useEffect(() => {
+    const sectionElements = navItems.map((item) => document.getElementById(item.id)).filter(Boolean);
+    if (!sectionElements.length) return undefined;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (visible?.target?.id) setActiveId(visible.target.id);
+      },
+      { rootMargin: "-18% 0px -62% 0px", threshold: [0.1, 0.35, 0.6] }
+    );
+
+    sectionElements.forEach((element) => observer.observe(element));
+    return () => observer.disconnect();
+  }, [navItems]);
+
+  const renderIndexLinks = () =>
+    navItems.map((item) => (
+      <a className={activeId === item.id ? "active" : ""} href={`#${item.id}`} key={item.id}>
+        {item.label}
+      </a>
+    ));
+
   return (
     <div className="page-layout">
       <aside className="side-index">
         <details>
           <summary>Índice</summary>
-          <nav>{navItems.map((item) => <a href={`#${item.id}`} key={item.id}>{item.label}</a>)}</nav>
+          <nav>{renderIndexLinks()}</nav>
         </details>
-        <nav className="desktop-index">{navItems.map((item) => <a href={`#${item.id}`} key={item.id}>{item.label}</a>)}</nav>
+        <nav className="desktop-index">{renderIndexLinks()}</nav>
       </aside>
       <div className="page-content">{children}</div>
     </div>
