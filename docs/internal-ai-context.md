@@ -118,7 +118,8 @@ Ideas que deben sostenerse:
 - Si las 7 horas no trabajadas tras una guardia se consideran jornada realizada pero no tiempo efectivo, el sistema protege formalmente el descanso pero no reconoce plenamente el trabajo y la penosidad.
 - La "jornada complementaria" o "hora complementaria" puede funcionar como trampa: el sistema necesita mas horas, las llama voluntarias y desplaza la presion al profesional.
 - El descanso y la salud laboral no deben depender de plantillas insuficientes ni de compensaciones meses despues.
-- Las guardias deben ser extraordinarias, voluntarias, computables, no estructurales y retribuidas de forma justa.
+- La linea roja principal no es solo que las guardias computen, sino que las condiciones de guardia las negociemos nosotros en una mesa medica propia.
+- El computo pleno debe mantenerse como garantia tecnica si finalmente hay guardias, pero subordinado a la negociacion del modelo: puede que se negocie reducirlas drasticamente o no hacer guardias estructurales.
 
 ## Comparacion con otros servicios esenciales
 

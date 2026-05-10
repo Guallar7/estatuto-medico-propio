@@ -522,7 +522,7 @@ function HeroStrikeCalendar() {
       <div className="strike-mini-grid">
         <HeroMetric label="Objetivo" value="Estatuto propio" />
         <HeroMetric label="Condición" value="Mesa propia" />
-        <HeroMetric label="Línea roja" value="Guardias computables" />
+        <HeroMetric label="Línea roja" value="Negociar condiciones" />
         <HeroMetric label="Derecho" value="Descanso real" />
       </div>
       <a className="strike-source" href={sourceRegistry[selected.sources[0]]?.url} target="_blank" rel="noreferrer">

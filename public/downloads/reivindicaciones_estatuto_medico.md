@@ -10,33 +10,37 @@ Un marco específico para responsabilidades y condiciones específicas.
 
 ## 2. Mesa médica propia
 
-Las condiciones específicas de médicos y facultativos deben negociarse con representación médica real.
+Las condiciones específicas de médicos y facultativos las debemos negociar nosotros, con representación médica real y capacidad vinculante.
 
-## 3. Guardias voluntarias, extraordinarias y computables
+## 3. Guardias decididas en negociación médica
 
-Toda hora por encima de la jornada ordinaria debe reconocerse como trabajo efectivo, con retribución adecuada y cómputo para descanso, carrera, cotización y jubilación.
+La prioridad es negociar directamente si debe haber guardias, en qué condiciones, con qué límites, descansos, retribución y garantías. El resultado puede ser exigir su cómputo pleno, reducirlas drásticamente o no hacer guardias estructurales.
 
-## 4. Descanso real
+## 4. Cómputo real y penosidad
+
+Si finalmente hay guardias, su tiempo y penosidad deben reconocerse con cómputo adecuado, registro real, cotización y efectos sobre jubilación.
+
+## 5. Descanso real
 
 El descanso postguardia debe estar protegido, computar adecuadamente y no depender de presiones organizativas.
 
-## 5. Conciliación
+## 6. Conciliación
 
 La vida familiar y personal no puede quedar subordinada de forma permanente a déficits estructurales de plantilla.
 
-## 6. Clasificación acorde a formación y responsabilidad
+## 7. Clasificación acorde a formación y responsabilidad
 
 La formación prolongada, la especialización y la responsabilidad clínica deben tener reconocimiento real y efectos materiales.
 
-## 7. Jubilación por penosidad
+## 8. Jubilación por penosidad
 
 No basta con estudiar coeficientes reductores: hay que reconocer el impacto acumulado de guardias, noches, festivos y carga asistencial.
 
-## 8. Retribución transparente
+## 9. Retribución transparente
 
 Separar siempre sueldo ordinario, guardias, complementos, horas reales y salario por hora.
 
-## 9. Aplicación real
+## 10. Aplicación real
 
 Todo derecho debe tener plazo, responsable, financiación, registro de cumplimiento y consecuencias si se incumple.
 

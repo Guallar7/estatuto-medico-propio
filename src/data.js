@@ -17,7 +17,7 @@ export const homeCards = [
   {
     id: "reivindicaciones",
     title: "Qué reclamamos",
-    text: "Estatuto propio, mesa médica propia, guardias computables, descanso real, conciliación y jubilación.",
+    text: "Estatuto propio, mesa médica propia, condiciones negociadas por médicos, descanso real, conciliación y jubilación.",
     cta: "Ver programa"
   },
   {
@@ -123,27 +123,27 @@ export const demands = [
   {
     id: "mesa-propia",
     title: "Mesa médica propia",
-    short: "Las condiciones específicas deben negociarse con representación médica real.",
+    short: "Las condiciones específicas las tenemos que negociar nosotros.",
     body:
-      "Foros consultivos y mesas técnicas pueden ayudar, pero no sustituyen una mesa médica con capacidad negociadora real.",
+      "Foros consultivos y mesas técnicas pueden ayudar, pero no sustituyen una mesa médica con capacidad negociadora real sobre nuestras condiciones de trabajo.",
     category: "Negociación",
     sources: ["anteproyecto", "sanidad-foro-marzo", "cesm-respuesta-foro", "elpais-acuerdo"]
   },
   {
     id: "guardias",
-    title: "Guardias voluntarias, extraordinarias y computables",
-    short: "Toda hora por encima de la jornada ordinaria debe reconocerse como trabajo efectivo.",
+    title: "Guardias decididas en negociación médica",
+    short: "El régimen de guardias no puede cerrarse sin quienes las hacen.",
     body:
-      "Una guardia no es una hora extra menor: es trabajo real, nocturno, festivo, prolongado y de alta responsabilidad. Debe ser extraordinaria, voluntaria, retribuida de forma justa y computable para descanso, carrera, cotización y jubilación.",
+      "La prioridad es que la profesión médica negocie directamente si debe haber guardias, en qué condiciones, con qué límites, descansos, retribución y garantías. Puede que el resultado sea exigir su cómputo pleno; puede que sea reducirlas drásticamente o no hacer guardias estructurales.",
     category: "Jornada",
     sources: ["ley-55", "anteproyecto", "directiva-tiempo", "cesm-reivindicaciones"]
   },
   {
     id: "computo-penosidad",
     title: "Cómputo real y coeficientes correctores",
-    short: "Si la guardia sostiene el sistema, debe contar como trabajo real y penoso.",
+    short: "Si se hacen guardias, su tiempo y penosidad deben quedar reconocidos.",
     body:
-      "No pedimos copiar el régimen de otros cuerpos. Señalamos el principio: la Administración ya reconoce en servicios esenciales jornadas especiales, coeficientes correctores y jubilación adaptada al desgaste. Si niega un Estatuto Médico Propio, habrá que reclamar formalmente ese mismo principio para las guardias médicas: cómputo íntegro, coeficientes por penosidad y jubilación acorde a noches, festivos y años de exposición.",
+      "Esta es una exigencia técnica subordinada a la negociación propia: si finalmente hay guardias, deberán computar de forma íntegra y reconocer su penosidad. No pedimos copiar el régimen de otros cuerpos; señalamos que la Administración ya reconoce en servicios esenciales jornadas especiales, coeficientes correctores y jubilación adaptada al desgaste.",
     category: "Penosidad",
     sources: [
       "anteproyecto",
@@ -239,7 +239,7 @@ export const claims = [
     formal: "Distinguir actividad ordinaria, atención continuada y urgencia puede ordenar conceptos.",
     reality: "El texto no rompe la dependencia estructural de la guardia. La define como horario adicional, pero la integra en la programación funcional del centro y deja su organización en la dirección.",
     why: "Una actividad que se programa todos los meses, cubre déficits de plantilla y condiciona salario, descanso y vida familiar no es una excepción: es parte del modelo laboral médico.",
-    amendment: "La guardia debe ser extraordinaria, voluntaria, suficientemente retribuida, computable a todos los efectos y no utilizada para cubrir plantilla estructural.",
+    amendment: "El régimen de guardias debe negociarse en una mesa médica propia: primero decidir si deben existir guardias estructurales y, si las hay, fijar voluntariedad, límites, descansos, retribución, cómputo y garantías.",
     refs: ["Arts. 93-95 APL", "Art. 48 Ley 55/2003", "Directiva 2003/88/CE"],
     evidence: [
       {
@@ -350,8 +350,8 @@ export const claims = [
     change: "El artículo 99 impide exigir jornada ordinaria inmediatamente posterior a una guardia y considera ese periodo como jornada realizada a efectos de no programarlo.",
     formal: "Es una mejora parcial: protege la libranza posterior frente a la exigencia directa de volver a trabajar.",
     reality: "El mismo artículo afirma que esos periodos no computan como tiempo efectivo de trabajo. La fatiga generada por una guardia existe, pero el sistema no la reconoce plenamente como tiempo trabajado.",
-    why: "Para jubilación, penosidad, carrera, cotización, salud laboral y estadística real de horas, la diferencia importa. No basta con decir que no se debe recuperar agenda si el tiempo desaparece del cómputo efectivo. En otros servicios esenciales, las jornadas prolongadas se integran en regímenes especiales con cómputos y coeficientes.",
-    amendment: "Computar la guardia y sus descansos obligados como consecuencia laboral protegida: sin deuda horaria, sin recuperación indirecta y con reflejo en penosidad, jubilación y registro de horas reales.",
+    why: "Para jubilación, penosidad, carrera, cotización, salud laboral y estadística real de horas, la diferencia importa. Pero el cómputo no debe tapar la prioridad política: que las condiciones de guardia se negocien por quienes las soportan.",
+    amendment: "Como garantía mínima si existen guardias, computar la guardia y sus descansos obligados como consecuencia laboral protegida: sin deuda horaria, sin recuperación indirecta y con reflejo en penosidad, jubilación y registro de horas reales.",
     refs: ["Art. 99 APL", "Art. 90 APL", "Directiva 2003/88/CE"],
     evidence: [
       {
@@ -617,7 +617,7 @@ export const claims = [
     formal: "Europa proporciona un suelo de protección común.",
     reality: "Cumplir mínimos europeos no justifica mantener un modelo penoso. España puede aprobar reglas más protectoras y específicas para quienes hacen guardias médicas.",
     why: "La pregunta no es si el anteproyecto cabe en Europa, sino si protege de verdad a quienes soportan las condiciones más duras del sistema.",
-    amendment: "Estatuto propio con límites superiores al mínimo europeo: guardia extraordinaria, descanso efectivo inmediato, cómputo pleno y prohibición de usar opt-out para cubrir plantilla.",
+    amendment: "Estatuto propio con límites superiores al mínimo europeo y mesa médica para decidir el modelo de guardias: voluntariedad, duración, descanso efectivo, cómputo si procede y prohibición de usar opt-out para cubrir plantilla.",
     refs: ["Directiva 2003/88/CE", "Arts. 3, 5, 6 y 22", "TJUE guardias"],
     evidence: [
       {
