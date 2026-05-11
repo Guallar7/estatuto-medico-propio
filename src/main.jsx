@@ -352,6 +352,7 @@ function AnteproyectoPage() {
             <Accordion
               id={claim.id}
               title={claim.title}
+              titleMeta={claimArticleLabel(claim)}
               eyebrow="Punto del anteproyecto"
               summary={claim.claim}
               status={claim.status}
@@ -900,7 +901,7 @@ function DirectoryCard({ card, href }) {
   );
 }
 
-function Accordion({ id, title, eyebrow, summary, children, defaultOpen = false, status, tone, meta = [], nextItem = null }) {
+function Accordion({ id, title, titleMeta, eyebrow, summary, children, defaultOpen = false, status, tone, meta = [], nextItem = null }) {
   const [copied, setCopied] = useState(false);
 
   const handleNextClick = (event) => {
@@ -944,9 +945,12 @@ function Accordion({ id, title, eyebrow, summary, children, defaultOpen = false,
 
   return (
     <details className="accordion" id={id} open={defaultOpen}>
-      <summary tabIndex={0}>
+      <summary className={status || tone ? "has-state-chip" : undefined} tabIndex={0}>
         <span>{eyebrow}</span>
-        <strong>{title}</strong>
+        <strong>
+          {titleMeta && <em className="accordion-title-meta">{titleMeta}</em>}
+          {title}
+        </strong>
         {summary && <small>{summary}</small>}
         {meta.length > 0 && (
           <em className="accordion-meta">
@@ -986,6 +990,42 @@ function DefinitionGrid({ rows }) {
     </dl>
   );
 }
+
+const claimArticleLabel = (claim) => {
+  const references = [...(claim.refs ?? []), ...(claim.evidence ?? []).map((item) => item.article)];
+  const labels = references.map(extractAplReferenceLabel).filter(Boolean);
+  const uniqueLabels = [...new Set(labels)];
+  if (!uniqueLabels.length) return null;
+
+  const [first, second] = uniqueLabels;
+  const shouldPairProvisions =
+    second &&
+    (/^D[ATF]\b/i.test(first) || /^D[ATF]\b/i.test(second)) &&
+    first.length + second.length <= 18;
+
+  return shouldPairProvisions ? `${first} / ${second}` : first;
+};
+
+const extractAplReferenceLabel = (value = "") => {
+  if (!value || /\b(?:Directiva|Ley|RD|EBEP|Acuerdo|TJUE|CESM|BOE)\b/i.test(value)) return null;
+
+  const text = value.replace(/\bAPL\b.*$/i, "").trim();
+  const provision = text.match(/\b(D[ATF])\s*(\d+(?:\.\d+)?(?:\s*[-–]\s*\d+(?:\.\d+)?)?)/i);
+  if (provision) return normalizeAplReference(`${provision[1].toUpperCase()} ${provision[2]}`);
+
+  const article = text.match(/\b(Arts?\.?)\s*([\d][\d\s.,y-]*)/i);
+  if (!article) return null;
+
+  const prefix = article[1].toLowerCase().startsWith("arts") ? "Arts." : "Art.";
+  return normalizeAplReference(`${prefix} ${article[2].trim()}`);
+};
+
+const normalizeAplReference = (value) =>
+  value
+    .replace(/\b(Art\.?|Arts\.?)\s+(\d+)\.\d+/gi, "$1 $2")
+    .replace(/\b(DA|DT|DF)\s+(\d+)\.\d+/gi, "$1 $2")
+    .replace(/\s+/g, " ")
+    .trim();
 
 const evidenceSourceId = (item) => {
   if (item.sourceId) return item.sourceId;
@@ -1049,6 +1089,7 @@ function EvidenceList({ items }) {
             <summary>
               <span>{item.article}</span>
               <strong>{item.page}</strong>
+              <ChevronDown className="evidence-chevron" size={16} />
             </summary>
             <blockquote>{item.quote}</blockquote>
             <p>

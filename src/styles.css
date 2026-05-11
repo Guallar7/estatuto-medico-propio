@@ -701,6 +701,24 @@ footer {
   overflow-wrap: anywhere;
 }
 
+.accordion-title-meta {
+  background: #eef5f2;
+  border: 1px solid rgba(4, 120, 87, 0.14);
+  border-radius: 999px;
+  color: var(--green-dark);
+  display: inline-flex;
+  font-size: 0.64rem;
+  font-style: normal;
+  font-weight: 950;
+  line-height: 1;
+  margin: 0 0.48rem 0.18rem 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  padding: 0.28rem 0.42rem;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+
 .accordion summary small {
   color: var(--muted);
   font-size: 0.95rem;
@@ -724,6 +742,8 @@ footer {
   font-size: 0.7rem;
   font-style: normal;
   font-weight: 950;
+  max-width: 100%;
+  overflow-wrap: anywhere;
   padding: 0.28rem 0.46rem;
   text-transform: uppercase;
 }
@@ -870,7 +890,6 @@ footer {
   cursor: pointer;
   display: flex;
   gap: 0.5rem;
-  justify-content: space-between;
   list-style: none;
   padding: 0.65rem 0.75rem;
 }
@@ -883,12 +902,24 @@ footer {
   color: var(--green-dark);
   font-size: 0.78rem;
   font-weight: 950;
+  flex: 1 1 auto;
   text-transform: uppercase;
 }
 
 .evidence-item summary strong {
   color: var(--muted);
+  flex: 0 0 auto;
   font-size: 0.78rem;
+}
+
+.evidence-chevron {
+  color: var(--muted);
+  flex: 0 0 auto;
+  transition: transform 160ms ease;
+}
+
+.evidence-item[open] .evidence-chevron {
+  transform: rotate(180deg);
 }
 
 .evidence-item blockquote {
@@ -1995,6 +2026,12 @@ footer strong {
     grid-column: 1 / -1;
     grid-row: 4;
     justify-self: start;
+    max-width: 100%;
+    white-space: normal;
+  }
+
+  .accordion > summary.has-state-chip .accordion-meta {
+    grid-row: 5;
   }
 
   .chevron {
