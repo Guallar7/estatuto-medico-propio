@@ -1465,10 +1465,11 @@ footer {
 }
 
 .snapshot-head {
-  align-items: center;
+  align-items: flex-start;
   display: flex;
   gap: 0.75rem;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .snapshot-head strong {
@@ -1479,6 +1480,7 @@ footer {
   font-weight: 950;
   padding: 0.35rem 0.6rem;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .snapshot-grid {
@@ -1493,6 +1495,7 @@ footer {
   display: grid;
   grid-template-columns: 40px minmax(0, 1fr);
   gap: 0.55rem;
+  min-width: 0;
   padding: 0.9rem;
   position: relative;
 }
@@ -1525,11 +1528,12 @@ footer {
 
 .snapshot-card h2 {
   color: var(--blue);
-  font-size: clamp(1.35rem, 3vw, 2.1rem);
+  font-size: clamp(1.35rem, 8vw, 2.1rem);
   grid-column: 2;
-  letter-spacing: -0.05em;
-  line-height: 0.98;
+  letter-spacing: 0;
+  line-height: 1;
   margin: 0;
+  overflow-wrap: anywhere;
 }
 
 .snapshot-card p {
@@ -1832,6 +1836,7 @@ footer strong {
   .argument-grid,
   .reality-summary,
   .claim-chart,
+  .snapshot-grid,
   .mir-summary,
   .mir-links {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1853,10 +1858,6 @@ footer strong {
 
   .directory-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .snapshot-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
   .snapshot-card {
