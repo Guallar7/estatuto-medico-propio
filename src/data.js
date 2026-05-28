@@ -639,6 +639,25 @@ export const claims = [
 
 export const news = [
   {
+    id: "nuevo-borrador-consejo-ministros-mayo-2026",
+    tone: "mixto",
+    outlet: "Gaceta Médica / Redacción Médica",
+    date: "2026-05-27",
+    title: "Un nuevo borrador del Estatuto Marco acelera hacia Consejo de Ministros",
+    claim:
+      "La prensa sanitaria informa de que Sanidad ha movido un texto perfilado del Estatuto Marco hacia el circuito previo al Consejo de Ministros. Redacción Médica difunde un PDF de 106 páginas con ajustes materiales: más control de la temporalidad, compensación por abuso, umbral de carga horaria excesiva, guardias de más de cinco módulos físicos mensuales, protección retributiva en exenciones de guardia y estudios de penosidad, turnos y desgaste profesional.",
+    response:
+      "El texto incorpora cambios laborales relevantes, pero no resuelve la reivindicación médica central. Mantiene el Ámbito de Negociación general, no crea mesa médica propia y conserva guardias de hasta 24 horas en difícil cobertura, fines de semana y festivos. La jubilación por penosidad sigue sin reconocimiento directo: se remite a informes técnicos y al procedimiento reglamentario, y desaparece la modificación expresa del RD 402/2025 que figuraba en el borrador previo.",
+    key: "Hay movimiento normativo y ajustes materiales, pero no hay estatuto médico propio ni garantía directa sobre guardias, penosidad y negociación médica.",
+    sources: [
+      "gaceta-medica-borrador-consejo-ministros",
+      "redaccion-medica-texto-perfilado",
+      "redaccion-medica-pdf-mayo-2026",
+      "sanidad-nuevo-estatuto-marco",
+      "anteproyecto"
+    ]
+  },
+  {
     id: "galicia-avances-huelga-autonomica",
     tone: "avance",
     outlet: "Asociación MIR España / O'MEGA / MUD",
@@ -767,6 +786,13 @@ export const news = [
 ];
 
 export const updates = [
+  {
+    date: "2026-05-28",
+    type: "Noticias",
+    title: "Nuevo borrador del Estatuto Marco en circuito previo al Consejo de Ministros",
+    body:
+      "Se incorpora una ficha de actualidad sobre el texto difundido el 27 de mayo de 2026: avanza la tramitación y aparecen ajustes en temporalidad, guardias, carga horaria, exenciones y jubilación, pero se mantiene la ausencia de mesa médica propia y el reconocimiento directo de penosidad queda pendiente."
+  },
   {
     date: "2026-05-08",
     type: "Noticias",
@@ -982,6 +1008,34 @@ export const sourceRegistry = {
     type: "Oficial",
     year: "2026",
     url: "https://www.lamoncloa.gob.es/consejodeministros/resumenes/Documents/2026/050526-plan-anual-normativo-2026.pdf"
+  },
+  "sanidad-nuevo-estatuto-marco": {
+    title: "Nuevo Estatuto Marco: anteproyecto publicado por Sanidad",
+    institution: "Ministerio de Sanidad",
+    type: "Oficial",
+    year: "2026",
+    url: "https://www.sanidad.gob.es/areas/profesionesSanitarias/nuevoEstatutoMarco.htm"
+  },
+  "gaceta-medica-borrador-consejo-ministros": {
+    title: "El Estatuto Marco acelera: un nuevo borrador avanza hacia el Consejo de Ministros",
+    institution: "Gaceta Médica",
+    type: "Prensa",
+    year: "2026",
+    url: "https://gacetamedica.com/profesion/estatuto-marco-texto-borrador-consejo-ministros/"
+  },
+  "redaccion-medica-texto-perfilado": {
+    title: "Así está el redactado del Estatuto Marco de Sanidad que perfila el Gobierno",
+    institution: "Redacción Médica",
+    type: "Prensa",
+    year: "2026",
+    url: "https://www.redaccionmedica.com/secciones/ministerio-sanidad/asi-esta-el-redactado-del-estatuto-marco-de-sanidad-que-perfila-el-gobierno-9258"
+  },
+  "redaccion-medica-pdf-mayo-2026": {
+    title: "Texto perfilado del Anteproyecto de Ley del Estatuto Marco difundido en mayo de 2026",
+    institution: "Redacción Médica",
+    type: "Documento difundido por prensa",
+    year: "2026",
+    url: `${baseUrl}Anteproyecto-Estatuto-Marco-mayo-2026-Redaccion-Medica.pdf`
   },
   "sanidad-foro-marzo": {
     title: "Sanidad y el Foro de la Profesión Médica alcanzan un acuerdo para mantener el diálogo",
@@ -1266,6 +1320,8 @@ export const sourceGroups = [
       "ministerio-faq",
       "moncloa-acuerdo",
       "plan-normativo-2026",
+      "sanidad-nuevo-estatuto-marco",
+      "redaccion-medica-pdf-mayo-2026",
       "sanidad-foro-marzo",
       "sanidad-rechazo-estatuto-propio",
       "sanidad-planificacion-medicos",
@@ -1296,6 +1352,8 @@ export const sourceGroups = [
       "satse-acuerdo",
       "elpais-acuerdo",
       "elpais-huelga-abril",
+      "gaceta-medica-borrador-consejo-ministros",
+      "redaccion-medica-texto-perfilado",
       "heraldo-claves",
       "diario-altoaragon",
       "aragondigital-guardias",
