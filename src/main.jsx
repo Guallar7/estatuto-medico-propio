@@ -887,7 +887,7 @@ ${formData.dni}`;
           </div>
           <div className="apl-guide-step">
             <span className="step-badge">2</span>
-            <p>Haz clic en <strong>"Descargar PDF"</strong> para obtener el escrito formal firmado y listo para imprimir o adjuntar.</p>
+            <p>Haz clic en <strong>"Guardar en PDF"</strong> (selecciona la opción "Guardar como PDF" en el menú que se abrirá) para descargar el escrito oficial listo para adjuntar.</p>
           </div>
           <div className="apl-guide-step">
             <span className="step-badge">3</span>
@@ -972,7 +972,7 @@ ${formData.dni}`;
           </button>
           <button className="widget-btn print-btn" onClick={handlePrint} type="button">
             <Printer size={16} />
-            <span>Descargar PDF</span>
+            <span>Guardar en PDF</span>
           </button>
           <a className="widget-btn action-btn" href={mailtoUrl} target="_blank" rel="noreferrer">
             <Mail size={16} />
