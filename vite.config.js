@@ -19,7 +19,8 @@ export default defineConfig({
         fuentes: resolve(rootDir, "fuentes.html"),
         claves: resolve(rootDir, "claves.html"),
         mir: resolve(rootDir, "mir.html"),
-        aportaciones: resolve(rootDir, "aportaciones.html")
+        aportaciones: resolve(rootDir, "aportaciones.html"),
+        "demo-animada": resolve(rootDir, "demo-animada.html")
       }
     }
   }

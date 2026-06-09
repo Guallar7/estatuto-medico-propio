@@ -634,8 +634,6 @@ function APLEmailGenerator() {
     const newErrors = {};
     if (!formData.nombre.trim()) newErrors.nombre = "El nombre es obligatorio";
     if (!formData.dni.trim()) newErrors.dni = "El DNI es obligatorio";
-    if (!formData.especialidad.trim()) newErrors.especialidad = "La especialidad es obligatoria";
-    if (!formData.centro.trim()) newErrors.centro = "El centro de salud o hospital es obligatorio";
     if (!formData.ciudad.trim()) newErrors.ciudad = "La ciudad es obligatoria";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -652,7 +650,17 @@ function APLEmailGenerator() {
   
   const generatedBody = useMemo(() => {
     if (step !== "result") return "";
-    return `D./Dña. ${formData.nombre}, con DNI ${formData.dni}, facultativo especialista en ${formData.especialidad} con ejercicio profesional en ${formData.centro}, por medio del presente escrito
+    const espText = formData.especialidad.trim();
+    const centroText = formData.centro.trim();
+    let profesionalDesc = "";
+    if (espText && centroText) {
+      profesionalDesc = `, facultativo especialista en ${espText} con ejercicio profesional en ${centroText}`;
+    } else if (espText) {
+      profesionalDesc = `, facultativo especialista en ${espText}`;
+    } else if (centroText) {
+      profesionalDesc = `, con ejercicio profesional en ${centroText}`;
+    }
+    return `D./Dña. ${formData.nombre}, con DNI ${formData.dni}${profesionalDesc}, por medio del presente escrito
 
 EXPONE:
 Primero. El anteproyecto de ley de Estatuto Marco ha sido aprobado en Consejo de Ministros el pasado 2 de junio, pasando al trámite de audiencia e información pública, durante el cual pueden enviar aportaciones ciudadanos titulares de derechos e intereses legítimos afectados por un proyecto normativo ya redactado, directamente o a través de las organizaciones o asociaciones que los representen, antes de su futura remisión a las Cortes Generales.
@@ -699,6 +707,18 @@ ${formData.dni}`;
     const logoBaseUrl = window.location.origin.includes("localhost") || window.location.origin.includes("127.0.0.1")
       ? "https://guallar7.github.io/estatuto-medico-propio"
       : `${window.location.origin}${window.location.pathname.replace(/\/[^/]*$/, "")}`;
+
+    const espText = formData.especialidad.trim();
+    const centroText = formData.centro.trim();
+    let profesionalDescHtml = "";
+    if (espText && centroText) {
+      profesionalDescHtml = `, facultativo especialista en <strong>${espText}</strong> con ejercicio profesional en <strong>${centroText}</strong>`;
+    } else if (espText) {
+      profesionalDescHtml = `, facultativo especialista en <strong>${espText}</strong>`;
+    } else if (centroText) {
+      profesionalDescHtml = `, con ejercicio profesional en <strong>${centroText}</strong>`;
+    }
+
     return `<div style="font-family: Arial, sans-serif; line-height: 1.5; color: #333333; max-width: 650px; margin: 0 auto; padding: 20px;">
   <!-- Header with Logos -->
   <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #0F2C59; padding-bottom: 15px; margin-bottom: 25px; gap: 15px;">
@@ -708,7 +728,7 @@ ${formData.dni}`;
   </div>
 
   <!-- Body -->
-  <p><strong>D./Dña. ${formData.nombre}</strong>, con DNI <strong>${formData.dni}</strong>, facultativo especialista en <strong>${formData.especialidad}</strong> con ejercicio profesional en <strong>${formData.centro}</strong>, por medio del presente escrito</p>
+  <p><strong>D./Dña. ${formData.nombre}</strong>, con DNI <strong>${formData.dni}</strong>${profesionalDescHtml}, por medio del presente escrito</p>
   
   <p style="margin-top: 20px; font-size: 16px; letter-spacing: 0.5px; margin-bottom: 10px;"><strong>EXPONE:</strong></p>
   
@@ -812,6 +832,18 @@ ${formData.dni}`;
     const logoBaseUrl = window.location.origin.includes("localhost") || window.location.origin.includes("127.0.0.1")
       ? "https://guallar7.github.io/estatuto-medico-propio"
       : `${window.location.origin}${window.location.pathname.replace(/\/[^/]*$/, "")}`;
+
+    const espText = formData.especialidad.trim();
+    const centroText = formData.centro.trim();
+    let profesionalDescHtml = "";
+    if (espText && centroText) {
+      profesionalDescHtml = `, facultativo especialista en <strong>${espText}</strong> con ejercicio profesional en <strong>${centroText}</strong>`;
+    } else if (espText) {
+      profesionalDescHtml = `, facultativo especialista en <strong>${espText}</strong>`;
+    } else if (centroText) {
+      profesionalDescHtml = `, con ejercicio profesional en <strong>${centroText}</strong>`;
+    }
+
     printWindow.document.write(`<!DOCTYPE html>
       <html>
         <head>
@@ -841,7 +873,7 @@ ${formData.dni}`;
             <img class="logo" src="${logoBaseUrl}/SMA.png" />
           </div>
           
-          <p><strong>D./Dña. ${formData.nombre}</strong>, con DNI <strong>${formData.dni}</strong>, facultativo especialista en <strong>${formData.especialidad}</strong> con ejercicio profesional en <strong>${formData.centro}</strong>, por medio del presente escrito</p>
+          <p><strong>D./Dña. ${formData.nombre}</strong>, con DNI <strong>${formData.dni}</strong>${profesionalDescHtml}, por medio del presente escrito</p>
           
           <div class="section-title">EXPONE:</div>
           <p><strong>Primero.</strong> El anteproyecto de ley de Estatuto Marco ha sido aprobado en Consejo de Ministros el pasado 2 de junio, pasando al trámite de audiencia e información pública, durante el cual pueden enviar aportaciones ciudadanos titulares de derechos e intereses legítimos afectados por un proyecto normativo ya redactado, directamente o a través de las organizaciones o asociaciones que los representen, antes de su futura remisión a las Cortes Generales.</p>
@@ -911,6 +943,29 @@ ${formData.dni}`;
 
   const mailtoUrl = `mailto:informacionpublica.aplestatutomarco@sanidad.gob.es?subject=${encodeURIComponent(generatedSubject)}`;
 
+  const espText = formData.especialidad.trim();
+  const centroText = formData.centro.trim();
+  let profesionalDescJsx = null;
+  if (espText && centroText) {
+    profesionalDescJsx = (
+      <>
+        , facultativo especialista en <strong>{espText}</strong> con ejercicio profesional en <strong>{centroText}</strong>
+      </>
+    );
+  } else if (espText) {
+    profesionalDescJsx = (
+      <>
+        , facultativo especialista en <strong>{espText}</strong>
+      </>
+    );
+  } else if (centroText) {
+    profesionalDescJsx = (
+      <>
+        , con ejercicio profesional en <strong>{centroText}</strong>
+      </>
+    );
+  }
+
   if (step === "result") {
     return (
       <>
@@ -957,7 +1012,7 @@ ${formData.dni}`;
               </div>
               
               <div className="document-sheet-body">
-                <p><strong>D./Dña. {formData.nombre}</strong>, con DNI <strong>{formData.dni}</strong>, facultativo especialista en <strong>{formData.especialidad}</strong> con ejercicio profesional en <strong>{formData.centro}</strong>, por medio del presente escrito</p>
+                <p><strong>D./Dña. {formData.nombre}</strong>, con DNI <strong>{formData.dni}</strong>{profesionalDescJsx}, por medio del presente escrito</p>
                 
                 <div className="doc-section-title">EXPONE:</div>
                 <p><strong>Primero.</strong> El anteproyecto de ley de Estatuto Marco ha sido aprobado en Consejo de Ministros el pasado 2 de junio, pasando al trámite de audiencia e información pública, durante el cual pueden enviar aportaciones ciudadanos titulares de derechos e intereses legítimos afectados por un proyecto normativo ya redactado, directamente o a través de las organizaciones o asociaciones que los representen, antes de su futura remisión a las Cortes Generales.</p>
@@ -1119,7 +1174,7 @@ ${formData.dni}`;
           </div>
 
           <div className="input-wrapper">
-            <label htmlFor="especialidad">Especialidad médica *</label>
+            <label htmlFor="especialidad">Especialidad médica</label>
             <input
               id="especialidad"
               name="especialidad"
@@ -1133,7 +1188,7 @@ ${formData.dni}`;
           </div>
 
           <div className="input-wrapper">
-            <label htmlFor="centro">Hospital o Centro de Salud *</label>
+            <label htmlFor="centro">Hospital o Centro de Salud</label>
             <input
               id="centro"
               name="centro"
