@@ -257,7 +257,7 @@ function Hero({ copy, pageId }) {
         <p className="lead">{copy.lead}</p>
         <p className="hero-copy">{copy.text}</p>
         <a className="scroll-discovery" href="#contenido-principal" aria-label="Ir al contenido principal">
-          <span>{isHome ? "Explorar contenidos" : "Bajar al análisis"}</span>
+          <span>{isHome ? "Explorar contenidos" : pageId === "aportaciones" ? "Bajar al envío" : "Bajar al análisis"}</span>
           <ArrowDown size={17} />
         </a>
         {isHome && (

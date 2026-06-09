@@ -2615,14 +2615,37 @@ footer strong {
   padding: 2.2rem 2rem;
 }
 
+.aportaciones-card-wrapper .apl-form-header,
+.aportaciones-card-wrapper .apl-result-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 1.8rem;
+}
+
+.aportaciones-card-wrapper .apl-form-header span,
+.aportaciones-card-wrapper .apl-result-header span {
+  color: var(--red);
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
 .aportaciones-card-wrapper .apl-form-header strong,
 .aportaciones-card-wrapper .apl-result-header strong {
   color: var(--blue);
+  font-size: clamp(1.4rem, 2.5vw, 1.85rem);
+  font-weight: 800;
+  line-height: 1.1;
 }
 
 .aportaciones-card-wrapper .apl-form-header small,
 .aportaciones-card-wrapper .apl-result-header small {
   color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.45;
+  margin-top: 0.25rem;
 }
 
 .aportaciones-card-wrapper .input-wrapper label {
