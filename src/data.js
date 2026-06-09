@@ -10,7 +10,8 @@ export const pages = [
   { id: "noticias", label: "Noticias", path: "noticias.html" },
   { id: "novedades", label: "Novedades", path: "novedades.html" },
   { id: "fuentes", label: "Fuentes", path: "fuentes.html" },
-  { id: "mir", label: "MIR", path: "mir.html" }
+  { id: "mir", label: "MIR", path: "mir.html" },
+  { id: "aportaciones", label: "Aportaciones", path: "aportaciones.html" }
 ];
 
 export const homeCards = [
@@ -647,7 +648,7 @@ export const news = [
     claim:
       "La prensa sanitaria informa de que Sanidad ha movido un texto perfilado del Estatuto Marco hacia el circuito previo al Consejo de Ministros. Redacción Médica difunde un PDF de 106 páginas con ajustes materiales: más control de la temporalidad, compensación por abuso, umbral de carga horaria excesiva, guardias de más de cinco módulos físicos mensuales, protección retributiva en exenciones de guardia y estudios de penosidad, turnos y desgaste profesional.",
     response:
-      "El texto incorpora cambios laborales relevantes, pero no resuelve la reivindicación médica central. Mantiene el Ámbito de Negociación general, no crea mesa médica propia y conserva guardias de hasta 24 horas en difícil cobertura, fines de semana y festivos. La jubilación por penosidad sigue sin reconocimiento directo: se remite a informes técnicos y al procedimiento reglamentario, y desaparece la modificación expresa del RD 402/2025 que figuraba en el borrador previo.",
+      "El texto incorpora cambios laborales relevantes, pero no resuelve la reivindicación médica central. Mantiene el Ámbito de Negociación general, no crea mesa médica propia y conserva guardias de hasta 24 horas en difícil cobertura, fines de semana y festivos. Además, al sustituir la referencia estricta a urgencia y emergencia por continuidad asistencial y programación funcional, deja más margen para encajar actividad estructural dentro de la guardia. La jubilación por penosidad sigue sin reconocimiento directo: se remite a informes técnicos y al procedimiento reglamentario, y desaparece la modificación expresa del RD 402/2025 que figuraba en el borrador previo.",
     key: "Hay movimiento normativo y ajustes materiales, pero no hay estatuto médico propio ni garantía directa sobre guardias, penosidad y negociación médica.",
     sources: [
       "gaceta-medica-borrador-consejo-ministros",

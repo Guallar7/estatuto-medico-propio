@@ -18,7 +18,8 @@ export default defineConfig({
         novedades: resolve(rootDir, "novedades.html"),
         fuentes: resolve(rootDir, "fuentes.html"),
         claves: resolve(rootDir, "claves.html"),
-        mir: resolve(rootDir, "mir.html")
+        mir: resolve(rootDir, "mir.html"),
+        aportaciones: resolve(rootDir, "aportaciones.html")
       }
     }
   }

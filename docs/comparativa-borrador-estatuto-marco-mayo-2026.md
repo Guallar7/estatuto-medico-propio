@@ -61,7 +61,15 @@ Lectura: clasifica mejor, pero no convierte automaticamente la clasificacion en 
 - El articulo 98 mantiene la carga horaria excesiva por mas de cinco guardias fisicas mensuales sostenidas, salvo consentimiento expreso.
 - El articulo 99 mantiene el descanso postguardia como jornada realizada, pero no como tiempo efectivo a efectos del articulo 84.
 
-Lectura: mejora tecnica en algunos puntos, pero la excepcion de 24 horas sigue cubriendo los supuestos donde la sobrecarga es mas probable.
+#### Riesgo especifico: actividad estructural dentro de la guardia
+
+El cambio no dice literalmente que durante una guardia pueda programarse consulta ordinaria, agenda ordinaria o actividad ordinaria completa. Esa lectura seria demasiado fuerte si se presenta como afirmacion cerrada.
+
+El problema es mas fino: el borrador previo contenia una barrera mas clara al decir que la jornada de guardia solo podia utilizarse para atencion a la urgencia y emergencia que no estuviera ya incluida en la actividad ordinaria habitual. En el texto de mayo esa limitacion desaparece y se sustituye por una formula mas amplia: atencion sanitaria urgente, mantenimiento de la continuidad asistencial y desarrollo conforme a la programacion funcional del centro.
+
+La expresion "continuidad asistencial" puede abarcar mucho mas que urgencias o emergencias estrictas: pacientes ingresados, interconsultas, altas, evoluciones, incidencias de planta, actividad no demorable o tareas acumuladas que el centro justifique por organizacion. Al quedar vinculada a la programacion funcional, el margen de decision de cada centro o servicio de salud aumenta.
+
+Lectura: mejora tecnica en algunos puntos, pero la excepcion de 24 horas sigue cubriendo los supuestos donde la sobrecarga es mas probable. Ademas, el nuevo redactado reduce la proteccion frente a que trabajo estructural acabe absorbido por guardias peor reconocidas, peor retribuidas y con penosidad insuficientemente trasladada a derechos.
 
 ### 6. Jubilacion y penosidad
 

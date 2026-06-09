@@ -16,9 +16,11 @@ import {
   ExternalLink,
   FileText,
   Library,
+  Mail,
   Menu,
   Music2,
   Newspaper,
+  Printer,
   Scale,
   ShieldCheck,
   Stethoscope,
@@ -91,6 +93,12 @@ const pageCopy = {
     title: "MIR: no es sueldo, son guardias",
     lead: "El análisis MIR completo vive en su portal especializado.",
     text: "Aquí queda el resumen y el enlace al análisis completo para no contaminar la arquitectura general."
+  },
+  aportaciones: {
+    kicker: "Audiencia pública",
+    title: "Aportaciones APL",
+    lead: "Envía tus alegaciones al APL del Estatuto Marco.",
+    text: "Rellena el formulario con tus datos para generar tu escrito de oposición oficial y enviarlo a Sanidad de forma guiada (Plazo: antes del 26 de junio de 2026)."
   }
 };
 
@@ -173,6 +181,7 @@ function App() {
         {pageId === "fuentes" && <FuentesPage />}
         {pageId === "claves" && <ClavesPage />}
         {pageId === "mir" && <MirPage />}
+        {pageId === "aportaciones" && <AportacionesPage />}
       </div>
       <Footer />
     </main>
@@ -254,8 +263,8 @@ function Hero({ copy, pageId }) {
         {isHome && (
           <div className="hero-actions">
             <a className="button primary" href="reivindicaciones.html">Ver programa <ArrowRight size={18} /></a>
-            <a className="button urgent" href="anteproyecto.html">Analizar anteproyecto <Scale size={18} /></a>
-            <a className="button ghost" href="novedades.html">Últimas novedades <CalendarDays size={18} /></a>
+            <a className="button urgent" href="aportaciones.html">Aportaciones APL <Mail size={18} /></a>
+            <a className="button primary" href="anteproyecto.html">Analizar anteproyecto <Scale size={18} /></a>
             <a className="button ghost song-link" href={strikeSongUrl} target="_blank" rel="noreferrer">Canción huelga médica <Music2 size={18} /></a>
           </div>
         )}
@@ -530,6 +539,577 @@ function HeroStrikeCalendar() {
         Fuente: {sourceRegistry[selected.sources[0]]?.institution ?? "calendario sindical"} <ExternalLink size={13} />
       </a>
     </aside>
+  );
+}
+
+const getSpanishDateInfo = () => {
+  const date = new Date();
+  const day = date.getDate();
+  const months = [
+    "enero", "febrero", "marzo", "abril", "mayo", "junio",
+    "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"
+  ];
+  const month = months[date.getMonth()];
+  return { day, month };
+};
+
+// DEPRECATION NOTICE: This component (AportacionesPage) and the associated
+// APLEmailGenerator are scheduled to be deprecated/removed after June 26, 2026.
+function AportacionesPage() {
+  return (
+    <div className="aportaciones-page-container">
+      <div className="aportaciones-card-wrapper">
+        <APLEmailGenerator />
+      </div>
+    </div>
+  );
+}
+
+function APLEmailGenerator() {
+  const { day: defaultDay, month: defaultMonth } = useMemo(() => getSpanishDateInfo(), []);
+  const [formData, setFormData] = useState({
+    nombre: "",
+    dni: "",
+    especialidad: "",
+    centro: "",
+    ciudad: "",
+    dia: String(defaultDay),
+    mes: defaultMonth
+  });
+
+  const [step, setStep] = useState("form"); // "form" or "result"
+  const [errors, setErrors] = useState({});
+  const [copiedSubject, setCopiedSubject] = useState(false);
+  const [copiedBody, setCopiedBody] = useState(false);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: "" }));
+    }
+  };
+
+  const validate = () => {
+    const newErrors = {};
+    if (!formData.nombre.trim()) newErrors.nombre = "El nombre es obligatorio";
+    if (!formData.dni.trim()) newErrors.dni = "El DNI es obligatorio";
+    if (!formData.especialidad.trim()) newErrors.especialidad = "La especialidad es obligatoria";
+    if (!formData.centro.trim()) newErrors.centro = "El centro de salud o hospital es obligatorio";
+    if (!formData.ciudad.trim()) newErrors.ciudad = "La ciudad es obligatoria";
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleGenerate = (e) => {
+    e.preventDefault();
+    if (validate()) {
+      setStep("result");
+    }
+  };
+
+  const generatedSubject = `DG/08/26 APORTACIONES + ${formData.nombre.toUpperCase()}`;
+  
+  const generatedBody = useMemo(() => {
+    if (step !== "result") return "";
+    return `D./Dña. ${formData.nombre}, con DNI ${formData.dni}, facultativo especialista en ${formData.especialidad} con ejercicio profesional en ${formData.centro}, por medio del presente escrito
+
+EXPONE:
+Primero. El anteproyecto de ley de Estatuto Marco ha sido aprobado en Consejo de Ministros el pasado 2 de junio, pasando al trámite de audiencia e información pública, durante el cual pueden enviar aportaciones ciudadanos titulares de derechos e intereses legítimos afectados por un proyecto normativo ya redactado, directamente o a través de las organizaciones o asociaciones que los representen, antes de su futura remisión a las Cortes Generales.
+Segundo. Que, tras un análisis detallado del texto y de las implicaciones que este anteproyecto de Ley tiene para la profesión médica y nuestro sistema sanitario, deseo manifestar mi profundo desacuerdo y firme oposición al enfoque y contenido de dicha reforma, por considerar que perpetúa la pérdida de especificidad del colectivo médico y no resuelve los problemas estructurales que arrastra la sanidad pública.
+Por lo expuesto, SOLICITO:
+La retirada inmediata del borrador del Estatuto Marco tramitado en el Consejo de ministros del 2 de julio, para abrir una mesa de negociación específica destinada a la redacción y aprobación de un Estatuto Propio del Médico. Un texto normativo singular que regule nuestras condiciones laborales, retributivas, formativas y de jubilación de acuerdo con la naturaleza única de nuestra profesión, en el que se recojan, como mínimo, las siguientes propuestas: 
+Ámbito propio de negociación del médico: es necesario un sistema de negociación específico del médico y facultativos basado en:
+•\tElecciones a Juntas de Personal específicas de los profesionales médicos y facultativos.
+•\tCreación de Mesas Sectoriales específicas de los profesionales médicos y facultativos.
+•\tÁmbito de negociación nacional del médico y facultativo que recoja los resultados de las elecciones expuestas anteriormente.
+Nuevo sistema de clasificación profesional: nuevo sistema de clasificación basado en la mayor formación del médico y facultativo (MECES 3), la especialización y la responsabilidad de su categoría profesional.
+Grupo 9: Categorías para las que el requisito de acceso sea un Nivel 7 del MECU con título de Especialista en Ciencias de la Salud: médicos y farmacéuticos especialistas, otros graduados de nivel 7 especialistas.
+Grupo 8: Categorías para las que el requisito de acceso sea un Nivel 7 del MECU sin título de Especialista en Ciencias de la Salud: médicos, farmacéuticos, odontólogos, veterinarios…
+Grupo 7: Categorías para las que el requisito de acceso sea un Nivel 6 del MECU con título de Especialista en Ciencias de la Salud: enfermeras especialistas, titulados post Bolonia MECES II con especialidad.
+Grupo 6: Categorías para las que el requisito de acceso sea un Nivel 6 del MECU sin título de Especialista en Ciencias de la Salud: enfermería, pfisioterapia, logopedia…
+Grupo 5: Categorías para las que el requisito de acceso sea un Nivel 5 del MECU pertenecientes a la familia profesional de sanidad: Técnicos de FP Grado Superior sanitario.
+Creación de un Nivel A1 Plus específico para los médicos, y facultativos, y una clasificación acorde con el nivel de formación and de responsabilidad de nuestro colectivo, acompañada de la retribución correspondiente  
+Cambios en la Jornada Laboral: debe desaparecer la obligación de realizar horas de trabajo por encima de la jornada ordinaria.
+•\tJornada ordinaria de 35 horas semanales de 8 a 15 horas. NO a la ampliación del horario de jornada ordinaria de 7 a 22 horas
+•\tLas horas que superan esta jornada ordinaria se consideran exceso de jornada, se paga como horas extraordinarias y computa para jubilación.
+•\tDescansos relacionados con las jornadas de guardia y computables como jornada.
+•\tRegulación de las guardias localizadas.
+Sistema de jubilación flexible y voluntaria entre los 60 y los 70 años: 
+•\tReconocimiento y cómputo de las horas de guardia para la jubilación.
+•\tJubilación anticipada: reconocimiento de la penosidad de realizar jornadas de trabajo superiores a la jornada ordinaria, que permita la jubilación anticipada sin penalizaciones. 
+•\tJubilación parcial para el personal estatutario.
+•\tConsideración de la profesión médica y facultativa como profesión de riesgo.
+Régimen de incompatibilidades igual que el resto de empleados públicos.
+Esto es un breve resumen de la propuesta de Estatuto Propio de CESM y SMA, cuyo enlace adjunto a continuación:
+http://www.cesm.org/wp-content/uploads/2026/06/ESTATUTO-PROPIO-DE-LA-PROFESION-MEDICA-Y-FACULTATIVA.pdf 
+y que apoyo como texto de base para la negociación de un Estatuto que responda a las necesidades de los profesionales médicos y facultativos y del sistema sanitario en su conjunto.
+Con la firme convicción de que defender la dignidad del médico es la única vía para garantizar la seguridad y la salud de nuestros pacientes.
+
+En ${formData.ciudad}, a ${formData.dia} de ${formData.mes} de 2026.
+Firmado:
+
+
+Fdo: ${formData.nombre}
+${formData.dni}`;
+  }, [step, formData]);
+
+  const generatedHtmlBody = useMemo(() => {
+    if (step !== "result") return "";
+    const logoBaseUrl = window.location.origin.includes("localhost") || window.location.origin.includes("127.0.0.1")
+      ? "https://guallar7.github.io/estatuto-medico-propio"
+      : `${window.location.origin}${window.location.pathname.replace(/\/[^/]*$/, "")}`;
+    return `<div style="font-family: Arial, sans-serif; line-height: 1.5; color: #333333; max-width: 650px; margin: 0 auto; padding: 20px;">
+  <!-- Header with Logos -->
+  <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #0F2C59; padding-bottom: 15px; margin-bottom: 25px; gap: 15px;">
+    <img src="${logoBaseUrl}/CESM.png" alt="CESM" style="height: 50px; max-width: 140px; object-fit: contain;" />
+    <div style="font-size: 13px; font-weight: bold; color: #0F2C59; text-align: center; flex: 1; line-height: 1.3;">APORTACIONES AL ANTEPROYECTO DE LEY<br>DEL ESTATUTO MARCO</div>
+    <img src="${logoBaseUrl}/SMA.png" alt="SMA" style="height: 50px; max-width: 140px; object-fit: contain;" />
+  </div>
+
+  <!-- Body -->
+  <p><strong>D./Dña. ${formData.nombre}</strong>, con DNI <strong>${formData.dni}</strong>, facultativo especialista en <strong>${formData.especialidad}</strong> con ejercicio profesional en <strong>${formData.centro}</strong>, por medio del presente escrito</p>
+  
+  <p style="margin-top: 20px; font-size: 16px; letter-spacing: 0.5px; margin-bottom: 10px;"><strong>EXPONE:</strong></p>
+  
+  <p style="margin-left: 15px; margin-bottom: 10px; text-align: justify;"><strong>Primero.</strong> El anteproyecto de ley de Estatuto Marco ha sido aprobado en Consejo de Ministros el pasado 2 de junio, pasando al trámite de audiencia e información pública, durante el cual pueden enviar aportaciones ciudadanos titulares de derechos e intereses legítimos afectados por un proyecto normativo ya redactado, directamente o a través de las organizaciones o asociaciones que los representen, antes de su futura remisión a las Cortes Generales.</p>
+  
+  <p style="margin-left: 15px; margin-bottom: 20px; text-align: justify;"><strong>Segundo.</strong> Que, tras un análisis detallado del texto y de las implicaciones que este anteproyecto de Ley tiene para la profesión médica y nuestro sistema sanitario, deseo manifestar mi profundo desacuerdo y firme oposición al enfoque y contenido de dicha reforma, por considerar que perpetúa la pérdida de especificidad del colectivo médico y no resuelve los problemas estructurales que arrastra la sanidad pública.</p>
+  
+  <p style="margin-top: 20px; font-size: 16px; letter-spacing: 0.5px; margin-bottom: 10px;"><strong>Por lo expuesto, SOLICITO:</strong></p>
+  
+  <p style="margin-bottom: 15px; text-align: justify;">La retirada inmediata del borrador del Estatuto Marco tramitado en el Consejo de ministros del 2 de julio, para abrir una mesa de negociación específica destinada a la redacción y aprobación de un <strong>Estatuto Propio del Médico</strong>. Un texto normativo singular que regule nuestras condiciones laborales, retributivas, formativas y de jubilación de acuerdo con la naturaleza única de nuestra profesión, en el que se recojan, como mínimo, las siguientes propuestas:</p>
+  
+  <div style="margin-left: 15px;">
+    <p style="margin-bottom: 5px;"><strong>Ámbito propio de negociación del médico:</strong> es necesario un sistema de negociación específico del médico y facultativos basado en:</p>
+    <ul style="margin-top: 0; margin-bottom: 15px; padding-left: 20px;">
+      <li>Elecciones a Juntas de Personal específicas de los profesionales médicos y facultativos.</li>
+      <li>Creación de Mesas Sectoriales específicas de los profesionales médicos y facultativos.</li>
+      <li>Ámbito de negociación nacional del médico y facultativo que recoja los resultados de las elecciones expuestas anteriormente.</li>
+    </ul>
+
+    <p style="margin-bottom: 5px;"><strong>Nuevo sistema de clasificación profesional:</strong> nuevo sistema de clasificación basado en la mayor formación del médico y facultativo (MECES 3), la especialización y la responsabilidad de su categoría profesional.</p>
+    <ul style="margin-top: 0; margin-bottom: 15px; padding-left: 20px; list-style-type: none;">
+      <li style="margin-bottom: 5px;"><strong>Grupo 9:</strong> Categorías para las que el requisito de acceso sea un Nivel 7 del MECU con título de Especialista en Ciencias de la Salud: médicos y farmacéuticos especialistas, otros graduados de nivel 7 especialistas.</li>
+      <li style="margin-bottom: 5px;"><strong>Grupo 8:</strong> Categorías para las que el requisito de acceso sea un Nivel 7 del MECU sin título de Especialista en Ciencias de la Salud: médicos, farmacéuticos, odontólogos, veterinarios…</li>
+      <li style="margin-bottom: 5px;"><strong>Grupo 7:</strong> Categorías para las que el requisito de acceso sea un Nivel 6 del MECU con título de Especialista en Ciencias de la Salud: enfermeras especialistas, titulados post Bolonia MECES II con especialidad.</li>
+      <li style="margin-bottom: 5px;"><strong>Grupo 6:</strong> Categorías para las que el requisito de acceso sea un Nivel 6 del MECU sin título de Especialista en Ciencias de la Salud: enfermería, fisioterapia, logopedia…</li>
+      <li style="margin-bottom: 5px;"><strong>Grupo 5:</strong> Categorías para las que el requisito de acceso sea un Nivel 5 del MECU pertenecientes a la familia profesional de sanidad: Técnicos de FP Grado Superior sanitario.</li>
+    </ul>
+
+    <p style="margin-bottom: 15px; text-align: justify;">Creación de un <strong>Nivel A1 Plus</strong> específico para los médicos, y facultativos, y una clasificación acorde con el nivel de formación y de responsabilidad de nuestro colectivo, acompañada de la retribución correspondiente.</p>
+
+    <p style="margin-bottom: 5px;"><strong>Cambios en la Jornada Laboral:</strong> debe desaparecer la obligación de realizar horas de trabajo por encima de la jornada ordinaria.</p>
+    <ul style="margin-top: 0; margin-bottom: 15px; padding-left: 20px;">
+      <li>Jornada ordinaria de 35 horas semanales de 8 a 15 horas. <strong>NO</strong> a la ampliación del horario de jornada ordinaria de 7 a 22 horas.</li>
+      <li>Las horas que superan esta jornada ordinaria se consideran exceso de jornada, se paga como horas extraordinarias y computa para jubilación.</li>
+      <li>Descansos relacionados con las jornadas de guardia y computables como jornada.</li>
+      <li>Regulación de las guardias localizadas.</li>
+    </ul>
+
+    <p style="margin-bottom: 5px;"><strong>Sistema de jubilación flexible y voluntaria entre los 60 y los 70 años:</strong></p>
+    <ul style="margin-top: 0; margin-bottom: 15px; padding-left: 20px;">
+      <li>Reconocimiento y cómputo de las horas de guardia para la jubilación.</li>
+      <li>Jubilación anticipada: reconocimiento de la penosidad de realizar jornadas de trabajo superiores a la jornada ordinaria, que permita la jubilación anticipada sin penalizaciones.</li>
+      <li>Jubilación parcial para el personal estatutario.</li>
+      <li>Consideración de la profesión médica y facultativa como profesión de riesgo.</li>
+    </ul>
+
+    <p style="margin-bottom: 15px;"><strong>Régimen de incompatibilidades</strong> igual que el resto de empleados públicos.</p>
+  </div>
+  
+  <p style="text-align: justify;">Esto es un breve resumen de la propuesta de Estatuto Propio de CESM y SMA, cuyo enlace adjunto a continuación: <a href="http://www.cesm.org/wp-content/uploads/2026/06/ESTATUTO-PROPIO-DE-LA-PROFESION-MEDICA-Y-FACULTATIVA.pdf">http://www.cesm.org/wp-content/uploads/2026/06/ESTATUTO-PROPIO-DE-LA-PROFESION-MEDICA-Y-FACULTATIVA.pdf</a> y que apoyo como texto de base para la negociación de un Estatuto que responda a las necesidades de los profesionales médicos y facultativos y del sistema sanitario en su conjunto.</p>
+  
+  <p style="text-align: justify;">Con la firme convicción de que defender la dignidad del médico es la única vía para garantizar la seguridad y la salud de nuestros pacientes.</p>
+  
+  <p style="margin-top: 30px;">En <strong>${formData.ciudad}</strong>, a <strong>${formData.dia}</strong> de <strong>${formData.mes}</strong> de 2026.</p>
+  
+  <p style="margin-top: 40px; margin-bottom: 0;">Firmado:</p>
+  <p style="margin-top: 20px; margin-bottom: 0;">Fdo: <strong>${formData.nombre}</strong></p>
+  <p style="margin-top: 5px; margin-bottom: 0;">DNI/NIE: <strong>${formData.dni}</strong></p>
+</div>`;
+  }, [step, formData]);
+
+  const handleCopySubject = async () => {
+    try {
+      await navigator.clipboard.writeText(generatedSubject);
+      setCopiedSubject(true);
+      setTimeout(() => setCopiedSubject(false), 2000);
+    } catch (err) {
+      console.error("Error al copiar el asunto", err);
+    }
+  };
+
+  const handleCopyBody = async () => {
+    try {
+      const plainTextBlob = new Blob([generatedBody], { type: "text/plain" });
+      const htmlTextBlob = new Blob([generatedHtmlBody], { type: "text/html" });
+      const clipboardItem = new ClipboardItem({
+        "text/plain": plainTextBlob,
+        "text/html": htmlTextBlob
+      });
+      await navigator.clipboard.write([clipboardItem]);
+      setCopiedBody(true);
+      setTimeout(() => setCopiedBody(false), 2000);
+    } catch (err) {
+      console.error("Error al copiar texto enriquecido, reintentando plano:", err);
+      try {
+        await navigator.clipboard.writeText(generatedBody);
+        setCopiedBody(true);
+        setTimeout(() => setCopiedBody(false), 2000);
+      } catch (fallbackErr) {
+        console.error("Error al copiar texto plano:", fallbackErr);
+      }
+    }
+  };
+
+  const handlePrint = () => {
+    const printWindow = window.open("", "_blank", "width=850,height=900");
+    if (!printWindow) {
+      alert("Por favor, permite las ventanas emergentes en tu navegador para generar/imprimir el PDF.");
+      return;
+    }
+    const logoBaseUrl = window.location.origin.includes("localhost") || window.location.origin.includes("127.0.0.1")
+      ? "https://guallar7.github.io/estatuto-medico-propio"
+      : `${window.location.origin}${window.location.pathname.replace(/\/[^/]*$/, "")}`;
+    printWindow.document.write(`<!DOCTYPE html>
+      <html>
+        <head>
+          <title>Aportaciones APL Estatuto Marco</title>
+          <style>
+            body { font-family: Arial, sans-serif; line-height: 1.5; color: #333; padding: 40px; margin: 0; font-size: 14px; }
+            .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #0F2C59; padding-bottom: 15px; margin-bottom: 25px; gap: 15px; }
+            .logo { height: 60px; max-width: 180px; object-fit: contain; }
+            .header-title { font-size: 14px; font-weight: bold; color: #0F2C59; text-align: center; line-height: 1.35; flex: 1; }
+            p { margin: 0 0 15px 0; text-align: justify; }
+            .section-title { font-weight: bold; font-size: 15px; margin-top: 25px; margin-bottom: 10px; color: #0F2C59; }
+            .proposals-list { margin-left: 15px; }
+            ul { margin: 0 0 15px 0; padding-left: 20px; }
+            li { margin-bottom: 6px; text-align: justify; }
+            .unstyled-list { list-style-type: none; padding-left: 0; }
+            .unstyled-list li { margin-bottom: 6px; }
+            .signature { margin-top: 40px; page-break-inside: avoid; }
+            @media print {
+              body { padding: 0; }
+            }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <img class="logo" src="${logoBaseUrl}/CESM.png" />
+            <div class="header-title">APORTACIONES AL ANTEPROYECTO DE LEY<br>DEL ESTATUTO MARCO</div>
+            <img class="logo" src="${logoBaseUrl}/SMA.png" />
+          </div>
+          
+          <p><strong>D./Dña. ${formData.nombre}</strong>, con DNI <strong>${formData.dni}</strong>, facultativo especialista en <strong>${formData.especialidad}</strong> con ejercicio profesional en <strong>${formData.centro}</strong>, por medio del presente escrito</p>
+          
+          <div class="section-title">EXPONE:</div>
+          <p><strong>Primero.</strong> El anteproyecto de ley de Estatuto Marco ha sido aprobado en Consejo de Ministros el pasado 2 de junio, pasando al trámite de audiencia e información pública, durante el cual pueden enviar aportaciones ciudadanos titulares de derechos e intereses legítimos afectados por un proyecto normativo ya redactado, directamente o a través de las organizaciones o asociaciones que los representen, antes de su futura remisión a las Cortes Generales.</p>
+          <p><strong>Segundo.</strong> Que, tras un análisis detallado del texto y de las implicaciones que este anteproyecto de Ley tiene para la profesión médica y nuestro sistema sanitario, deseo manifestar mi profundo desacuerdo y firme oposición al enfoque y contenido de dicha reforma, por considerar que perpetúa la pérdida de especificidad del colectivo médico y no resuelve los problemas estructurales que arrastra la sanidad pública.</p>
+          
+          <div class="section-title">SOLICITO:</div>
+          <p>La retirada inmediata del borrador del Estatuto Marco tramitado en el Consejo de ministros del 2 de julio, para abrir una mesa de negociación específica destinada a la redacción y aprobación de un <strong>Estatuto Propio del Médico</strong>. Un texto normativo singular que regule nuestras condiciones laborales, retributivas, formativas y de jubilación de acuerdo con la naturaleza única de nuestra profesión, en el que se recojan, como mínimo, las siguientes propuestas:</p>
+          
+          <div class="proposals-list">
+            <p><strong>Ámbito propio de negociación del médico:</strong> es necesario un sistema de negociación específico del médico y facultativos basado en:</p>
+            <ul>
+              <li>Elecciones a Juntas de Personal específicas de los profesionales médicos y facultativos.</li>
+              <li>Creación de Mesas Sectoriales específicas de los profesionales médicos y facultativos.</li>
+              <li>Ámbito de negociación nacional del médico y facultativo que recoja los resultados de las elecciones expuestas anteriormente.</li>
+            </ul>
+
+            <p><strong>Nuevo sistema de clasificación profesional:</strong> nuevo sistema de clasificación basado en la mayor formación del médico y facultativo (MECES 3), la especialización y la responsabilidad de su categoría profesional.</p>
+            <ul class="unstyled-list">
+              <li><strong>Grupo 9:</strong> Categorías para las que el requisito de acceso sea un Nivel 7 del MECU con título de Especialista en Ciencias de la Salud: médicos y farmacéuticos especialistas, otros graduados de nivel 7 especialistas.</li>
+              <li><strong>Grupo 8:</strong> Categorías para las que el requisito de acceso sea un Nivel 7 del MECU sin título de Especialista en Ciencias de la Salud: médicos, farmacéuticos, odontólogos, veterinarios…</li>
+              <li><strong>Grupo 7:</strong> Categorías para las que el requisito de acceso sea un Nivel 6 del MECU con título de Especialista en Ciencias de la Salud: enfermeras especialistas, titulados post Bolonia MECES II con especialidad.</li>
+              <li><strong>Grupo 6:</strong> Categorías para las que el requisito de acceso sea un Nivel 6 del MECU sin título de Especialista en Ciencias de la Salud: enfermería, fisioterapia, logopedia…</li>
+              <li><strong>Grupo 5:</strong> Categorías para las que el requisito de acceso sea un Nivel 5 del MECU pertenecientes a la familia profesional de sanidad: Técnicos de FP Grado Superior sanitario.</li>
+            </ul>
+
+            <p>Creación de un <strong>Nivel A1 Plus</strong> específico para los médicos, y facultativos, y una clasificación acorde con el nivel de formación y de responsabilidad de nuestro colectivo, acompañada de la retribución correspondiente.</p>
+
+            <p><strong>Cambios en la Jornada Laboral:</strong> debe desaparecer la obligación de realizar horas de trabajo por encima de la jornada ordinaria.</p>
+            <ul>
+              <li>Jornada ordinaria de 35 horas semanales de 8 a 15 horas. <strong>NO</strong> a la ampliación del horario de jornada ordinaria de 7 a 22 horas.</li>
+              <li>Las horas que superan esta jornada ordinaria se consideran exceso de jornada, se paga como horas extraordinarias y computa para jubilación.</li>
+              <li>Descansos relacionados con las jornadas de guardia y computables como jornada.</li>
+              <li>Regulación de las guardias localizadas.</li>
+            </ul>
+
+            <p><strong>Sistema de jubilación flexible y voluntaria entre los 60 y los 70 años:</strong></p>
+            <ul>
+              <li>Reconocimiento y cómputo de las horas de guardia para la jubilación.</li>
+              <li>Jubilación anticipada: reconocimiento de la penosidad de realizar jornadas de trabajo superiores a la jornada ordinaria, que permita la jubilación anticipada sin penalizaciones.</li>
+              <li>Jubilación parcial para el personal estatutario.</li>
+              <li>Consideración de la profesión médica y facultativa como profesión de riesgo.</li>
+            </ul>
+
+            <p><strong>Régimen de incompatibilidades:</strong> igual que el resto de empleados públicos.</p>
+          </div>
+          
+          <p>Esto es un breve resumen de la propuesta de Estatuto Propio de CESM y SMA, cuyo enlace adjunto a continuación: <a href="http://www.cesm.org/wp-content/uploads/2026/06/ESTATUTO-PROPIO-DE-LA-PROFESION-MEDICA-Y-FACULTATIVA.pdf">http://www.cesm.org/wp-content/uploads/2026/06/ESTATUTO-PROPIO-DE-LA-PROFESION-MEDICA-Y-FACULTATIVA.pdf</a> y que apoyo como texto de base para la negociación de un Estatuto que responda a las necesidades de los profesionales médicos y facultativos y del sistema sanitario en su conjunto.</p>
+          <p>Con la firme convicción de que defender la dignidad del médico es la única vía para garantizar la seguridad y la salud de nuestros pacientes.</p>
+          
+          <div class="signature">
+            <p>En <strong>${formData.ciudad}</strong>, a <strong>${formData.dia}</strong> de <strong>${formData.mes}</strong> de 2026.</p>
+            <p style="margin-top: 25px;">Firmado:</p>
+            <p style="margin-top: 10px; margin-bottom: 0;">Fdo: <strong>${formData.nombre}</strong></p>
+            <p style="margin-top: 3px; margin-bottom: 0;">DNI/NIE: <strong>${formData.dni}</strong></p>
+          </div>
+
+          <script>
+            window.onload = function() {
+              window.print();
+            }
+          </script>
+        </body>
+      </html>
+    `);
+    printWindow.document.close();
+  };
+
+  const mailtoUrl = `mailto:informacionpublica.aplestatutomarco@sanidad.gob.es?subject=${encodeURIComponent(generatedSubject)}`;
+
+  if (step === "result") {
+    return (
+      <div className="apl-result-container">
+        <div className="apl-result-header">
+          <span>Escrito generado</span>
+          <strong>Aportaciones listas</strong>
+          <small>Sigue estos pasos para completar el envío antes del 26 de junio de 2026:</small>
+        </div>
+
+        <div className="apl-steps-guide">
+          <div className="apl-guide-step">
+            <span className="step-badge">1</span>
+            <p>Haz clic en <strong>"Copiar Cuerpo"</strong>. Se copiará en texto enriquecido (manteniendo negritas y logotipos al pegarlo en Gmail u Outlook).</p>
+          </div>
+          <div className="apl-guide-step">
+            <span className="step-badge">2</span>
+            <p>Haz clic en <strong>"Descargar PDF"</strong> para obtener el escrito formal firmado y listo para imprimir o adjuntar.</p>
+          </div>
+          <div className="apl-guide-step">
+            <span className="step-badge">3</span>
+            <p>Haz clic en <strong>"Abrir Correo"</strong> para iniciar el envío y pega el cuerpo del mensaje en el mail.</p>
+          </div>
+        </div>
+
+        <div className="apl-result-preview-box">
+          <div className="preview-label">Vista previa del escrito oficial:</div>
+          <div className="document-sheet">
+            <div className="document-sheet-header">
+              <img src="CESM.png" alt="CESM" className="doc-logo" />
+              <div className="doc-header-title">
+                APORTACIONES AL ANTEPROYECTO DE LEY<br />DEL ESTATUTO MARCO
+              </div>
+              <img src="SMA.png" alt="SMA" className="doc-logo" />
+            </div>
+            
+            <div className="document-sheet-body">
+              <p><strong>D./Dña. {formData.nombre}</strong>, con DNI <strong>{formData.dni}</strong>, facultativo especialista en <strong>{formData.especialidad}</strong> con ejercicio profesional en <strong>{formData.centro}</strong>, por medio del presente escrito</p>
+              
+              <div className="doc-section-title">EXPONE:</div>
+              <p><strong>Primero.</strong> El anteproyecto de ley de Estatuto Marco ha sido aprobado en Consejo de Ministros el pasado 2 de junio, pasando al trámite de audiencia e información pública, durante el cual pueden enviar aportaciones ciudadanos titulares de derechos e intereses legítimos afectados por un proyecto normativo ya redactado, directamente o a través de las organizaciones o asociaciones que los representen, antes de su futura remisión a las Cortes Generales.</p>
+              <p><strong>Segundo.</strong> Que, tras un análisis detallado del texto y de las implicaciones que este anteproyecto de Ley tiene para la profesión médica y nuestro sistema sanitario, deseo manifestar mi profundo desacuerdo y firme oposición al enfoque y contenido de dicha reforma, por considerar que perpetúa la pérdida de especificidad del colectivo médico y no resuelve los problemas estructurales que arrastra la sanidad pública.</p>
+              
+              <div className="doc-section-title">SOLICITO:</div>
+              <p>La retirada inmediata del borrador del Estatuto Marco tramitado en el Consejo de ministros del 2 de julio, para abrir una mesa de negociación específica destinada a la redacción y aprobación de un <strong>Estatuto Propio del Médico</strong>. Un texto normativo singular que regule nuestras condiciones laborales, retributivas, formativas y de jubilación de acuerdo con la naturaleza única de nuestra profesión, en el que se recojan, como mínimo, las siguientes propuestas:</p>
+              
+              <div className="doc-proposals">
+                <p><strong>Ámbito propio de negociación del médico:</strong> es necesario un sistema de negociación específico del médico y facultativos basado en:</p>
+                <ul>
+                  <li>Elecciones a Juntas de Personal específicas de los profesionales médicos y facultativos.</li>
+                  <li>Creación de Mesas Sectoriales específicas de los profesionales médicos y facultativos.</li>
+                  <li>Ámbito de negociación nacional del médico y facultativo que recoja los resultados de las elecciones expuestas anteriormente.</li>
+                </ul>
+
+                <p><strong>Nuevo sistema de clasificación profesional:</strong> nuevo sistema de clasificación basado en la mayor formación del médico y facultativo (MECES 3), la especialización y la responsabilidad de su categoría profesional.</p>
+                <ul className="unstyled-list">
+                  <li><strong>Grupo 9:</strong> Categorías para las que el requisito de acceso sea un Nivel 7 del MECU con título de Especialista en Ciencias de la Salud: médicos y farmacéuticos especialistas, otros graduados de nivel 7 especialistas.</li>
+                  <li><strong>Grupo 8:</strong> Categorías para las que el requisito de acceso sea un Nivel 7 del MECU sin título de Especialista en Ciencias de la Salud: médicos, farmacéuticos, odontólogos, veterinarios…</li>
+                  <li><strong>Grupo 7:</strong> Categorías para las que el requisito de acceso sea un Nivel 6 del MECU con título de Especialista en Ciencias de la Salud: enfermeras especialistas, titulados post Bolonia MECES II con especialidad.</li>
+                  <li><strong>Grupo 6:</strong> Categorías para las que el requisito de acceso sea un Nivel 6 del MECU sin título de Especialista en Ciencias de la Salud: enfermería, fisioterapia, logopedia…</li>
+                  <li><strong>Grupo 5:</strong> Categorías para las que el requisito de acceso sea un Nivel 5 del MECU pertenecientes a la familia profesional de sanidad: Técnicos de FP Grado Superior sanitario.</li>
+                </ul>
+
+                <p>Creación de un <strong>Nivel A1 Plus</strong> específico para los médicos, y facultativos, y una clasificación acorde con el nivel de formación y de responsabilidad de nuestro colectivo, acompañada de la retribución correspondiente.</p>
+
+                <p><strong>Cambios en la Jornada Laboral:</strong> debe desaparecer la obligación de realizar horas de trabajo por encima de la jornada ordinaria.</p>
+                <ul>
+                  <li>Jornada ordinaria de 35 horas semanales de 8 a 15 horas. <strong>NO</strong> a la ampliación del horario de jornada ordinaria de 7 a 22 horas.</li>
+                  <li>Las horas que superan esta jornada ordinaria se consideran exceso de jornada, se paga como horas extraordinarias y computa para jubilación.</li>
+                  <li>Descansos relacionados con las jornadas de guardia y computables como jornada.</li>
+                  <li>Regulación de las guardias localizadas.</li>
+                </ul>
+
+                <p><strong>Sistema de jubilación flexible y voluntaria entre los 60 y los 70 años:</strong></p>
+                <ul>
+                  <li>Reconocimiento y cómputo de las horas de guardia para la jubilación.</li>
+                  <li>Jubilación anticipada: reconocimiento de la penosidad de realizar jornadas de trabajo superiores a la jornada ordinaria, que permita la jubilación anticipada sin penalizaciones.</li>
+                  <li>Jubilación parcial para el personal estatutario.</li>
+                  <li>Consideración de la profesión médica y facultativa como profesión de riesgo.</li>
+                </ul>
+
+                <p><strong>Régimen de incompatibilidades:</strong> igual que el resto de empleados públicos.</p>
+              </div>
+
+              <p>Esto es un breve resumen de la propuesta de Estatuto Propio de CESM y SMA, cuyo enlace adjunto a continuación: <a href="http://www.cesm.org/wp-content/uploads/2026/06/ESTATUTO-PROPIO-DE-LA-PROFESION-MEDICA-Y-FACULTATIVA.pdf" target="_blank" rel="noreferrer">http://www.cesm.org/wp-content/uploads/2026/06/ESTATUTO-PROPIO-DE-LA-PROFESION-MEDICA-Y-FACULTATIVA.pdf</a> y que apoyo como texto de base para la negociación de un Estatuto que responda a las necesidades de los profesionales médicos y facultativos y del sistema sanitario en su conjunto.</p>
+              <p>Con la firme convicción de que defender la dignidad del médico es la única vía para garantizar la seguridad y la salud de nuestros pacientes.</p>
+
+              <p className="doc-date">En <strong>{formData.ciudad}</strong>, a <strong>{formData.dia}</strong> de <strong>{formData.mes}</strong> de 2026.</p>
+              <p style={{ marginTop: "25px" }}>Firmado:</p>
+              <p style={{ margin: "5px 0 0 0" }}>Fdo: <strong>{formData.nombre}</strong></p>
+              <p style={{ margin: "5px 0 0 0" }}>DNI/NIE: <strong>{formData.dni}</strong></p>
+            </div>
+          </div>
+        </div>
+
+        <div className="apl-actions-row flex-row-three">
+          <button className="widget-btn primary-btn" onClick={handleCopyBody} type="button">
+            {copiedBody ? <Check size={16} /> : <Copy size={16} />}
+            {copiedBody ? "¡Copiado!" : "Copiar Cuerpo"}
+          </button>
+          <button className="widget-btn print-btn" onClick={handlePrint} type="button">
+            <Printer size={16} />
+            <span>Descargar PDF</span>
+          </button>
+          <a className="widget-btn action-btn" href={mailtoUrl} target="_blank" rel="noreferrer">
+            <Mail size={16} />
+            <span>Abrir Correo</span>
+          </a>
+        </div>
+
+        <div className="apl-meta-info">
+          <span>Destinatario:</span>
+          <code>informacionpublica.aplestatutomarco@sanidad.gob.es</code>
+        </div>
+        <div className="apl-meta-info">
+          <span>Asunto:</span>
+          <code className="clickable-code" onClick={handleCopySubject} title="Haz clic para copiar">
+            {generatedSubject} {copiedSubject ? " (¡Copiado!)" : " 📋"}
+          </code>
+        </div>
+
+        <button className="back-link-btn" onClick={() => setStep("form")} type="button">
+          <ArrowLeft size={14} /> Volver a editar datos
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <form className="apl-form" onSubmit={handleGenerate}>
+      <div className="apl-form-header">
+        <span>Automatización APL</span>
+        <strong>Generar Escrito</strong>
+        <small>El anteproyecto está en plazo de alegaciones públicas. Completa tus datos para generar tu escrito oficial.</small>
+      </div>
+
+      <div className="form-group-grid">
+        <div className="input-wrapper">
+          <label htmlFor="nombre">Nombre y Apellidos *</label>
+          <input
+            id="nombre"
+            name="nombre"
+            type="text"
+            placeholder="Dr. José García Pérez"
+            value={formData.nombre}
+            onChange={handleChange}
+            className={errors.nombre ? "error" : ""}
+          />
+          {errors.nombre && <span className="error-text">{errors.nombre}</span>}
+        </div>
+
+        <div className="input-wrapper">
+          <label htmlFor="dni">DNI / NIE *</label>
+          <input
+            id="dni"
+            name="dni"
+            type="text"
+            placeholder="12345678A"
+            value={formData.dni}
+            onChange={handleChange}
+            className={errors.dni ? "error" : ""}
+          />
+          {errors.dni && <span className="error-text">{errors.dni}</span>}
+        </div>
+
+        <div className="input-wrapper">
+          <label htmlFor="especialidad">Especialidad médica *</label>
+          <input
+            id="especialidad"
+            name="especialidad"
+            type="text"
+            placeholder="Pediatría / Medicina Familiar..."
+            value={formData.especialidad}
+            onChange={handleChange}
+            className={errors.especialidad ? "error" : ""}
+          />
+          {errors.especialidad && <span className="error-text">{errors.especialidad}</span>}
+        </div>
+
+        <div className="input-wrapper">
+          <label htmlFor="centro">Hospital o Centro de Salud *</label>
+          <input
+            id="centro"
+            name="centro"
+            type="text"
+            placeholder="Hospital Clínico Universitario"
+            value={formData.centro}
+            onChange={handleChange}
+            className={errors.centro ? "error" : ""}
+          />
+          {errors.centro && <span className="error-text">{errors.centro}</span>}
+        </div>
+
+        <div className="input-wrapper-row">
+          <div className="input-wrapper half">
+            <label htmlFor="ciudad">Ciudad *</label>
+            <input
+              id="ciudad"
+              name="ciudad"
+              type="text"
+              placeholder="Madrid"
+              value={formData.ciudad}
+              onChange={handleChange}
+              className={errors.ciudad ? "error" : ""}
+            />
+            {errors.ciudad && <span className="error-text">{errors.ciudad}</span>}
+          </div>
+
+          <div className="input-wrapper quarter">
+            <label htmlFor="dia">Día</label>
+            <input
+              id="dia"
+              name="dia"
+              type="number"
+              min="1"
+              max="31"
+              value={formData.dia}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="input-wrapper quarter">
+            <label htmlFor="mes">Mes</label>
+            <input
+              id="mes"
+              name="mes"
+              type="text"
+              value={formData.mes}
+              onChange={handleChange}
+            />
+          </div>
+        </div>
+      </div>
+
+      <button className="widget-btn primary-btn submit-btn" type="submit">
+        Generar Escrito <ArrowRight size={16} />
+      </button>
+
+      <span className="deadline-notice">Plazo de presentación: antes del 26 de junio de 2026</span>
+    </form>
   );
 }
 

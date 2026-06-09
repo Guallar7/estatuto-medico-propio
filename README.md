@@ -29,3 +29,8 @@ npm install
 npm run dev
 npm run check
 ```
+
+## Deprecaciones y Fechas Límite
+
+- **Formulario de Aportaciones APL**: La automatización para enviar correos de aportaciones al APL del Estatuto Marco está programada en la portada (`src/main.jsx`) y debe ser deprecada/eliminada después del **26 de junio de 2026**, una vez concluido el plazo oficial de audiencia pública.
+
