@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import {
   AlertTriangle,
@@ -15,11 +15,13 @@ import {
   Download,
   ExternalLink,
   FileText,
+  HelpCircle,
   Library,
   Mail,
   Menu,
   Music2,
   Newspaper,
+  Play,
   Printer,
   Scale,
   ShieldCheck,
@@ -581,6 +583,44 @@ function APLEmailGenerator() {
   const [errors, setErrors] = useState({});
   const [copiedSubject, setCopiedSubject] = useState(false);
   const [copiedBody, setCopiedBody] = useState(false);
+  const [showDemoModal, setShowDemoModal] = useState(false);
+  const iframeWrapperRef = useRef(null);
+
+  // Close modal on Escape key
+  useEffect(() => {
+    if (!showDemoModal) return;
+    const onKey = (e) => { if (e.key === "Escape") setShowDemoModal(false); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [showDemoModal]);
+
+  // Scale iframe to fill wrapper without scrolling
+  useEffect(() => {
+    if (!showDemoModal) return;
+    const DEMO_W = 1200;
+    const DEMO_H = 900;
+    let ro;
+    const setup = () => {
+      const el = iframeWrapperRef.current;
+      if (!el) return;
+      const update = () => {
+        const scaleX = el.offsetWidth / DEMO_W;
+        const scaleY = el.offsetHeight / DEMO_H;
+        const scale = Math.min(scaleX, scaleY);
+        const iframe = el.querySelector(".demo-modal-iframe");
+        if (!iframe) return;
+        iframe.style.transform = `scale(${scale})`;
+        iframe.style.marginLeft = `${(el.offsetWidth - DEMO_W * scale) / 2}px`;
+        iframe.style.marginTop  = `${(el.offsetHeight - DEMO_H * scale) / 2}px`;
+      };
+      update();
+      ro = new ResizeObserver(update);
+      ro.observe(el);
+    };
+    // Small delay so the ref is attached after React commits the DOM
+    const t = setTimeout(setup, 30);
+    return () => { clearTimeout(t); ro?.disconnect(); };
+  }, [showDemoModal]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -873,243 +913,309 @@ ${formData.dni}`;
 
   if (step === "result") {
     return (
-      <div className="apl-result-container">
-        <div className="apl-result-header">
-          <span>Escrito generado</span>
-          <strong>Aportaciones listas</strong>
-          <small>Sigue estos pasos para completar el envío antes del 26 de junio de 2026:</small>
-        </div>
+      <>
+        <div className="apl-result-container">
+          <div className="apl-result-header">
+            <span>Escrito generado</span>
+            <strong>Aportaciones listas</strong>
+            <small>Sigue estos pasos para completar el envío antes del 26 de junio de 2026:</small>
+            <button
+              type="button"
+              className="help-demo-btn"
+              onClick={() => setShowDemoModal(true)}
+              title="Ver tutorial animado"
+            >
+              <HelpCircle size={13} />
+              Ayuda
+            </button>
+          </div>
 
-        <div className="apl-steps-guide">
-          <div className="apl-guide-step">
-            <span className="step-badge">1</span>
-            <p>Haz clic en <strong>"Copiar Cuerpo"</strong>. Se copiará en texto enriquecido (manteniendo negritas y logotipos al pegarlo en Gmail u Outlook).</p>
-          </div>
-          <div className="apl-guide-step">
-            <span className="step-badge">2</span>
-            <p>Haz clic en <strong>"Guardar en PDF"</strong> (selecciona la opción "Guardar como PDF" en el menú que se abrirá) para descargar el escrito oficial listo para adjuntar.</p>
-          </div>
-          <div className="apl-guide-step">
-            <span className="step-badge">3</span>
-            <p>Haz clic en <strong>"Abrir Correo"</strong> para iniciar el envío y pega el cuerpo del mensaje en el mail.</p>
-          </div>
-        </div>
-
-        <div className="apl-result-preview-box">
-          <div className="preview-label">Vista previa del escrito oficial:</div>
-          <div className="document-sheet">
-            <div className="document-sheet-header">
-              <img src="CESM.png" alt="CESM" className="doc-logo" />
-              <div className="doc-header-title">
-                APORTACIONES AL ANTEPROYECTO DE LEY<br />DEL ESTATUTO MARCO
-              </div>
-              <img src="SMA.png" alt="SMA" className="doc-logo" />
+          <div className="apl-steps-guide">
+            <div className="apl-guide-step">
+              <span className="step-badge">1</span>
+              <p>Haz clic en <strong>"Copiar Cuerpo"</strong>. Se copiará en texto enriquecido (manteniendo negritas y logotipos al pegarlo en Gmail u Outlook).</p>
             </div>
-            
-            <div className="document-sheet-body">
-              <p><strong>D./Dña. {formData.nombre}</strong>, con DNI <strong>{formData.dni}</strong>, facultativo especialista en <strong>{formData.especialidad}</strong> con ejercicio profesional en <strong>{formData.centro}</strong>, por medio del presente escrito</p>
-              
-              <div className="doc-section-title">EXPONE:</div>
-              <p><strong>Primero.</strong> El anteproyecto de ley de Estatuto Marco ha sido aprobado en Consejo de Ministros el pasado 2 de junio, pasando al trámite de audiencia e información pública, durante el cual pueden enviar aportaciones ciudadanos titulares de derechos e intereses legítimos afectados por un proyecto normativo ya redactado, directamente o a través de las organizaciones o asociaciones que los representen, antes de su futura remisión a las Cortes Generales.</p>
-              <p><strong>Segundo.</strong> Que, tras un análisis detallado del texto y de las implicaciones que este anteproyecto de Ley tiene para la profesión médica y nuestro sistema sanitario, deseo manifestar mi profundo desacuerdo y firme oposición al enfoque y contenido de dicha reforma, por considerar que perpetúa la pérdida de especificidad del colectivo médico y no resuelve los problemas estructurales que arrastra la sanidad pública.</p>
-              
-              <div className="doc-section-title">SOLICITO:</div>
-              <p>La retirada inmediata del borrador del Estatuto Marco tramitado en el Consejo de ministros del 2 de julio, para abrir una mesa de negociación específica destinada a la redacción y aprobación de un <strong>Estatuto Propio del Médico</strong>. Un texto normativo singular que regule nuestras condiciones laborales, retributivas, formativas y de jubilación de acuerdo con la naturaleza única de nuestra profesión, en el que se recojan, como mínimo, las siguientes propuestas:</p>
-              
-              <div className="doc-proposals">
-                <p><strong>Ámbito propio de negociación del médico:</strong> es necesario un sistema de negociación específico del médico y facultativos basado en:</p>
-                <ul>
-                  <li>Elecciones a Juntas de Personal específicas de los profesionales médicos y facultativos.</li>
-                  <li>Creación de Mesas Sectoriales específicas de los profesionales médicos y facultativos.</li>
-                  <li>Ámbito de negociación nacional del médico y facultativo que recoja los resultados de las elecciones expuestas anteriormente.</li>
-                </ul>
-
-                <p><strong>Nuevo sistema de clasificación profesional:</strong> nuevo sistema de clasificación basado en la mayor formación del médico y facultativo (MECES 3), la especialización y la responsabilidad de su categoría profesional.</p>
-                <ul className="unstyled-list">
-                  <li><strong>Grupo 9:</strong> Categorías para las que el requisito de acceso sea un Nivel 7 del MECU con título de Especialista en Ciencias de la Salud: médicos y farmacéuticos especialistas, otros graduados de nivel 7 especialistas.</li>
-                  <li><strong>Grupo 8:</strong> Categorías para las que el requisito de acceso sea un Nivel 7 del MECU sin título de Especialista en Ciencias de la Salud: médicos, farmacéuticos, odontólogos, veterinarios…</li>
-                  <li><strong>Grupo 7:</strong> Categorías para las que el requisito de acceso sea un Nivel 6 del MECU con título de Especialista en Ciencias de la Salud: enfermeras especialistas, titulados post Bolonia MECES II con especialidad.</li>
-                  <li><strong>Grupo 6:</strong> Categorías para las que el requisito de acceso sea un Nivel 6 del MECU sin título de Especialista en Ciencias de la Salud: enfermería, fisioterapia, logopedia…</li>
-                  <li><strong>Grupo 5:</strong> Categorías para las que el requisito de acceso sea un Nivel 5 del MECU pertenecientes a la familia profesional de sanidad: Técnicos de FP Grado Superior sanitario.</li>
-                </ul>
-
-                <p>Creación de un <strong>Nivel A1 Plus</strong> específico para los médicos, y facultativos, y una clasificación acorde con el nivel de formación y de responsabilidad de nuestro colectivo, acompañada de la retribución correspondiente.</p>
-
-                <p><strong>Cambios en la Jornada Laboral:</strong> debe desaparecer la obligación de realizar horas de trabajo por encima de la jornada ordinaria.</p>
-                <ul>
-                  <li>Jornada ordinaria de 35 horas semanales de 8 a 15 horas. <strong>NO</strong> a la ampliación del horario de jornada ordinaria de 7 a 22 horas.</li>
-                  <li>Las horas que superan esta jornada ordinaria se consideran exceso de jornada, se paga como horas extraordinarias y computa para jubilación.</li>
-                  <li>Descansos relacionados con las jornadas de guardia y computables como jornada.</li>
-                  <li>Regulación de las guardias localizadas.</li>
-                </ul>
-
-                <p><strong>Sistema de jubilación flexible y voluntaria entre los 60 y los 70 años:</strong></p>
-                <ul>
-                  <li>Reconocimiento y cómputo de las horas de guardia para la jubilación.</li>
-                  <li>Jubilación anticipada: reconocimiento de la penosidad de realizar jornadas de trabajo superiores a la jornada ordinaria, que permita la jubilación anticipada sin penalizaciones.</li>
-                  <li>Jubilación parcial para el personal estatutario.</li>
-                  <li>Consideración de la profesión médica y facultativa como profesión de riesgo.</li>
-                </ul>
-
-                <p><strong>Régimen de incompatibilidades:</strong> igual que el resto de empleados públicos.</p>
-              </div>
-
-              <p>Esto es un breve resumen de la propuesta de Estatuto Propio de CESM y SMA, cuyo enlace adjunto a continuación: <a href="http://www.cesm.org/wp-content/uploads/2026/06/ESTATUTO-PROPIO-DE-LA-PROFESION-MEDICA-Y-FACULTATIVA.pdf" target="_blank" rel="noreferrer">http://www.cesm.org/wp-content/uploads/2026/06/ESTATUTO-PROPIO-DE-LA-PROFESION-MEDICA-Y-FACULTATIVA.pdf</a> y que apoyo como texto de base para la negociación de un Estatuto que responda a las necesidades de los profesionales médicos y facultativos y del sistema sanitario en su conjunto.</p>
-              <p>Con la firme convicción de que defender la dignidad del médico es la única vía para garantizar la seguridad y la salud de nuestros pacientes.</p>
-
-              <p className="doc-date">En <strong>{formData.ciudad}</strong>, a <strong>{formData.dia}</strong> de <strong>{formData.mes}</strong> de 2026.</p>
-              <p style={{ marginTop: "25px" }}>Firmado:</p>
-              <p style={{ margin: "5px 0 0 0" }}>Fdo: <strong>{formData.nombre}</strong></p>
-              <p style={{ margin: "5px 0 0 0" }}>DNI/NIE: <strong>{formData.dni}</strong></p>
+            <div className="apl-guide-step">
+              <span className="step-badge">2</span>
+              <p>Haz clic en <strong>"Guardar en PDF"</strong> (selecciona la opción "Guardar como PDF" en el menú que se abrirá) para descargar el escrito oficial listo para adjuntar.</p>
+            </div>
+            <div className="apl-guide-step">
+              <span className="step-badge">3</span>
+              <p>Haz clic en <strong>"Abrir Correo"</strong> para iniciar el envío y pega el cuerpo del mensaje en el mail.</p>
             </div>
           </div>
-        </div>
 
-        <div className="apl-actions-row flex-row-three">
-          <button className="widget-btn primary-btn" onClick={handleCopyBody} type="button">
-            {copiedBody ? <Check size={16} /> : <Copy size={16} />}
-            {copiedBody ? "¡Copiado!" : "Copiar Cuerpo"}
+          <div className="apl-result-preview-box">
+            <div className="preview-label">Vista previa del escrito oficial:</div>
+            <div className="document-sheet">
+              <div className="document-sheet-header">
+                <img src="CESM.png" alt="CESM" className="doc-logo" />
+                <div className="doc-header-title">
+                  APORTACIONES AL ANTEPROYECTO DE LEY<br />DEL ESTATUTO MARCO
+                </div>
+                <img src="SMA.png" alt="SMA" className="doc-logo" />
+              </div>
+              
+              <div className="document-sheet-body">
+                <p><strong>D./Dña. {formData.nombre}</strong>, con DNI <strong>{formData.dni}</strong>, facultativo especialista en <strong>{formData.especialidad}</strong> con ejercicio profesional en <strong>{formData.centro}</strong>, por medio del presente escrito</p>
+                
+                <div className="doc-section-title">EXPONE:</div>
+                <p><strong>Primero.</strong> El anteproyecto de ley de Estatuto Marco ha sido aprobado en Consejo de Ministros el pasado 2 de junio, pasando al trámite de audiencia e información pública, durante el cual pueden enviar aportaciones ciudadanos titulares de derechos e intereses legítimos afectados por un proyecto normativo ya redactado, directamente o a través de las organizaciones o asociaciones que los representen, antes de su futura remisión a las Cortes Generales.</p>
+                <p><strong>Segundo.</strong> Que, tras un análisis detallado del texto y de las implicaciones que este anteproyecto de Ley tiene para la profesión médica y nuestro sistema sanitario, deseo manifestar mi profundo desacuerdo y firme oposición al enfoque y contenido de dicha reforma, por considerar que perpetúa la pérdida de especificidad del colectivo médico y no resuelve los problemas estructurales que arrastra la sanidad pública.</p>
+                
+                <div className="doc-section-title">SOLICITO:</div>
+                <p>La retirada inmediata del borrador del Estatuto Marco tramitado en el Consejo de ministros del 2 de julio, para abrir una mesa de negociación específica destinada a la redacción y aprobación de un <strong>Estatuto Propio del Médico</strong>. Un texto normativo singular que regule nuestras condiciones laborales, retributivas, formativas y de jubilación de acuerdo con la naturaleza única de nuestra profesión, en el que se recojan, como mínimo, las siguientes propuestas:</p>
+                
+                <div className="doc-proposals">
+                  <p><strong>Ámbito propio de negociación del médico:</strong> es necesario un sistema de negociación específico del médico y facultativos basado en:</p>
+                  <ul>
+                    <li>Elecciones a Juntas de Personal específicas de los profesionales médicos y facultativos.</li>
+                    <li>Creación de Mesas Sectoriales específicas de los profesionales médicos y facultativos.</li>
+                    <li>Ámbito de negociación nacional del médico y facultativo que recoja los resultados de las elecciones expuestas anteriormente.</li>
+                  </ul>
+
+                  <p><strong>Nuevo sistema de clasificación profesional:</strong> nuevo sistema de clasificación basado en la mayor formación del médico y facultativo (MECES 3), la especialización y la responsabilidad de su categoría profesional.</p>
+                  <ul className="unstyled-list">
+                    <li><strong>Grupo 9:</strong> Categorías para las que el requisito de acceso sea un Nivel 7 del MECU con título de Especialista en Ciencias de la Salud: médicos y farmacéuticos especialistas, otros graduados de nivel 7 especialistas.</li>
+                    <li><strong>Grupo 8:</strong> Categorías para las que el requisito de acceso sea un Nivel 7 del MECU sin título de Especialista en Ciencias de la Salud: médicos, farmacéuticos, odontólogos, veterinarios…</li>
+                    <li><strong>Grupo 7:</strong> Categorías para las que el requisito de acceso sea un Nivel 6 del MECU con título de Especialista en Ciencias de la Salud: enfermeras especialistas, titulados post Bolonia MECES II con especialidad.</li>
+                    <li><strong>Grupo 6:</strong> Categorías para las que el requisito de acceso sea un Nivel 6 del MECU sin título de Especialista en Ciencias de la Salud: enfermería, fisioterapia, logopedia…</li>
+                    <li><strong>Grupo 5:</strong> Categorías para las que el requisito de acceso sea un Nivel 5 del MECU pertenecientes a la familia profesional de sanidad: Técnicos de FP Grado Superior sanitario.</li>
+                  </ul>
+
+                  <p>Creación de un <strong>Nivel A1 Plus</strong> específico para los médicos, y facultativos, y una clasificación acorde con el nivel de formación y de responsabilidad de nuestro colectivo, acompañada de la retribución correspondiente.</p>
+
+                  <p><strong>Cambios en la Jornada Laboral:</strong> debe desaparecer la obligación de realizar horas de trabajo por encima de la jornada ordinaria.</p>
+                  <ul>
+                    <li>Jornada ordinaria de 35 horas semanales de 8 a 15 horas. <strong>NO</strong> a la ampliación del horario de jornada ordinaria de 7 a 22 horas.</li>
+                    <li>Las horas que superan esta jornada ordinaria se consideran exceso de jornada, se paga como horas extraordinarias y computa para jubilación.</li>
+                    <li>Descansos relacionados con las jornadas de guardia y computables como jornada.</li>
+                    <li>Regulación de las guardias localizadas.</li>
+                  </ul>
+
+                  <p><strong>Sistema de jubilación flexible y voluntaria entre los 60 y los 70 años:</strong></p>
+                  <ul>
+                    <li>Reconocimiento y cómputo de las horas de guardia para la jubilación.</li>
+                    <li>Jubilación anticipada: reconocimiento de la penosidad de realizar jornadas de trabajo superiores a la jornada ordinaria, que permita la jubilación anticipada sin penalizaciones.</li>
+                    <li>Jubilación parcial para el personal estatutario.</li>
+                    <li>Consideración de la profesión médica y facultativa como profesión de riesgo.</li>
+                  </ul>
+
+                  <p><strong>Régimen de incompatibilidades:</strong> igual que el resto de empleados públicos.</p>
+                </div>
+
+                <p>Esto es un breve resumen de la propuesta de Estatuto Propio de CESM y SMA, cuyo enlace adjunto a continuación: <a href="http://www.cesm.org/wp-content/uploads/2026/06/ESTATUTO-PROPIO-DE-LA-PROFESION-MEDICA-Y-FACULTATIVA.pdf" target="_blank" rel="noreferrer">http://www.cesm.org/wp-content/uploads/2026/06/ESTATUTO-PROPIO-DE-LA-PROFESION-MEDICA-Y-FACULTATIVA.pdf</a> y que apoyo como texto de base para la negociación de un Estatuto que responda a las necesidades de los profesionales médicos y facultativos y del sistema sanitario en su conjunto.</p>
+                <p>Con la firme convicción de que defender la dignidad del médico es la única vía para garantizar la seguridad y la salud de nuestros pacientes.</p>
+
+                <p className="doc-date">En <strong>{formData.ciudad}</strong>, a <strong>{formData.dia}</strong> de <strong>{formData.mes}</strong> de 2026.</p>
+                <p style={{ marginTop: "25px" }}>Firmado:</p>
+                <p style={{ margin: "5px 0 0 0" }}>Fdo: <strong>{formData.nombre}</strong></p>
+                <p style={{ margin: "5px 0 0 0" }}>DNI/NIE: <strong>{formData.dni}</strong></p>
+              </div>
+            </div>
+          </div>
+
+          <div className="apl-actions-row flex-row-three">
+            <button className="widget-btn primary-btn" onClick={handleCopyBody} type="button">
+              {copiedBody ? <Check size={16} /> : <Copy size={16} />}
+              {copiedBody ? "¡Copiado!" : "Copiar Cuerpo"}
+            </button>
+            <button className="widget-btn print-btn" onClick={handlePrint} type="button">
+              <Printer size={16} />
+              <span>Guardar en PDF</span>
+            </button>
+            <a className="widget-btn action-btn" href={mailtoUrl} target="_blank" rel="noreferrer">
+              <Mail size={16} />
+              <span>Abrir Correo</span>
+            </a>
+          </div>
+
+          <div className="apl-meta-info">
+            <span>Destinatario:</span>
+            <code>informacionpublica.aplestatutomarco@sanidad.gob.es</code>
+          </div>
+          <div className="apl-meta-info">
+            <span>Asunto:</span>
+            <code className="clickable-code" onClick={handleCopySubject} title="Haz clic para copiar">
+              {generatedSubject} {copiedSubject ? " (¡Copiado!)" : " 📋"}
+            </code>
+          </div>
+
+          <button className="back-link-btn" onClick={() => setStep("form")} type="button">
+            <ArrowLeft size={14} /> Volver a editar datos
           </button>
-          <button className="widget-btn print-btn" onClick={handlePrint} type="button">
-            <Printer size={16} />
-            <span>Guardar en PDF</span>
-          </button>
-          <a className="widget-btn action-btn" href={mailtoUrl} target="_blank" rel="noreferrer">
-            <Mail size={16} />
-            <span>Abrir Correo</span>
-          </a>
         </div>
 
-        <div className="apl-meta-info">
-          <span>Destinatario:</span>
-          <code>informacionpublica.aplestatutomarco@sanidad.gob.es</code>
-        </div>
-        <div className="apl-meta-info">
-          <span>Asunto:</span>
-          <code className="clickable-code" onClick={handleCopySubject} title="Haz clic para copiar">
-            {generatedSubject} {copiedSubject ? " (¡Copiado!)" : " 📋"}
-          </code>
-        </div>
-
-        <button className="back-link-btn" onClick={() => setStep("form")} type="button">
-          <ArrowLeft size={14} /> Volver a editar datos
-        </button>
-      </div>
+        {showDemoModal && (
+          <div className="demo-modal-backdrop" onClick={() => setShowDemoModal(false)}>
+            <div className="demo-modal-card" onClick={(e) => e.stopPropagation()}>
+              <div className="demo-modal-header">
+                <h3>▶ Tutorial animado</h3>
+                <button className="demo-modal-close-btn" type="button" onClick={() => setShowDemoModal(false)}>
+                  <X size={18} />
+                </button>
+              </div>
+              <div className="demo-modal-body">
+                <div className="demo-modal-iframe-wrapper" ref={iframeWrapperRef}>
+                  <iframe
+                    src="demo-animada.html"
+                    title="Demostración interactiva de alegaciones APL"
+                    className="demo-modal-iframe"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </>
     );
   }
 
   return (
-    <form className="apl-form" onSubmit={handleGenerate}>
-      <div className="apl-form-header">
-        <span>Automatización APL</span>
-        <strong>Generar Escrito</strong>
-        <small>El anteproyecto está en plazo de alegaciones públicas. Completa tus datos para generar tu escrito oficial.</small>
-      </div>
-
-      <div className="form-group-grid">
-        <div className="input-wrapper">
-          <label htmlFor="nombre">Nombre y Apellidos *</label>
-          <input
-            id="nombre"
-            name="nombre"
-            type="text"
-            placeholder="Dr. José García Pérez"
-            value={formData.nombre}
-            onChange={handleChange}
-            className={errors.nombre ? "error" : ""}
-          />
-          {errors.nombre && <span className="error-text">{errors.nombre}</span>}
+    <>
+      <form className="apl-form" onSubmit={handleGenerate}>
+        <div className="apl-form-header">
+          <span>Aportaciones al anteproyecto</span>
+          <strong>Generar Escrito</strong>
+          <small>El anteproyecto está en plazo de alegaciones públicas. Completa tus datos para generar tu escrito oficial.</small>
+          <button
+            type="button"
+            className="help-demo-btn"
+            onClick={() => setShowDemoModal(true)}
+            title="Ver tutorial animado"
+          >
+            <HelpCircle size={13} />
+            Ayuda
+          </button>
         </div>
 
-        <div className="input-wrapper">
-          <label htmlFor="dni">DNI / NIE *</label>
-          <input
-            id="dni"
-            name="dni"
-            type="text"
-            placeholder="12345678A"
-            value={formData.dni}
-            onChange={handleChange}
-            className={errors.dni ? "error" : ""}
-          />
-          {errors.dni && <span className="error-text">{errors.dni}</span>}
-        </div>
-
-        <div className="input-wrapper">
-          <label htmlFor="especialidad">Especialidad médica *</label>
-          <input
-            id="especialidad"
-            name="especialidad"
-            type="text"
-            placeholder="Pediatría / Medicina Familiar..."
-            value={formData.especialidad}
-            onChange={handleChange}
-            className={errors.especialidad ? "error" : ""}
-          />
-          {errors.especialidad && <span className="error-text">{errors.especialidad}</span>}
-        </div>
-
-        <div className="input-wrapper">
-          <label htmlFor="centro">Hospital o Centro de Salud *</label>
-          <input
-            id="centro"
-            name="centro"
-            type="text"
-            placeholder="Hospital Clínico Universitario"
-            value={formData.centro}
-            onChange={handleChange}
-            className={errors.centro ? "error" : ""}
-          />
-          {errors.centro && <span className="error-text">{errors.centro}</span>}
-        </div>
-
-        <div className="input-wrapper-row">
-          <div className="input-wrapper half">
-            <label htmlFor="ciudad">Ciudad *</label>
+        <div className="form-group-grid">
+          <div className="input-wrapper">
+            <label htmlFor="nombre">Nombre y Apellidos *</label>
             <input
-              id="ciudad"
-              name="ciudad"
+              id="nombre"
+              name="nombre"
               type="text"
-              placeholder="Madrid"
-              value={formData.ciudad}
+              placeholder="Dr. José García Pérez"
+              value={formData.nombre}
               onChange={handleChange}
-              className={errors.ciudad ? "error" : ""}
+              className={errors.nombre ? "error" : ""}
             />
-            {errors.ciudad && <span className="error-text">{errors.ciudad}</span>}
+            {errors.nombre && <span className="error-text">{errors.nombre}</span>}
           </div>
 
-          <div className="input-wrapper quarter">
-            <label htmlFor="dia">Día</label>
+          <div className="input-wrapper">
+            <label htmlFor="dni">DNI / NIE *</label>
             <input
-              id="dia"
-              name="dia"
-              type="number"
-              min="1"
-              max="31"
-              value={formData.dia}
-              onChange={handleChange}
-            />
-          </div>
-
-          <div className="input-wrapper quarter">
-            <label htmlFor="mes">Mes</label>
-            <input
-              id="mes"
-              name="mes"
+              id="dni"
+              name="dni"
               type="text"
-              value={formData.mes}
+              placeholder="12345678A"
+              value={formData.dni}
               onChange={handleChange}
+              className={errors.dni ? "error" : ""}
             />
+            {errors.dni && <span className="error-text">{errors.dni}</span>}
+          </div>
+
+          <div className="input-wrapper">
+            <label htmlFor="especialidad">Especialidad médica *</label>
+            <input
+              id="especialidad"
+              name="especialidad"
+              type="text"
+              placeholder="Pediatría / Medicina Familiar..."
+              value={formData.especialidad}
+              onChange={handleChange}
+              className={errors.especialidad ? "error" : ""}
+            />
+            {errors.especialidad && <span className="error-text">{errors.especialidad}</span>}
+          </div>
+
+          <div className="input-wrapper">
+            <label htmlFor="centro">Hospital o Centro de Salud *</label>
+            <input
+              id="centro"
+              name="centro"
+              type="text"
+              placeholder="Hospital Clínico Universitario"
+              value={formData.centro}
+              onChange={handleChange}
+              className={errors.centro ? "error" : ""}
+            />
+            {errors.centro && <span className="error-text">{errors.centro}</span>}
+          </div>
+
+          <div className="input-wrapper-row">
+            <div className="input-wrapper half">
+              <label htmlFor="ciudad">Ciudad *</label>
+              <input
+                id="ciudad"
+                name="ciudad"
+                type="text"
+                placeholder="Madrid"
+                value={formData.ciudad}
+                onChange={handleChange}
+                className={errors.ciudad ? "error" : ""}
+              />
+              {errors.ciudad && <span className="error-text">{errors.ciudad}</span>}
+            </div>
+
+            <div className="input-wrapper quarter">
+              <label htmlFor="dia">Día</label>
+              <input
+                id="dia"
+                name="dia"
+                type="number"
+                min="1"
+                max="31"
+                value={formData.dia}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className="input-wrapper quarter">
+              <label htmlFor="mes">Mes</label>
+              <input
+                id="mes"
+                name="mes"
+                type="text"
+                value={formData.mes}
+                onChange={handleChange}
+              />
+            </div>
           </div>
         </div>
-      </div>
 
-      <button className="widget-btn primary-btn submit-btn" type="submit">
-        Generar Escrito <ArrowRight size={16} />
-      </button>
+        <button className="widget-btn primary-btn submit-btn" type="submit">
+          Generar Escrito <ArrowRight size={16} />
+        </button>
 
-      <span className="deadline-notice">Plazo de presentación: antes del 26 de junio de 2026</span>
-    </form>
+        <span className="deadline-notice">Plazo de presentación: antes del 26 de junio de 2026</span>
+      </form>
+
+      {showDemoModal && (
+        <div className="demo-modal-backdrop" onClick={() => setShowDemoModal(false)}>
+          <div className="demo-modal-card" onClick={(e) => e.stopPropagation()}>
+            <div className="demo-modal-header">
+              <h3>▶ Tutorial animado</h3>
+              <button className="demo-modal-close-btn" type="button" onClick={() => setShowDemoModal(false)}>
+                <X size={18} />
+              </button>
+            </div>
+            <div className="demo-modal-body">
+              <div className="demo-modal-iframe-wrapper" ref={iframeWrapperRef}>
+                <iframe
+                  src="demo-animada.html"
+                  title="Demostración interactiva de alegaciones APL"
+                  className="demo-modal-iframe"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
 

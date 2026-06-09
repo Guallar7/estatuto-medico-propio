@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulación Interactiva - Aportaciones APL</title>
+  
+  <!-- Carga los estilos reales de tu aplicación -->
+  <link rel="stylesheet" href="./src/styles.css">
+  
+  <style>
+    /* Estilos para el panel flotante de control de la grabación */
+    .recording-bar {
+      position: fixed;
+      top: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10000;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 0.6rem 1.2rem;
+      border-radius: 9999px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      backdrop-filter: blur(8px);
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+
+    .recording-bar span {
+      font-size: 0.8rem;
+      color: #94a3b8;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .rec-indicator {
+      width: 10px;
+      height: 10px;
+      background: #ef4444;
+      border-radius: 50%;
+      animation: pulseRed 1.2s infinite;
+    }
+
+    @keyframes pulseRed {
+      0%, 100% { opacity: 0.4; transform: scale(0.9); }
+      50% { opacity: 1; transform: scale(1.2); }
+    }
+
+    .recording-bar button {
+      background: #1e293b;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #f1f5f9;
+      font-size: 0.75rem;
+      padding: 0.35rem 0.75rem;
+      border-radius: 9999px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .recording-bar button:hover {
+      background: #334155;
+    }
+
+    /* Puntero simulado */
+    .simulated-cursor {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: rgba(239, 68, 68, 0.3);
+      border: 2px solid #ef4444;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 99999;
+      transform: translate(-50%, -50%);
+      transition: top 0.8s cubic-bezier(0.25, 1, 0.5, 1), left 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+      display: block;
+      box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+    }
+
+    .simulated-cursor::after {
+      content: '👆';
+      font-size: 1.6rem;
+      position: absolute;
+      left: 6px;
+      top: 6px;
+    }
+
+    .simulated-cursor.clicking {
+      background: #ef4444;
+      transform: translate(-50%, -50%) scale(0.8);
+      box-shadow: 0 0 20px #ef4444;
+    }
+
+    /* Sobreescrituras menores para centrar la demo y simular el focus */
+    .mock-focus {
+      outline: 2px solid var(--blue-light) !important;
+      background: white !important;
+    }
+
+    /* Tooltip de teclado animado */
+    .keyboard-shortcut-tooltip {
+      position: absolute;
+      background: #334155;
+      color: #f8fafc;
+      border: 1px solid rgba(255,255,255,0.15);
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      font-weight: 800;
+      font-size: 0.85rem;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      animation: tooltipPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+      pointer-events: none;
+      z-index: 1000;
+    }
+
+    @keyframes tooltipPop {
+      from { transform: scale(0.8) translateY(10px); opacity: 0; }
+      to { transform: scale(1) translateY(0); opacity: 1; }
+    }
+
+    /* Gmail Composer Container */
+    #demo-mock-mail {
+      position: fixed;
+      bottom: 0;
+      right: 30px;
+      width: 540px;
+      max-width: 90vw;
+      height: 480px;
+      max-height: 85vh;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px 8px 0 0;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+      z-index: 10000;
+      display: none; /* Will change to flex in JS */
+      flex-direction: column;
+      box-sizing: border-box;
+      overflow: hidden;
+      transform: translateY(100%);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      font-family: Roboto, Arial, sans-serif;
+    }
+
+    /* Gmail Composer Header */
+    .gmail-header {
+      background: #f2f6fc;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #e0e2e6;
+    }
+    .gmail-header-title {
+      font-size: 14px;
+      font-weight: 500;
+      color: #1f1f1f;
+    }
+    .gmail-header-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .gmail-header-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #444746;
+    }
+    .gmail-header-btn:hover {
+      background-color: rgba(68, 71, 70, 0.08);
+      border-radius: 4px;
+    }
+
+    /* Gmail Fields */
+    .gmail-field {
+      padding: 8px 16px;
+      border-bottom: 1px solid #f1f3f4;
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      color: #444746;
+    }
+    .gmail-field-label {
+      width: 60px;
+      color: #444746;
+      font-size: 13px;
+    }
+    .gmail-field-value {
+      flex-grow: 1;
+      color: #1f1f1f;
+      display: flex;
+      align-items: center;
+    }
+    .gmail-chip {
+      display: inline-flex;
+      align-items: center;
+      background: #e9eef6;
+      color: #1f1f1f;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+      gap: 6px;
+    }
+    .gmail-chip-close {
+      cursor: pointer;
+      font-weight: bold;
+      color: #444746;
+      font-size: 14px;
+    }
+
+    /* Gmail Editor Body */
+    .gmail-body {
+      flex-grow: 1;
+      padding: 16px;
+      overflow-y: auto;
+      font-size: 13px;
+      color: #1f1f1f;
+      line-height: 1.5;
+      background: #ffffff;
+      min-height: 0;
+      outline: none;
+      text-align: left;
+    }
+    .gmail-body-placeholder {
+      color: #747775;
+      font-style: italic;
+    }
+
+    /* Gmail Footer */
+    .gmail-footer {
+      padding: 12px 16px;
+      border-top: 1px solid #f1f3f4;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #ffffff;
+    }
+    .gmail-footer-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .gmail-send-group {
+      display: inline-flex;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+    .gmail-send-btn {
+      background: #0b57d0;
+      color: #ffffff;
+      font-weight: 500;
+      font-size: 14px;
+      border: none;
+      padding: 0 18px 0 22px;
+      height: 36px;
+      cursor: pointer;
+      border-right: 1px solid rgba(255,255,255,0.15);
+      display: flex;
+      align-items: center;
+      border-radius: 20px 0 0 20px;
+      transition: background-color 0.15s;
+    }
+    .gmail-send-btn:hover {
+      background-color: #0842a0;
+    }
+    .gmail-send-dropdown {
+      background: #0b57d0;
+      border: none;
+      width: 24px;
+      height: 36px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      border-radius: 0 20px 20px 0;
+      transition: background-color 0.15s;
+    }
+    .gmail-send-dropdown:hover {
+      background-color: #0842a0;
+    }
+    
+    .gmail-tools {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #444746;
+    }
+    .gmail-tool-icon {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px;
+      border-radius: 50%;
+      color: #444746;
+      transition: background-color 0.15s;
+    }
+    .gmail-tool-icon:hover {
+      background-color: rgba(68, 71, 70, 0.08);
+    }
+
+    .gmail-footer-right {
+      display: flex;
+      align-items: center;
+      color: #444746;
+    }
+
+    /* Gmail Notification Toast */
+    .gmail-toast {
+      position: fixed;
+      bottom: 24px;
+      left: 24px;
+      background: #323232;
+      color: #f5f5f5;
+      padding: 12px 24px;
+      border-radius: 4px;
+      box-shadow: 0 3px 5px -1px rgba(0,0,0,0.2), 0 6px 10px 0 rgba(0,0,0,0.14), 0 1px 18px 0 rgba(0,0,0,0.12);
+      font-size: 14px;
+      font-family: Roboto, Arial, sans-serif;
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      z-index: 10001;
+      min-width: 280px;
+      animation: toastFadeIn 0.2s ease-out;
+    }
+    .gmail-toast-undo {
+      color: #aad1f9;
+      text-transform: uppercase;
+      font-weight: 500;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      font-size: 13px;
+    }
+    .gmail-toast-undo:hover {
+      color: #c5e0fc;
+    }
+
+    @keyframes toastFadeIn {
+      from { transform: translateY(10px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    /* Overlay explicativo de opciones */
+    .demo-info-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(4px);
+      z-index: 12000;
+      display: none; /* Flex when active */
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .demo-info-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.05);
+      width: 460px;
+      max-width: 90vw;
+      padding: 1.75rem;
+      text-align: left;
+      font-family: system-ui, -apple-system, sans-serif;
+      transform: scale(0.9);
+      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .demo-info-card h3 {
+      margin-top: 0;
+      color: #0f172a;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      border-bottom: 1px solid #f1f5f9;
+      padding-bottom: 0.75rem;
+      margin-bottom: 1rem;
+    }
+    .demo-info-card p {
+      color: #334155;
+      font-size: 0.92rem;
+      line-height: 1.6;
+      margin: 0.75rem 0;
+    }
+    .demo-info-card ul {
+      margin: 0.75rem 0;
+      padding-left: 1.25rem;
+      color: #334155;
+      font-size: 0.88rem;
+    }
+    .demo-info-card li {
+      margin-bottom: 0.75rem;
+      line-height: 1.5;
+    }
+    .demo-info-card strong {
+      color: #0f172a;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Barra de control privada para el grabador -->
+  <div class="recording-bar">
+    <div class="rec-indicator"></div>
+    <span>Simulación Autoplay</span>
+    <button onclick="restartDemo()">Reiniciar</button>
+    <button id="play-pause-btn" onclick="togglePlay()">Pausar</button>
+  </div>
+
+  <!-- Cursor Simulado -->
+  <div class="simulated-cursor" id="cursor"></div>
+
+  <main>
+    <!-- CABECERA IDÉNTICA A LA REAL -->
+    <header class="site-header">
+      <a class="brand" href="index.html">
+        <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3"/><path d="M8 15v1a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6v-4"/><circle cx="20" cy="10" r="2"/></svg>
+        <span>Estatuto Médico Propio</span>
+      </a>
+      <button class="menu-button" type="button" aria-expanded="false">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+        <span>Menú</span>
+      </button>
+      <nav id="site-nav" aria-label="Navegación principal">
+        <p class="mobile-nav-title">Entender, actuar y verificar</p>
+        <a href="index.html">Inicio</a>
+        <a href="reivindicaciones.html">Programa</a>
+        <a href="anteproyecto.html">Anteproyecto</a>
+        <a href="noticias.html">Noticias</a>
+        <a href="novedades.html">Novedades</a>
+        <a href="fuentes.html">Fuentes</a>
+        <a href="mir.html">MIR</a>
+        <a class="active" href="aportaciones.html">Aportaciones</a>
+      </nav>
+    </header>
+
+    <!-- HERO IDÉNTICO AL REAL -->
+    <section class="hero page-hero">
+      <div>
+        <span class="kicker">Audiencia pública</span>
+        <h1>Aportaciones APL</h1>
+        <p class="lead">Envía tus alegaciones al APL del Estatuto Marco.</p>
+        <p class="hero-copy">Rellena el formulario con tus datos para generar tu escrito de oposición oficial y enviarlo a Sanidad de forma guiada (Plazo: antes del 26 de junio de 2026).</p>
+        <a class="scroll-discovery" href="#contenido-principal" aria-label="Ir al contenido principal">
+          <span>Bajar al envío</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
+        </a>
+      </div>
+    </section>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <div id="contenido-principal" tabIndex="-1">
+      <div class="aportaciones-page-container">
+        
+        <!-- CARD DE APORTACIONES REAL -->
+        <div class="aportaciones-card-wrapper" id="card-wrapper" style="position: relative;">
+          
+          <!-- FORMULARIO DE ENTRADA -->
+          <form class="apl-form" id="demo-form" onsubmit="return false;">
+            <div class="apl-form-header">
+              <span>Aportaciones al anteproyecto</span>
+              <strong>Generar Escrito</strong>
+              <small>El anteproyecto está en plazo de alegaciones públicas. Completa tus datos para generar tu escrito oficial.</small>
+            </div>
+
+            <div class="form-group-grid">
+              <div class="input-wrapper">
+                <label for="nombre">Nombre y Apellidos *</label>
+                <input id="nombre" type="text" placeholder="Dr. José García Pérez" readonly>
+              </div>
+
+              <div class="input-wrapper">
+                <label for="dni">DNI / NIE *</label>
+                <input id="dni" type="text" placeholder="12345678A" readonly>
+              </div>
+
+              <div class="input-wrapper">
+                <label for="especialidad">Especialidad médica *</label>
+                <input id="especialidad" type="text" placeholder="Pediatría / Medicina Familiar..." readonly>
+              </div>
+
+              <div class="input-wrapper">
+                <label for="centro">Hospital o Centro de Salud *</label>
+                <input id="centro" type="text" placeholder="Hospital Clínico Universitario" readonly>
+              </div>
+
+              <div class="input-wrapper-row">
+                <div class="input-wrapper half">
+                  <label for="ciudad">Ciudad *</label>
+                  <input id="ciudad" type="text" placeholder="Madrid" readonly>
+                </div>
+
+                <div class="input-wrapper quarter">
+                  <label for="dia">Día</label>
+                  <input id="dia" type="number" value="9" readonly>
+                </div>
+
+                <div class="input-wrapper quarter">
+                  <label for="mes">Mes</label>
+                  <input id="mes" type="text" value="junio" readonly>
+                </div>
+              </div>
+            </div>
+
+            <button class="widget-btn action-btn font-bold-wide" type="button" id="submit-btn" style="width: 100%; margin-top: 1.5rem; justify-content: center; display: flex; align-items: center; gap: 0.5rem;">
+              Generar Escrito
+            </button>
+          </form>
+
+          <!-- VISTA DE RESULTADOS (INICIALMENTE OCULTA) -->
+          <div class="apl-result-container" id="demo-result" style="display: none;">
+            <div class="apl-result-header">
+              <span>Escrito generado</span>
+              <strong>Aportaciones listas</strong>
+              <small>Sigue estos pasos para completar el envío antes del 26 de junio de 2026:</small>
+            </div>
+
+            <div class="apl-steps-guide">
+              <div class="apl-guide-step">
+                <span class="step-badge">1</span>
+                <p><strong>Elige tu método:</strong> Haz clic en <strong>"Copiar Cuerpo"</strong> (para pegarlo en tu correo con negritas y logos) o en <strong>"Guardar en PDF"</strong> (ideal para firmarlo electrónicamente y adjuntarlo).</p>
+              </div>
+              <div class="apl-guide-step">
+                <span class="step-badge">2</span>
+                <p><strong>Envía el escrito:</strong> Haz clic en <strong>"Abrir Correo"</strong> para abrir tu email (con el asunto y destinatario oficial listos) y envíalo pegando el texto o adjuntando el PDF.</p>
+              </div>
+            </div>
+
+            <div class="apl-result-preview-box">
+              <div class="preview-label">Vista previa del escrito oficial:</div>
+              <div class="document-sheet">
+                <div class="document-sheet-header">
+                  <img src="./public/CESM.png" alt="CESM" class="doc-logo" />
+                  <div class="doc-header-title">
+                    APORTACIONES AL ANTEPROYECTO DE LEY<br />DEL ESTATUTO MARCO
+                  </div>
+                  <img src="./public/SMA.png" alt="SMA" class="doc-logo" />
+                </div>
+                
+                <div class="document-sheet-body">
+                  <p><strong>D./Dña. Carlos Ruiz Pérez</strong>, con DNI <strong>87654321B</strong>, facultativo especialista en <strong>Anestesiología</strong> con ejercicio profesional en <strong>Hospital Universitario Miguel Servet</strong>, por medio del presente escrito</p>
+                  
+                  <div class="doc-section-title">EXPONE:</div>
+                  <p><strong>Primero.</strong> El anteproyecto de ley de Estatuto Marco ha sido aprobado en Consejo de Ministros el pasado 2 de junio, pasando al trámite de audiencia e información pública, durante el cual pueden enviar aportaciones ciudadanos titulares de derechos e intereses legítimos afectados por un proyecto normativo ya redactado, directamente o a través de las organizaciones o asociaciones que los representen, antes de su futura remisión a las Cortes Generales.</p>
+                  <p><strong>Segundo.</strong> Que, tras un análisis detallado del texto y de las implicaciones que este anteproyecto de Ley tiene para la profesión médica y nuestro sistema sanitario, deseo manifestar mi profundo desacuerdo y firme oposición al enfoque y contenido de dicha reforma, por considerar que perpetúa la pérdida de especificidad del colectivo médico y no resuelve los problemas estructurales que arrastra la sanidad pública.</p>
+                  
+                  <div class="doc-section-title">SOLICITO:</div>
+                  <p>La retirada inmediata del borrador del Estatuto Marco tramitado en el Consejo de ministros del 2 de julio, para abrir una mesa de negociación específica destinada a la redacción y aprobación de un <strong>Estatuto Propio del Médico</strong>. Un texto normativo singular que regule nuestras condiciones laborales, retributivas, formativas y de jubilación de acuerdo con la naturaleza única de nuestra profesión, en el que se recojan, como mínimo, las siguientes propuestas:</p>
+                  
+                  <div class="doc-proposals">
+                    <p><strong>Ámbito propio de negociación del médico:</strong> es necesario un sistema de negociación específico del médico y facultativos basado en:</p>
+                    <ul>
+                      <li>Elecciones a Juntas de Personal específicas de los profesionales médicos y facultativos.</li>
+                      <li>Creación de Mesas Sectoriales específicas de los profesionales médicos y facultativos.</li>
+                      <li>Ámbito de negociación nacional del médico y facultativo que recoja los resultados de las elecciones expuestas anteriormente.</li>
+                    </ul>
+
+                    <p><strong>Nuevo sistema de clasificación profesional:</strong> nuevo sistema de clasificación basado en la mayor formación del médico y facultativo (MECES 3), la especialización y la responsabilidad de su categoría profesional.</p>
+                    <ul class="unstyled-list">
+                      <li><strong>Grupo 9:</strong> Categorías para las que el requisito de acceso sea un Nivel 7 del MECU con título de Especialista en Ciencias de la Salud: médicos y farmacéuticos especialistas, otros graduados de nivel 7 especialistas.</li>
+                      <li><strong>Grupo 8:</strong> Categorías para las que el requisito de acceso sea un Nivel 7 del MECU sin título de Especialista en Ciencias de la Salud: médicos, farmacéuticos, odontólogos, veterinarios…</li>
+                      <li><strong>Grupo 7:</strong> Categorías para las que el requisito de acceso sea un Nivel 6 del MECU con título de Especialista en Ciencias de la Salud: enfermeras especialistas, titulados post Bolonia MECES II con especialidad.</li>
+                      <li><strong>Grupo 6:</strong> Categorías para las que el requisito de acceso sea un Nivel 6 del MECU sin título de Especialista en Ciencias de la Salud: enfermería, fisioterapia, logopedia…</li>
+                      <li><strong>Grupo 5:</strong> Categorías para las que el requisito de acceso sea un Nivel 5 del MECU pertenecientes a la familia profesional de sanidad: Técnicos de FP Grado Superior sanitario.</li>
+                    </ul>
+
+                    <p>Creación de un <strong>Nivel A1 Plus</strong> específico para los médicos, y facultativos, y una clasificación acorde con el nivel de formación y de responsabilidad de nuestro colectivo, acompañada de la retribución correspondiente.</p>
+
+                    <p><strong>Cambios en la Jornada Laboral:</strong> debe desaparecer la obligación de realizar horas de trabajo por encima de la jornada ordinaria.</p>
+                    <ul>
+                      <li>Jornada ordinaria de 35 horas semanales de 8 a 15 horas. <strong>NO</strong> a la ampliación del horario de jornada ordinaria de 7 a 22 horas.</li>
+                      <li>Las horas que superan esta jornada ordinaria se consideran exceso de jornada, se paga como horas extraordinarias y computa para jubilación.</li>
+                      <li>Descansos relacionados con las jornadas de guardia y computables como jornada.</li>
+                      <li>Regulación de las guardias localizadas.</li>
+                    </ul>
+
+                    <p><strong>Sistema de jubilación flexible y voluntaria entre los 60 y los 70 años:</strong></p>
+                    <ul>
+                      <li>Reconocimiento y cómputo de las horas de guardia para la jubilación.</li>
+                      <li>Jubilación anticipada: reconocimiento de la penosidad de realizar jornadas de trabajo superiores a la jornada ordinaria, que permita la jubilación anticipada sin penalizaciones.</li>
+                      <li>Jubilación parcial para el personal estatutario.</li>
+                      <li>Consideración de la profesión médica y facultativa como profesión de riesgo.</li>
+                    </ul>
+
+                    <p><strong>Régimen de incompatibilidades:</strong> igual que el resto de empleados públicos.</p>
+                  </div>
+
+                  <p>Esto es un breve resumen de la propuesta de Estatuto Propio de CESM y SMA, cuyo enlace adjunto a continuación: <a href="http://www.cesm.org/wp-content/uploads/2026/06/ESTATUTO-PROPIO-DE-LA-PROFESION-MEDICA-Y-FACULTATIVA.pdf" target="_blank">http://www.cesm.org/wp-content/uploads/2026/06/ESTATUTO-PROPIO-DE-LA-PROFESION-MEDICA-Y-FACULTATIVA.pdf</a> y que apoyo como texto de base para la negociación de un Estatuto que responda a las necesidades de los profesionales médicos y facultativos y del sistema sanitario en su conjunto.</p>
+                  <p>Con la firme convicción de que defender la dignidad del médico es la única vía para garantizar la seguridad y la salud de nuestros pacientes.</p>
+
+                  <p class="doc-date">En <strong>Zaragoza</strong>, a <strong>9</strong> de <strong>junio</strong> de 2026.</p>
+                  <p style="margin-top: 25px;">Firmado:</p>
+                  <p style="margin: 5px 0 0 0;">Fdo: <strong>Carlos Ruiz Pérez</strong></p>
+                  <p style="margin: 5px 0 0 0;">DNI/NIE: <strong>87654321B</strong></p>
+                </div>
+              </div>
+            </div>
+
+            <!-- BOTONES DE ACCIONES REALES -->
+            <div class="apl-actions-row flex-row-three">
+              <button class="widget-btn primary-btn" id="copy-btn" type="button" style="display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="copy-icon"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                <span id="copy-text">Copiar Cuerpo</span>
+              </button>
+              <button class="widget-btn print-btn" id="print-btn" type="button" style="display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+                <span>Guardar en PDF</span>
+              </button>
+              <button class="widget-btn action-btn" id="mail-btn" type="button" style="display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                <span>Abrir Correo</span>
+              </button>
+            </div>
+
+            <!-- METADATOS REALES -->
+            <div class="apl-meta-info" style="margin-top: 1.5rem;">
+              <span>Destinatario:</span>
+              <code>informacionpublica.aplestatutomarco@sanidad.gob.es</code>
+            </div>
+            <div class="apl-meta-info">
+              <span>Asunto:</span>
+              <code class="clickable-code">
+                DG/08/26 APORTACIONES + CARLOS RUIZ PÉREZ 📋
+              </code>
+            </div>
+
+            <button class="back-link-btn" type="button" style="margin-top: 1.5rem;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg> Volver a editar datos
+            </button>
+          </div>
+
+          <!-- COMPOSER DE CORREO SIMULADO (GMAIL COMPOSER FLOTANTE) -->
+          <div id="demo-mock-mail">
+            <!-- Cabecera del composer estilo Gmail -->
+            <div class="gmail-header">
+              <span class="gmail-header-title">Mensaje nuevo</span>
+              <div class="gmail-header-controls">
+                <button class="gmail-header-btn" type="button" title="Minimizar">
+                  <svg width="14" height="14" viewBox="0 0 24 24"><path d="M19 13H5v-2h14v2z" fill="currentColor"/></svg>
+                </button>
+                <button class="gmail-header-btn" type="button" title="Pantalla completa">
+                  <svg width="14" height="14" viewBox="0 0 24 24"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z" fill="currentColor"/></svg>
+                </button>
+                <button class="gmail-header-btn" type="button" title="Guardar y cerrar">
+                  <svg width="14" height="14" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" fill="currentColor"/></svg>
+                </button>
+              </div>
+            </div>
+            
+            <!-- Campos para/asunto -->
+            <div class="gmail-field">
+              <span class="gmail-field-label">Para</span>
+              <div class="gmail-field-value">
+                <div class="gmail-chip">
+                  <span>informacionpublica.aplestatutomarco@sanidad.gob.es</span>
+                  <span class="gmail-chip-close">×</span>
+                </div>
+              </div>
+              <span style="font-size: 11px; color: #444746; font-weight: 500; cursor: pointer; margin-left: 8px;">Cc</span>
+              <span style="font-size: 11px; color: #444746; font-weight: 500; cursor: pointer; margin-left: 8px;">Cco</span>
+            </div>
+            <div class="gmail-field">
+              <span class="gmail-field-label">Asunto</span>
+              <div class="gmail-field-value" style="font-weight: 500; font-size: 13px;">
+                DG/08/26 APORTACIONES + CARLOS RUIZ PÉREZ 📋
+              </div>
+            </div>
+            
+            <!-- Cuerpo del mensaje con simulación de pegado -->
+            <div id="mail-editor-body" class="gmail-body">
+              <div id="mail-placeholder" class="gmail-body-placeholder">Pega aquí el contenido (Ctrl + V)...</div>
+              <div id="mail-cursor-line" style="display: inline-block; width: 2px; height: 15px; background: #333333; margin-left: 2px; vertical-align: middle;"></div>
+              
+              <!-- Contenido pegado (aparecerá con efecto de fundido) -->
+              <div id="mail-pasted-content" style="display: none; transition: opacity 0.5s ease; opacity: 0;">
+                <div style="font-family: Arial, sans-serif; line-height: 1.45; color: #333333; max-width: 100%; padding: 10px; background: white; border: 1px dashed #cbd5e1; border-radius: 4px; box-sizing: border-box;">
+                  <!-- Encabezado con logos -->
+                  <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #0F2C59; padding-bottom: 8px; margin-bottom: 12px; gap: 8px;">
+                    <img src="./public/CESM.png" style="height: 24px; max-width: 80px; object-fit: contain;" />
+                    <div style="font-size: 8px; font-weight: bold; color: #0F2C59; text-align: center; flex: 1; line-height: 1.2;">APORTACIONES AL ANTEPROYECTO DE LEY<br>DEL ESTATUTO MARCO</div>
+                    <img src="./public/SMA.png" style="height: 24px; max-width: 80px; object-fit: contain;" />
+                  </div>
+                  
+                  <p style="margin: 0 0 8px 0; font-size: 11px;"><strong>D./Dña. Carlos Ruiz Pérez</strong>, con DNI <strong>87654321B</strong>, facultativo especialista en <strong>Anestesiología</strong> con ejercicio profesional en <strong>Hospital Universitario Miguel Servet</strong>, por medio del presente escrito</p>
+                  <p style="margin: 8px 0 4px 0; font-size: 11px;"><strong>EXPONE:</strong></p>
+                  <p style="margin: 0 0 6px 8px; font-size: 10px; color: #475569;"><strong>Primero.</strong> El anteproyecto de ley de Estatuto Marco ha sido aprobado en Consejo de Ministros el pasado 2 de junio...</p>
+                  <p style="margin: 0 0 6px 8px; font-size: 10px; color: #475569;"><strong>Segundo.</strong> Que deseo manifestar mi profundo desacuerdo y firme oposición...</p>
+                  <p style="margin: 8px 0 4px 0; font-size: 11px;"><strong>SOLICITO:</strong> La retirada inmediata del borrador para abrir una mesa de negociación...</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Footer del composer estilo Gmail -->
+            <div class="gmail-footer">
+              <div class="gmail-footer-left">
+                <div class="gmail-send-group">
+                  <button class="gmail-send-btn" id="mail-send-btn" type="button">Enviar</button>
+                  <button class="gmail-send-dropdown" type="button">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10l5 5 5-5z"/></svg>
+                  </button>
+                </div>
+                <div class="gmail-tools">
+                  <!-- Formatting (A) -->
+                  <div class="gmail-tool-icon" title="Opciones de formato">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16M7 16l5-12 5 12M8 12h8"/></svg>
+                  </div>
+                  <!-- Attach (Paperclip) -->
+                  <div class="gmail-tool-icon" title="Adjuntar archivos">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+                  </div>
+                  <!-- Insert Link -->
+                  <div class="gmail-tool-icon" title="Insertar enlace">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                  </div>
+                  <!-- Emoji -->
+                  <div class="gmail-tool-icon" title="Insertar emoji">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01"/></svg>
+                  </div>
+                  <!-- Google Drive -->
+                  <div class="gmail-tool-icon" title="Insertar archivos con Drive">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 22 22 22"/></svg>
+                  </div>
+                  <!-- Photo -->
+                  <div class="gmail-tool-icon" title="Insertar imagen">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                  </div>
+                  <!-- Pen/Signature -->
+                  <div class="gmail-tool-icon" title="Insertar firma">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+                  </div>
+                </div>
+              </div>
+              <div class="gmail-footer-right">
+                <!-- Discard (Trash) -->
+                <div class="gmail-tool-icon" title="Descartar borrador">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tooltip flotante para mostrar la acción de pegar -->
+          <div id="keyboard-tooltip" class="keyboard-shortcut-tooltip" style="display: none;"></div>
+
+          <!-- Toast de Gmail de mensaje enviado -->
+          <div id="gmail-toast" class="gmail-toast">
+            <span>Mensaje enviado.</span>
+            <button class="gmail-toast-undo" type="button">Deshacer</button>
+          </div>
+
+          <!-- Overlay explicativo de opciones -->
+          <div id="demo-info-overlay" class="demo-info-overlay">
+            <div class="demo-info-card" style="width: 380px;">
+              <h3>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#eab308" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                <span>Consejo de uso</span>
+              </h3>
+              <p>Puedes elegir la opción que prefieras:</p>
+              <ul style="margin: 0.5rem 0; padding-left: 1.25rem; line-height: 1.5;">
+                <li><strong>Copiar el texto</strong> (para pegarlo en el mail) y/o</li>
+                <li><strong>Descargar el PDF</strong> (para adjuntarlo al mail)</li>
+              </ul>
+              <p style="margin: 0.75rem 0 0 0; font-size: 0.8rem; color: #94a3b8; text-align: right; font-style: italic;">La simulación continúa...</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <!-- FOOTER IDÉNTICO AL REAL -->
+    <footer>
+      <strong>Estatuto Médico Propio</strong>
+      <span>Datos, fuentes y contexto para entender una reivindicación médica y facultativa propia.</span>
+    </footer>
+  </main>
+
+  <script>
+    const cursor = document.getElementById("cursor");
+    let isPlaying = true;
+    let timeoutIds = [];
+
+    // Datos a simular
+    const dataToType = {
+      nombre: "Dr. Carlos Ruiz Pérez",
+      dni: "87654321B",
+      especialidad: "Anestesiología",
+      centro: "Hospital Universitario Miguel Servet",
+      ciudad: "Zaragoza"
+    };
+
+    function getOffset(el) {
+      const rect = el.getBoundingClientRect();
+      return {
+        left: rect.left + window.scrollX + rect.width / 2,
+        top: rect.top + window.scrollY + rect.height / 2
+      };
+    }
+
+    function moveCursor(targetEl, clickAfter = false, callback = null) {
+      if (!cursor) return;
+      const coords = getOffset(targetEl);
+      cursor.style.left = `${coords.left}px`;
+      cursor.style.top = `${coords.top}px`;
+
+      if (clickAfter) {
+        let t1 = setTimeout(() => {
+          cursor.classList.add("clicking");
+          targetEl.classList.add("mock-focus");
+          let t2 = setTimeout(() => {
+            cursor.classList.remove("clicking");
+            targetEl.classList.remove("mock-focus");
+            if (callback) callback();
+          }, 250);
+          timeoutIds.push(t2);
+        }, 850);
+        timeoutIds.push(t1);
+      } else {
+        if (callback) {
+          let t3 = setTimeout(callback, 850);
+          timeoutIds.push(t3);
+        }
+      }
+    }
+
+    function simulateTyping(inputEl, text, callback) {
+      let i = 0;
+      inputEl.value = "";
+      inputEl.classList.add("mock-focus");
+      
+      function type() {
+        if (i < text.length) {
+          inputEl.value += text.charAt(i);
+          i++;
+          let t = setTimeout(type, 15);
+          timeoutIds.push(t);
+        } else {
+          inputEl.classList.remove("mock-focus");
+          if (callback) callback();
+        }
+      }
+      type();
+    }
+
+    function runAnimationTimeline() {
+      // Reiniciar elementos
+      document.getElementById("demo-form").style.display = "block";
+      document.getElementById("demo-result").style.display = "none";
+      
+      const mockMail = document.getElementById("demo-mock-mail");
+      mockMail.style.display = "none";
+      mockMail.style.transform = "translateY(100%)";
+      
+      document.getElementById("gmail-toast").style.display = "none";
+      
+      // Reiniciar overlay explicativo
+      const overlay = document.getElementById("demo-info-overlay");
+      if (overlay) {
+        overlay.style.display = "none";
+        overlay.style.opacity = "0";
+        overlay.querySelector(".demo-info-card").style.transform = "scale(0.9)";
+      }
+      
+      document.getElementById("mail-placeholder").style.display = "inline-block";
+      document.getElementById("mail-pasted-content").style.display = "none";
+      document.getElementById("mail-pasted-content").style.opacity = "0";
+      document.getElementById("mail-cursor-line").style.display = "inline-block";
+      document.getElementById("keyboard-tooltip").style.display = "none";
+      
+      document.getElementById("nombre").value = "";
+      document.getElementById("dni").value = "";
+      document.getElementById("especialidad").value = "";
+      document.getElementById("centro").value = "";
+      document.getElementById("ciudad").value = "";
+      
+      // Reset botones de copia
+      const copyBtn = document.getElementById("copy-btn");
+      copyBtn.style.background = "";
+      document.getElementById("copy-text").textContent = "Copiar Cuerpo";
+      document.getElementById("copy-icon").innerHTML = `<rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>`;
+
+      // Hacer scroll al formulario al iniciar
+      window.scrollTo({ top: document.getElementById("contenido-principal").offsetTop - 100, behavior: 'smooth' });
+
+      // Iniciar cursor en posición neutral
+      cursor.style.left = "80%";
+      cursor.style.top = "60%";
+      cursor.style.display = "block";
+
+      let t0 = setTimeout(() => {
+        // Mover a Nombre y escribir
+        moveCursor(document.getElementById("nombre"), true, () => {
+          simulateTyping(document.getElementById("nombre"), dataToType.nombre, () => {
+            
+            // Mover a DNI y escribir
+            moveCursor(document.getElementById("dni"), true, () => {
+              simulateTyping(document.getElementById("dni"), dataToType.dni, () => {
+                
+                // Mover a Especialidad y escribir
+                moveCursor(document.getElementById("especialidad"), true, () => {
+                  simulateTyping(document.getElementById("especialidad"), dataToType.especialidad, () => {
+                    
+                    // Mover a Centro y escribir
+                    moveCursor(document.getElementById("centro"), true, () => {
+                      simulateTyping(document.getElementById("centro"), dataToType.centro, () => {
+                        
+                        // Mover a Ciudad y escribir
+                        moveCursor(document.getElementById("ciudad"), true, () => {
+                          simulateTyping(document.getElementById("ciudad"), dataToType.ciudad, () => {
+                            
+                            // Mover y pulsar botón de enviar
+                            moveCursor(document.getElementById("submit-btn"), true, () => {
+                              // Ocultar formulario, mostrar resultados
+                              document.getElementById("demo-form").style.display = "none";
+                              document.getElementById("demo-result").style.display = "block";
+                              window.scrollTo({ top: document.getElementById("contenido-principal").offsetTop - 100, behavior: 'smooth' });
+
+                              let tResult = setTimeout(() => {
+                                // Mover cursor a botón de "Copiar Cuerpo"
+                                moveCursor(document.getElementById("copy-btn"), true, () => {
+                                  // Cambiar a estado copiado
+                                  copyBtn.style.background = "#15803d";
+                                  document.getElementById("copy-text").textContent = "¡Copiado!";
+                                  document.getElementById("copy-icon").innerHTML = `<polyline points="20 6 9 17 4 12"></polyline>`;
+                                  
+                                  // Mostrar overlay explicativo en medio de la pantalla indicando que es una elección
+                                  let tOverlayShow = setTimeout(() => {
+                                    const infoOverlay = document.getElementById("demo-info-overlay");
+                                    if (infoOverlay) {
+                                      infoOverlay.style.display = "flex";
+                                      infoOverlay.offsetHeight; // Forzar reflow
+                                      infoOverlay.style.opacity = "1";
+                                      infoOverlay.querySelector(".demo-info-card").style.transform = "scale(1)";
+                                    }
+
+                                    // Mantener el mensaje en pantalla por 4.5 segundos, luego ocultar y continuar
+                                    let tOverlayHide = setTimeout(() => {
+                                      if (infoOverlay) {
+                                        infoOverlay.style.opacity = "0";
+                                        infoOverlay.querySelector(".demo-info-card").style.transform = "scale(0.9)";
+                                      }
+                                      
+                                      let tOverlayClean = setTimeout(() => {
+                                        if (infoOverlay) {
+                                          infoOverlay.style.display = "none";
+                                        }
+                                        
+                                        // Continuar moviendo cursor al botón "Guardar en PDF"
+                                        moveCursor(document.getElementById("print-btn"), true, () => {
+                                          
+                                          // Mover a botón "Abrir Correo"
+                                          let tMail = setTimeout(() => {
+                                            moveCursor(document.getElementById("mail-btn"), true, () => {
+                                              
+                                              // Mostrar simulador de correo flotante
+                                              mockMail.style.display = "flex";
+                                              // Forzar reflow para que la transición CSS de slide-up funcione
+                                              mockMail.offsetHeight;
+                                              mockMail.style.transform = "translateY(0)";
+                                              
+                                              // En lugar de hacer scroll al mockMail (que ahora es flotante), hacemos scroll al final de la página de resultados
+                                              window.scrollTo({ top: document.getElementById("demo-result").offsetTop + 200, behavior: 'smooth' });
+                                              
+                                              // Mover cursor al editor del correo
+                                              let tFocus = setTimeout(() => {
+                                                moveCursor(document.getElementById("mail-editor-body"), true, () => {
+                                                  
+                                                  // Mostrar atajo de teclado Ctrl + V
+                                                  const tooltip = document.getElementById("keyboard-tooltip");
+                                                  const coords = getOffset(document.getElementById("mail-editor-body"));
+                                                  tooltip.style.left = `${coords.left - 50}px`;
+                                                  tooltip.style.top = `${coords.top - 60}px`;
+                                                  tooltip.innerHTML = "Presionando <kbd style='background:#1e293b; padding:1px 4px; border-radius:3px;'>Ctrl</kbd> + <kbd style='background:#1e293b; padding:1px 4px; border-radius:3px;'>V</kbd>";
+                                                  tooltip.style.display = "block";
+                                                  
+                                                  // Simular pegado
+                                                  let tPaste = setTimeout(() => {
+                                                    tooltip.style.display = "none";
+                                                    document.getElementById("mail-placeholder").style.display = "none";
+                                                    document.getElementById("mail-cursor-line").style.display = "none";
+                                                    
+                                                    const pasted = document.getElementById("mail-pasted-content");
+                                                    pasted.style.display = "block";
+                                                    let tFade = setTimeout(() => {
+                                                      pasted.style.opacity = "1";
+                                                      
+                                                      // Mover cursor al botón de Enviar de Gmail
+                                                      let tMoveToSend = setTimeout(() => {
+                                                        moveCursor(document.getElementById("mail-send-btn"), true, () => {
+                                                          
+                                                          // Al hacer click, ocultar el composer con animación
+                                                          mockMail.style.transform = "translateY(100%)";
+                                                          let tHide = setTimeout(() => {
+                                                            mockMail.style.display = "none";
+                                                          }, 400);
+                                                          timeoutIds.push(tHide);
+                                                          
+                                                          // Mostrar toast de enviado estilo Gmail
+                                                          const toast = document.getElementById("gmail-toast");
+                                                          toast.style.display = "flex";
+                                                          
+                                                          // Ocultar toast, ocultar cursor y reiniciar bucle
+                                                          let tEnd = setTimeout(() => {
+                                                            toast.style.display = "none";
+                                                            cursor.style.display = "none";
+                                                            if (isPlaying) runAnimationTimeline();
+                                                          }, 3000);
+                                                          timeoutIds.push(tEnd);
+                                                        });
+                                                      }, 1500);
+                                                      timeoutIds.push(tMoveToSend);
+                                                      
+                                                    }, 50);
+                                                    timeoutIds.push(tFade);
+                                                  }, 1200);
+                                                  timeoutIds.push(tPaste);
+                                                  
+                                                });
+                                              }, 800);
+                                              timeoutIds.push(tFocus);
+                                              
+                                            });
+                                          }, 1500);
+                                          timeoutIds.push(tMail);
+                                          
+                                        });
+                                      }, 300);
+                                      timeoutIds.push(tOverlayClean);
+                                    }, 4500);
+                                    timeoutIds.push(tOverlayHide);
+                                  }, 1000);
+                                  timeoutIds.push(tOverlayShow);
+                                });
+                              }, 1000);
+                              timeoutIds.push(tResult);
+                            });
+
+                          });
+                        });
+
+                      });
+                    });
+
+                  });
+                });
+
+              });
+            });
+
+          });
+        });
+      }, 1500);
+      timeoutIds.push(t0);
+    }
+
+    function clearTimers() {
+      timeoutIds.forEach(id => clearTimeout(id));
+      timeoutIds = [];
+    }
+
+    function togglePlay() {
+      const btn = document.getElementById("play-pause-btn");
+      if (isPlaying) {
+        isPlaying = false;
+        btn.textContent = "Reanudar";
+        clearTimers();
+        cursor.style.display = "none";
+      } else {
+        isPlaying = true;
+        btn.textContent = "Pausar";
+        runAnimationTimeline();
+      }
+    }
+
+    function restartDemo() {
+      clearTimers();
+      isPlaying = true;
+      document.getElementById("play-pause-btn").textContent = "Pausar";
+      runAnimationTimeline();
+    }
+
+    // Esperar a que cargue la hoja de estilos y arrancar
+    window.addEventListener("load", () => {
+      // Pequeño retraso para asegurar el cálculo de offsets
+      setTimeout(runAnimationTimeline, 500);
+    });
+  </script>
+</body>
+</html>
