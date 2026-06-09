@@ -640,6 +640,19 @@ export const claims = [
 
 export const news = [
   {
+    id: "gobierno-aprueba-anteproyecto-ley-estatuto-marco",
+    tone: "adverso",
+    outlet: "Gaceta Médica",
+    date: "2026-06-02",
+    title: "El Gobierno aprueba el Anteproyecto de Ley del Estatuto Marco",
+    claim:
+      "El Gobierno aprueba el texto del Anteproyecto de Ley de Estatuto Marco en Consejo de Ministros e inicia el trámite de audiencia pública. La portavoz del Ejecutivo defiende que han cumplido con su parte incorporando 'mejoras históricas' y desplaza la responsabilidad de las condiciones pendientes (como salarios y plantillas) a las comunidades autónomas.",
+    response:
+      "Presentar el anteproyecto como suficiente o calificar las medidas de 'mejoras históricas' elude el fondo de la protesta. Sanidad ha aprobado el borrador sin el consenso de los sindicatos de médicos y facultativos (CESM, SMA, Metges de Catalunya, etc.), quienes denuncian inmovilismo absoluto. Las demandas clave de una mesa de negociación médica propia, jubilación por penosidad sin trabas e incremento salarial ordinario homologado siguen fuera del texto, lo que ha llevado al Comité de Huelga a convocar una gran concentración estatal frente al Ministerio el 15 de junio.",
+    key: "El Ejecutivo da por cerrado su papel presentando la aprobación como un hito, pero los sindicatos médicos mantienen las huelgas y movilizaciones ante la falta de diálogo real sobre sus condiciones específicas.",
+    sources: ["gaceta-medica-aprobacion-gobierno", "anteproyecto", "cesm-huelga", "cesm-reivindicaciones"]
+  },
+  {
     id: "nuevo-borrador-consejo-ministros-mayo-2026",
     tone: "mixto",
     outlet: "Gaceta Médica / Redacción Médica",
@@ -787,6 +800,13 @@ export const news = [
 ];
 
 export const updates = [
+  {
+    date: "2026-06-03",
+    type: "Noticias",
+    title: "Gobierno aprueba el Anteproyecto de Ley del Estatuto Marco",
+    body:
+      "Se incorpora la ficha de actualidad sobre la aprobación del texto en el Consejo de Ministros el 2 de junio de 2026. Se clasifica como relato adverso: el Gobierno defiende el fin de su responsabilidad trasladando las competencias a las autonomías, mientras el Comité de Huelga convoca protestas estatales por la falta de avances en las reivindicaciones principales."
+  },
   {
     date: "2026-05-28",
     type: "Noticias",
@@ -1016,6 +1036,13 @@ export const sourceRegistry = {
     type: "Oficial",
     year: "2026",
     url: "https://www.sanidad.gob.es/areas/profesionesSanitarias/nuevoEstatutoMarco.htm"
+  },
+  "gaceta-medica-aprobacion-gobierno": {
+    title: "El Gobierno aprueba el Anteproyecto de Ley del Estatuto Marco pese a las huelgas de los médicos",
+    institution: "Gaceta Médica",
+    type: "Prensa",
+    year: "2026",
+    url: "https://gacetamedica.com/politica/gobierno-aprueba-anteproyecto-ley-estatuto-marco/"
   },
   "gaceta-medica-borrador-consejo-ministros": {
     title: "El Estatuto Marco acelera: un nuevo borrador avanza hacia el Consejo de Ministros",
@@ -1353,6 +1380,7 @@ export const sourceGroups = [
       "satse-acuerdo",
       "elpais-acuerdo",
       "elpais-huelga-abril",
+      "gaceta-medica-aprobacion-gobierno",
       "gaceta-medica-borrador-consejo-ministros",
       "redaccion-medica-texto-perfilado",
       "heraldo-claves",
