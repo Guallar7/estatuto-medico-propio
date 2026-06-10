@@ -165,6 +165,52 @@ const sourceFilters = [
   { id: "mir", label: "MIR", test: (source) => source.institution.includes("MIR") || source.type.includes("Proyecto") || source.type.includes("Visual") || source.type.includes("Informe") }
 ];
 
+const getProfesionalDesc = (espText, centroText, format = "plain") => {
+  const esp = espText.trim();
+  const centro = centroText.trim();
+
+  if (!esp && !centro) return "";
+
+  if (esp && centro) {
+    if (format === "html") {
+      return `, facultativo especialista en <strong>${esp}</strong> con ejercicio profesional en <strong>${centro}</strong>`;
+    } else if (format === "jsx") {
+      return (
+        <>
+          , facultativo especialista en <strong>{esp}</strong> con ejercicio profesional en <strong>{centro}</strong>
+        </>
+      );
+    } else {
+      return `, facultativo especialista en ${esp} con ejercicio profesional en ${centro}`;
+    }
+  } else if (esp) {
+    if (format === "html") {
+      return `, facultativo especialista en <strong>${esp}</strong>`;
+    } else if (format === "jsx") {
+      return (
+        <>
+          , facultativo especialista en <strong>{esp}</strong>
+        </>
+      );
+    } else {
+      return `, facultativo especialista en ${esp}`;
+    }
+  } else if (centro) {
+    if (format === "html") {
+      return `, con ejercicio profesional en <strong>${centro}</strong>`;
+    } else if (format === "jsx") {
+      return (
+        <>
+          , con ejercicio profesional en <strong>{centro}</strong>
+        </>
+      );
+    } else {
+      return `, con ejercicio profesional en ${centro}`;
+    }
+  }
+  return "";
+};
+
 function App() {
   const pageId = document.getElementById("root")?.dataset.page ?? "home";
   const copy = pageCopy[pageId] ?? pageCopy.home;
@@ -652,14 +698,7 @@ function APLEmailGenerator() {
     if (step !== "result") return "";
     const espText = formData.especialidad.trim();
     const centroText = formData.centro.trim();
-    let profesionalDesc = "";
-    if (espText && centroText) {
-      profesionalDesc = `, facultativo especialista en ${espText} con ejercicio profesional en ${centroText}`;
-    } else if (espText) {
-      profesionalDesc = `, facultativo especialista en ${espText}`;
-    } else if (centroText) {
-      profesionalDesc = `, con ejercicio profesional en ${centroText}`;
-    }
+    const profesionalDesc = getProfesionalDesc(espText, centroText, "plain");
     return `D./Dña. ${formData.nombre}, con DNI ${formData.dni}${profesionalDesc}, por medio del presente escrito
 
 EXPONE:
@@ -710,14 +749,7 @@ ${formData.dni}`;
 
     const espText = formData.especialidad.trim();
     const centroText = formData.centro.trim();
-    let profesionalDescHtml = "";
-    if (espText && centroText) {
-      profesionalDescHtml = `, facultativo especialista en <strong>${espText}</strong> con ejercicio profesional en <strong>${centroText}</strong>`;
-    } else if (espText) {
-      profesionalDescHtml = `, facultativo especialista en <strong>${espText}</strong>`;
-    } else if (centroText) {
-      profesionalDescHtml = `, con ejercicio profesional en <strong>${centroText}</strong>`;
-    }
+    const profesionalDescHtml = getProfesionalDesc(espText, centroText, "html");
 
     return `<div style="font-family: Arial, sans-serif; line-height: 1.5; color: #333333; max-width: 650px; margin: 0 auto; padding: 20px;">
   <!-- Header with Logos -->
@@ -835,14 +867,7 @@ ${formData.dni}`;
 
     const espText = formData.especialidad.trim();
     const centroText = formData.centro.trim();
-    let profesionalDescHtml = "";
-    if (espText && centroText) {
-      profesionalDescHtml = `, facultativo especialista en <strong>${espText}</strong> con ejercicio profesional en <strong>${centroText}</strong>`;
-    } else if (espText) {
-      profesionalDescHtml = `, facultativo especialista en <strong>${espText}</strong>`;
-    } else if (centroText) {
-      profesionalDescHtml = `, con ejercicio profesional en <strong>${centroText}</strong>`;
-    }
+    const profesionalDescHtml = getProfesionalDesc(espText, centroText, "html");
 
     printWindow.document.write(`<!DOCTYPE html>
       <html>
@@ -945,26 +970,7 @@ ${formData.dni}`;
 
   const espText = formData.especialidad.trim();
   const centroText = formData.centro.trim();
-  let profesionalDescJsx = null;
-  if (espText && centroText) {
-    profesionalDescJsx = (
-      <>
-        , facultativo especialista en <strong>{espText}</strong> con ejercicio profesional en <strong>{centroText}</strong>
-      </>
-    );
-  } else if (espText) {
-    profesionalDescJsx = (
-      <>
-        , facultativo especialista en <strong>{espText}</strong>
-      </>
-    );
-  } else if (centroText) {
-    profesionalDescJsx = (
-      <>
-        , con ejercicio profesional en <strong>{centroText}</strong>
-      </>
-    );
-  }
+  const profesionalDescJsx = getProfesionalDesc(espText, centroText, "jsx");
 
   if (step === "result") {
     return (
@@ -1174,7 +1180,9 @@ ${formData.dni}`;
           </div>
 
           <div className="input-wrapper">
-            <label htmlFor="especialidad">Especialidad médica</label>
+            <label htmlFor="especialidad">
+              Especialidad médica <span className="label-helper">(Solo facultativos)</span>
+            </label>
             <input
               id="especialidad"
               name="especialidad"
@@ -1188,7 +1196,9 @@ ${formData.dni}`;
           </div>
 
           <div className="input-wrapper">
-            <label htmlFor="centro">Hospital o Centro de Salud</label>
+            <label htmlFor="centro">
+              Hospital o Centro de Salud <span className="label-helper">(Solo facultativos)</span>
+            </label>
             <input
               id="centro"
               name="centro"

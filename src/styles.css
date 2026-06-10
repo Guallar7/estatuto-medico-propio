@@ -2151,6 +2151,15 @@ footer strong {
   letter-spacing: 0.3px;
 }
 
+.input-wrapper label .label-helper {
+  color: var(--muted);
+  font-size: 0.72em;
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: normal;
+  margin-left: 0.35rem;
+}
+
 .input-wrapper input {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.16);
